@@ -1,0 +1,1822 @@
+<?xml version="1.0"?>
+
+
+<!DOCTYPE Ontology [
+    <!ENTITY xsd "http://www.w3.org/2001/XMLSchema#" >
+    <!ENTITY xml "http://www.w3.org/XML/1998/namespace" >
+    <!ENTITY rdfs "http://www.w3.org/2000/01/rdf-schema#" >
+    <!ENTITY rdf "http://www.w3.org/1999/02/22-rdf-syntax-ns#" >
+]>
+
+
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.semanticweb.org/ontologies/2015/3/untitled-ontology-118"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     ontologyIRI="http://www.semanticweb.org/ontologies/2015/3/untitled-ontology-118">
+    <Prefix name="" IRI="http://www.semanticweb.org/ontologies/2015/3/untitled-ontology-118#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Declaration>
+        <Class IRI="#798ArtDistrict"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Art"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Artist"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Beijing"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingArtist"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingArtwork"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingBoat"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingCity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingCommuter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingCommuting"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingDistrict"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingDriver"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingFoodVendor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingGallery"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingLibrarian"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingLibrary"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingMovement"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingMuseum"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingMusician"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingPeople"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingPoliceman"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingPublicSpace"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingStreetLife"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingStudent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingSubway"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingTransportation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingVisitor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BeijingWalking"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BreakingBarriers"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChallengeTaboo"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Chicago"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoArtist"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoArtwork"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoCity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoCommuter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoCommuting"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoDriver"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoGallery"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoLibrarian"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoLibrary"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoMovement"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoMuseum"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoMusician"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoNeighborhood"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoPeople"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoRailyard"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoRiver"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoStudent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoSubway"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ChicagoVisitor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Chinatown"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#City"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Commuter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Commuting"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Corporations"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CulturalExchange"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Downtown"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Driver"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Exploration"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Fashion"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Food"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FoodVendor"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIscene798Artwork"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneAnimals"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneArtIdentity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneArtInfluence"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneArtMeaning"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneArtReveals"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBecomeAnArtist"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingAdventure"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingArtProcess"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingInk"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingLandmarks"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingLibrary1.0"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingLibrary2.0"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingMasks"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingOntheGo"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingSelfie"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingStreetArt"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingStreetFood"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingStreetMusic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingTaxi"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBeijingTraffic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBoating"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneBuild"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChiArtistProcess"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChiCulture"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChiSkatepark"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChiStudents"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChicago&apos;sFoundation"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChicagoFood"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChicagoGallery"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChicagoLandmarks"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChicagoLibrary1.0"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChicagoLibrary2.0"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChicagoMuseum"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChicagoSelfie"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChicagoStreetArtistry"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneChicagoTraffic"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneComfortZone"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneCreate"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneExploreChinatown"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneExploreLincolnPark"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneExploreWickerPark"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneFirstImpressions"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneFoodJoinsUs"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneFoodProcess"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneGalleryOpening"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneGetOutToPlay"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneGlobalized"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneLivingHistory"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneNewFriends"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIscenePilsenArt"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIscenePilsenFood"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneSecurity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneShopBeijing"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneSocial"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneStudentBeijing"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneTSquareKids"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneTeachingMethod"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneUnderground"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#GUIsceneWords"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#InterpretArt"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Knowledge"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Librarian"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LincolnPark"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MakeALiving"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Movement"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Musician"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#People"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Pilsen"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Policeman"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Self-Expression"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Selfies"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Teaching"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TiananmenSquare"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Tradition-Transition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TranscendLanguage"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WangfujingStreet"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WickerPark"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wudaokou"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#asAn"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#carries"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#connectsTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#consumes"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#creates"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#displays"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#does"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#givesAccessTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasScene"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hosts"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isActionOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isConsumedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isCreatedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDisplayedAt"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPreparedBy"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isSceneOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#patronizes"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#prepares"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#rides"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#serves"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#visits"/>
+    </Declaration>
+    <SubClassOf>
+        <Class IRI="#798ArtDistrict"/>
+        <Class IRI="#BeijingDistrict"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Art"/>
+        <Class IRI="#Self-Expression"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Art"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isCreatedBy"/>
+            <Class IRI="#Artist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Artist"/>
+        <Class IRI="#Self-Expression"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Artist"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#creates"/>
+            <Class IRI="#Art"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingArtist"/>
+        <Class IRI="#Artist"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingArtist"/>
+        <Class IRI="#BeijingPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingArtwork"/>
+        <Class IRI="#Art"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingArtwork"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isDisplayedAt"/>
+            <Class IRI="#BeijingGallery"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingArtwork"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isDisplayedAt"/>
+            <Class IRI="#BeijingMuseum"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingBoat"/>
+        <Class IRI="#BeijingTransportation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingCity"/>
+        <Class IRI="#Beijing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingCity"/>
+        <Class IRI="#City"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingCommuter"/>
+        <Class IRI="#BeijingPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingCommuter"/>
+        <Class IRI="#Commuter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingCommuting"/>
+        <Class IRI="#BeijingMovement"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingCommuting"/>
+        <Class IRI="#Commuting"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingDistrict"/>
+        <Class IRI="#BeijingCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingDriver"/>
+        <Class IRI="#BeijingPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingDriver"/>
+        <Class IRI="#Driver"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingFoodVendor"/>
+        <Class IRI="#BeijingPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingFoodVendor"/>
+        <Class IRI="#FoodVendor"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingGallery"/>
+        <Class IRI="#BeijingCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingGallery"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#displays"/>
+            <Class IRI="#BeijingArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingLibrarian"/>
+        <Class IRI="#BeijingPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingLibrarian"/>
+        <Class IRI="#Librarian"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingLibrarian"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#serves"/>
+            <Class IRI="#BeijingLibrary"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingLibrary"/>
+        <Class IRI="#BeijingCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingLibrary"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hosts"/>
+            <Class IRI="#BeijingStudent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingMovement"/>
+        <Class IRI="#Beijing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingMovement"/>
+        <Class IRI="#Movement"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingMuseum"/>
+        <Class IRI="#BeijingCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingMuseum"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#displays"/>
+            <Class IRI="#BeijingArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingMusician"/>
+        <Class IRI="#BeijingPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingMusician"/>
+        <Class IRI="#Musician"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingPeople"/>
+        <Class IRI="#Beijing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingPeople"/>
+        <Class IRI="#People"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingPoliceman"/>
+        <Class IRI="#BeijingPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingPoliceman"/>
+        <Class IRI="#Policeman"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingPublicSpace"/>
+        <Class IRI="#BeijingCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingStreetLife"/>
+        <Class IRI="#BeijingCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingStudent"/>
+        <Class IRI="#BeijingPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingStudent"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#visits"/>
+            <Class IRI="#BeijingLibrary"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingSubway"/>
+        <Class IRI="#BeijingTransportation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingTransportation"/>
+        <Class IRI="#BeijingMovement"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingVisitor"/>
+        <Class IRI="#BeijingPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BeijingWalking"/>
+        <Class IRI="#BeijingTransportation"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BreakingBarriers"/>
+        <Class IRI="#CulturalExchange"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BreakingBarriers"/>
+        <Class IRI="#Knowledge"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChallengeTaboo"/>
+        <Class IRI="#Art"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoArtist"/>
+        <Class IRI="#Artist"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoArtist"/>
+        <Class IRI="#ChicagoPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoArtist"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Pilsen"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoArtwork"/>
+        <Class IRI="#Art"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoArtwork"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isDisplayedAt"/>
+            <Class IRI="#ChicagoGallery"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoArtwork"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isDisplayedAt"/>
+            <Class IRI="#ChicagoMuseum"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoCity"/>
+        <Class IRI="#Chicago"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoCity"/>
+        <Class IRI="#City"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoCommuter"/>
+        <Class IRI="#ChicagoPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoCommuter"/>
+        <Class IRI="#Commuter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoCommuting"/>
+        <Class IRI="#ChicagoMovement"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoCommuting"/>
+        <Class IRI="#Commuting"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoDriver"/>
+        <Class IRI="#ChicagoPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoDriver"/>
+        <Class IRI="#Driver"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoGallery"/>
+        <Class IRI="#ChicagoCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoGallery"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#displays"/>
+            <Class IRI="#ChicagoArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoLibrarian"/>
+        <Class IRI="#ChicagoPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoLibrarian"/>
+        <Class IRI="#Librarian"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoLibrarian"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#serves"/>
+            <Class IRI="#ChicagoLibrary"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoLibrary"/>
+        <Class IRI="#ChicagoCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoLibrary"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hosts"/>
+            <Class IRI="#ChicagoStudent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoMovement"/>
+        <Class IRI="#Chicago"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoMovement"/>
+        <Class IRI="#Movement"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoMuseum"/>
+        <Class IRI="#ChicagoCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoMuseum"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#displays"/>
+            <Class IRI="#ChicagoArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoMusician"/>
+        <Class IRI="#ChicagoPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoMusician"/>
+        <Class IRI="#Musician"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoNeighborhood"/>
+        <Class IRI="#ChicagoCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoPeople"/>
+        <Class IRI="#Chicago"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoPeople"/>
+        <Class IRI="#People"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoRailyard"/>
+        <Class IRI="#ChicagoCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoRailyard"/>
+        <Class IRI="#ChicagoMovement"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoRiver"/>
+        <Class IRI="#ChicagoCity"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoStudent"/>
+        <Class IRI="#ChicagoPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoStudent"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#visits"/>
+            <Class IRI="#ChicagoLibrary"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoSubway"/>
+        <Class IRI="#ChicagoMovement"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ChicagoVisitor"/>
+        <Class IRI="#ChicagoPeople"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Chinatown"/>
+        <Class IRI="#ChicagoNeighborhood"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Commuter"/>
+        <Class IRI="#MakeALiving"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Commuter"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#does"/>
+            <Class IRI="#Commuting"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Commuting"/>
+        <Class IRI="#Movement"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Commuting"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isActionOf"/>
+            <Class IRI="#Commuter"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Corporations"/>
+        <Class IRI="#CulturalExchange"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CulturalExchange"/>
+        <Class IRI="#Movement"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Downtown"/>
+        <Class IRI="#ChicagoNeighborhood"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Driver"/>
+        <Class IRI="#MakeALiving"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Exploration"/>
+        <Class IRI="#CulturalExchange"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fashion"/>
+        <Class IRI="#Self-Expression"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Food"/>
+        <Class IRI="#Self-Expression"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Food"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isPreparedBy"/>
+            <Class IRI="#FoodVendor"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FoodVendor"/>
+        <Class IRI="#MakeALiving"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FoodVendor"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#prepares"/>
+            <Class IRI="#Food"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIscene798Artwork"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#798ArtDistrict"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIscene798Artwork"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingGallery"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneAnimals"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingStreetLife"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneArtIdentity"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingArtist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneArtIdentity"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneArtInfluence"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoArtist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneArtInfluence"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneArtMeaning"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#InterpretArt"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneArtReveals"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoMuseum"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneArtReveals"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#TranscendLanguage"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBecomeAnArtist"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoArtist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBecomeAnArtist"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#InterpretArt"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingAdventure"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingVisitor"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingAdventure"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Exploration"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingArtProcess"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingArtist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingArtProcess"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingInk"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingLandmarks"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Exploration"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingLibrary1.0"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingLibrarian"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingLibrary1.0"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingLibrary"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingLibrary2.0"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingLibrarian"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingLibrary2.0"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingLibrary"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingLibrary2.0"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingStudent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingMasks"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Selfies"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingOntheGo"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingStreetLife"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingOntheGo"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingWalking"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingSelfie"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Selfies"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingStreetArt"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingArtist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingStreetArt"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingStreetFood"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingFoodVendor"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingStreetFood"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Food"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingStreetFood"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Wudaokou"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingStreetMusic"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingMusician"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingStreetMusic"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingStreetLife"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingTaxi"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingCommuter"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingTaxi"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingDriver"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingTraffic"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingCommuter"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingTraffic"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingCommuting"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBeijingTraffic"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingDriver"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBoating"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingBoat"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneBuild"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Tradition-Transition"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiArtistProcess"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoArtist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiArtistProcess"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiArtistProcess"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Pilsen"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiCulture"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoMusician"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiCulture"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoRailyard"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiCulture"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoVisitor"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiCulture"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Downtown"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiCulture"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Tradition-Transition"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiSkatepark"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoStudent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiSkatepark"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Downtown"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChiStudents"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoStudent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicago&apos;sFoundation"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Tradition-Transition"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoFood"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Food"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoGallery"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoLandmarks"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Downtown"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoLandmarks"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Exploration"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoLibrary1.0"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoLibrarian"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoLibrary1.0"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoLibrary"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoLibrary2.0"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoLibrarian"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoLibrary2.0"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoLibrary"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoMuseum"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoMuseum"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoMuseum"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Tradition-Transition"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoSelfie"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Selfies"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoStreetArtistry"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoArtist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoStreetArtistry"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoArtwork"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoStreetArtistry"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoMusician"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoTraffic"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoCommuter"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoTraffic"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoCommuting"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneChicagoTraffic"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoDriver"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneComfortZone"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BreakingBarriers"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneCreate"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Tradition-Transition"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneExploreChinatown"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Chinatown"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneExploreChinatown"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Exploration"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneExploreLincolnPark"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Exploration"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneExploreLincolnPark"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#LincolnPark"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneExploreWickerPark"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Exploration"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneExploreWickerPark"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#WickerPark"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneFirstImpressions"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BreakingBarriers"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneFoodJoinsUs"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Food"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneFoodProcess"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingFoodVendor"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneFoodProcess"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Food"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneGalleryOpening"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoArtist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneGalleryOpening"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#InterpretArt"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneGalleryOpening"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Pilsen"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneGetOutToPlay"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingPublicSpace"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneGlobalized"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Corporations"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneGlobalized"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#WangfujingStreet"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneLivingHistory"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingStudent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneLivingHistory"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Tradition-Transition"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneNewFriends"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BreakingBarriers"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIscenePilsenArt"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoArtist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIscenePilsenArt"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Pilsen"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIscenePilsenFood"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Food"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIscenePilsenFood"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Pilsen"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneSecurity"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingPoliceman"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneSecurity"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingPublicSpace"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneShopBeijing"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Exploration"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneSocial"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingArtist"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneSocial"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChallengeTaboo"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneStudentBeijing"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingStudent"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneTSquareKids"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingPublicSpace"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneTSquareKids"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Fashion"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneTSquareKids"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#TiananmenSquare"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneTeachingMethod"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#Teaching"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneUnderground"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#BeijingSubway"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneUnderground"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#ChicagoSubway"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#GUIsceneWords"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isSceneOf"/>
+            <Class IRI="#TranscendLanguage"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#InterpretArt"/>
+        <Class IRI="#Art"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Knowledge"/>
+        <Class IRI="#People"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Librarian"/>
+        <Class IRI="#MakeALiving"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LincolnPark"/>
+        <Class IRI="#ChicagoNeighborhood"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MakeALiving"/>
+        <Class IRI="#People"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Musician"/>
+        <Class IRI="#Self-Expression"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Musician"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#creates"/>
+            <Class IRI="#Art"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Pilsen"/>
+        <Class IRI="#ChicagoNeighborhood"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Policeman"/>
+        <Class IRI="#MakeALiving"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Self-Expression"/>
+        <Class IRI="#People"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Selfies"/>
+        <Class IRI="#CulturalExchange"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Teaching"/>
+        <Class IRI="#CulturalExchange"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Teaching"/>
+        <Class IRI="#Knowledge"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TiananmenSquare"/>
+        <Class IRI="#BeijingDistrict"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Tradition-Transition"/>
+        <Class IRI="#Knowledge"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TranscendLanguage"/>
+        <Class IRI="#Art"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WangfujingStreet"/>
+        <Class IRI="#BeijingDistrict"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WickerPark"/>
+        <Class IRI="#ChicagoNeighborhood"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wudaokou"/>
+        <Class IRI="#BeijingDistrict"/>
+    </SubClassOf>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 3.4.2) http://owlapi.sourceforge.net -->
+
