@@ -3,26 +3,26 @@
   <head>
     <title>Digital City Graph</title>
     <link rel="stylesheet" href="css/index.css"/>
-    <script src='http://localhost:3000/socket.io/socket.io.js'></script>
+    <script src='http://smamediahub.azurewebsites.net/socket.io/socket.io.js'></script>
 
   </head>
   <body>
     <div class="button-wrapper">
       <button onclick="layout.reset(); return false;">Home</button>
-      <button 
+      <button
         onclick="window.open('http://smasceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId); return false;"
-        id="viewer" 
-        class="hidden">Open Media Viewer</button>  
+        id="viewer"
+        class="hidden">Open Media Viewer</button>
     </div>
-    
+
     <div id="graph">
-      <form action="http://localhost:3000/">
+      <form action="http://smamediahub.azurewebsites.net">
         <input type='password' name='password' placeholder="Enter Password" />
         <label>
           <input type="checkbox" name="store" />
           <span>Keep Logged In (this session only)</span>
         </label>
-        
+
       </form>
     </div>
     <h1>^</h1>
