@@ -36,7 +36,16 @@ var connect = function (evt) {
 evt.preventDefault();
 var input = this.querySelector('input[name=password]');
 
-var password =  input.value || document.cookie;
+// Parses the different between how browsers can store a cookie that is just a key with no value
+var getPasswordFromCookie = function(cookieVal) {
+  if(cookieVal && cookieVal.indexOf("=") !== -1) {
+    cookieVal = cookieVal.replace('=', '');
+  }
+
+  return cookieVal;
+};
+
+var password =  input.value || getPasswordFromCookie(document.cookie);
 
 input.value = '';
 input.placeholder = 'connecting';
