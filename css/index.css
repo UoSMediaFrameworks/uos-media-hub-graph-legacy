@@ -57,6 +57,10 @@ h1 sup, h2 sup {
   text-transform:capitalize;
   padding:0 0.25em 0;
 }
+#graph{
+  height:100%;
+  width:100%;
+}
 h2 {
   font-size:2em;
   background-color:rgba(51, 51, 51, 0.5);
