@@ -54,8 +54,7 @@ var connect = function (evt) {
                 if (this.querySelector('input[name=store]').checked) {
                     document.cookie = password;
                 }
-                // Remove Form
-                this.parentNode.removeChild(this);
+              
                 // Get the Graph XML
                 viewer.classList.remove('hidden');
                 roomId = serverRoomId;
