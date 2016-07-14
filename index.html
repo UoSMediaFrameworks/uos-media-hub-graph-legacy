@@ -2,32 +2,40 @@
 <html>
   <head>
     <title>Digital City Graph</title>
+
+
+    <link rel="stylesheet" href=" https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"/>
     <link rel="stylesheet" href="css/index.css"/>
     <script src='http://smamediahub.azurewebsites.net/socket.io/socket.io.js'></script>
+    <script   src="https://code.jquery.com/jquery-2.2.4.min.js"   integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44="   crossorigin="anonymous"></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.17/d3.min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js'></script>
+    <script src='https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/js/toastr.min.js'></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 
   </head>
   <body>
-    <div class="button-wrapper">
-      <button onclick="layout.reset(); return false;">Home</button>
+    <div class="button-wrapper btn-group-vertical">
+      <button class="btn"  id="reset-old" onclick="layout.reset()">Reset Graph 1</button>
+      <button class="btn"  id="reset-new">Reset Graph 2</button>
+      <button class="btn"  id="reset-new2">Reset Graph 3</button>
+
       <button
         onclick="window.open('http://smasceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId); return false;"
         id="viewer"
-        class="hidden">Open Media Viewer</button>
+        class="hidden btn">Open Media Viewer</button>
+      <button class="btn" id="build-old">New Graph 1</button>
+      <button class="btn" id="build-new">New Graph 2</button>
+      <button class="btn" id="build-new2">New Graph 3</button>
     </div>
-
+    
     <div id="graph">
-      <form action="http://smamediahub.azurewebsites.net">
-        <input type='password' name='password' placeholder="Enter Password" />
-        <label>
-          <input type="checkbox" name="store" />
-          <span>Keep Logged In (this session only)</span>
-        </label>
-
-      </form>
     </div>
-    <h1>^</h1>
+    <h1></h1>
     <h2></h2>
-
+    <!--<script src="js/d3_index.js"></script>-->
     <script src='js/index.js'></script>
+  <!--<script src="js/d3_index.js"></script>-->
   </body>
 </html>
