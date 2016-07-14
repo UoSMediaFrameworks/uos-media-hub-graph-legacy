@@ -17,14 +17,17 @@
   </head>
   <body>
     <div class="button-wrapper btn-group-vertical">
-      <button class="btn" onclick="layout.reset(); return false;">Reset Graph</button>
-      <button class="btn"  id="reset">Reset Graph</button>
+      <button class="btn"  id="reset-old" onclick="layout.reset()">Reset Graph 1</button>
+      <button class="btn"  id="reset-new">Reset Graph 2</button>
+      <button class="btn"  id="reset-new2">Reset Graph 3</button>
+
       <button
         onclick="window.open('http://smasceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId); return false;"
         id="viewer"
         class="hidden btn">Open Media Viewer</button>
-      <button class="btn" id="old">Old Graph</button>
-      <button class="btn" id="new">New Graph</button>
+      <button class="btn" id="build-old">New Graph 1</button>
+      <button class="btn" id="build-new">New Graph 2</button>
+      <button class="btn" id="build-new2">New Graph 3</button>
     </div>
     
     <div id="graph">
@@ -33,5 +36,6 @@
     <h2></h2>
     <!--<script src="js/d3_index.js"></script>-->
     <script src='js/index.js'></script>
+  <!--<script src="js/d3_index.js"></script>-->
   </body>
 </html>

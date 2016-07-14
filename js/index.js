@@ -6,6 +6,1007 @@ String.prototype.format = function () {
         return typeof args[key] != 'undefined' ? args[key] : match;
     });
 };
+var doubleTapEvent = new Event('doubletap');
+//var socket = null;
+//
+//d3.selection.prototype.doubleTap = function(callback) {
+//    var last = 0;
+//    console.log('checking for a doubletap')
+//    return this.each(function() {
+//        d3.select(this).on("touchstart", function(e) {
+//            console.log('someone is tapping')
+//            if ((d3.event.timeStamp - last) < 500) {
+//                return callback(e);
+//            }
+//            last = d3.event.timeStamp;
+//        });
+//    });
+//}
+
+//d3.select(".node-container").doubleTap(function() {
+//    console.log("I dunno")
+//    elem.dispatchEvent(doubleTapEvent);
+//});
+
+
+var cleanTitle = function (title) {
+    return title.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').replace('GUIscene', 'scene').replace(/(scene|chicago|beijing)?\s(.*)?/i, '<sup>$1</sup><span class="$1">$2</span>');
+};
+
+d3.select('#build-new').on('click', function () {
+    d3.selectAll('svg').remove();
+    d3.xml('GDC_installation_GUI_Final_5.13.15.xml')
+        .header("Content-Type", "text/xml")
+        .get(function (err, data) {
+            if (err) {
+                console.log(err)
+            } else {
+                var graphEl = $('#graph');
+                d3Graph(data, graphEl);
+            }
+        });
+
+});
+d3.select("#build-new2").on('click',function(){
+    d3.selectAll('svg').remove();
+    d3graphv2();
+})
+
+if (document.cookie) {
+// document.cookie;
+    form.querySelector('label').style.display = 'none';
+    var evt = document.createEvent("MouseEvents");
+    evt.initMouseEvent("submit", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
+    form.dispatchEvent(evt);
+}
+
+
+function d3graphv2() {
+
+//--------------------Event based functions-----------------//
+    function mousein() {
+
+    }
+
+    function mouseover() {
+
+    }
+
+    function mouseout() {
+
+    }
+
+    function touchstart() {
+
+    }
+
+    function touchend() {
+
+    }
+
+    function doubletap() {
+
+    }
+
+    function longclick() {
+
+    }
+
+//--------------------Global Variables----------------//
+
+    var rootData = [
+        {
+            type: "Theme",
+            id: "ThemeBusy",
+            name: "ThemeBusy",
+            parentRelationshipIds: [
+                "ManchesterCity"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "Theme",
+            id: "ThemeHappy",
+            name: "ThemeHappy",
+            parentRelationshipIds: [
+                "ChicagoCity"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "Theme",
+            id: "ThemeDisruption",
+            name: "ThemeDisruption",
+            parentRelationshipIds: [
+                "ManchesterCity"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "Theme",
+            id: "ThemeTrams",
+            name: "ThemeTrams",
+            parentRelationshipIds: [
+                "ManchesterCity"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "Theme",
+            id: "ThemeElectricBus",
+            name: "ThemeElectricBus",
+            parentRelationshipIds: [
+                "ThemeGreen"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "Theme",
+            id: "ThemeGreen",
+            name: "ThemeGreen",
+            parentRelationshipIds: [
+                "ChicagoCity"
+            ],
+            childRelationshipIds: [
+                "ThemeElectricBus"
+            ]
+        },
+        {
+            type: "Theme",
+            id: "ThemeBikes",
+            name: "ThemeBikes",
+            parentRelationshipIds: [
+                "ChicagoCity"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "Theme",
+            id: "ThemeRainy",
+            name: "ThemeRainy",
+            parentRelationshipIds: [
+                "ManchesterCity"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "Theme",
+            id: "ThemeGallery",
+            name: "ThemeGallery",
+            parentRelationshipIds: [
+                "ThemePublicAttractions"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "Theme",
+            id: "ThemePublicAttractions",
+            name: "ThemePublicAttractions",
+            parentRelationshipIds: [
+                "ThemeArt"
+            ],
+            childRelationshipIds: [
+                "ThemeGallery"
+            ]
+        },
+        {
+            type: "Theme",
+            id: "ThemePainting",
+            name: "ThemePainting",
+            parentRelationshipIds: [
+                "ThemeArt"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "Theme",
+            id: "ThemeArt",
+            name: "ThemeArt",
+            parentRelationshipIds: [
+                "ChicagoCity", "ManchesterCity"
+            ],
+            childRelationshipIds: [
+                "ThemePainting", "ThemePublicAttractions"
+            ]
+        },
+        {
+            type: "City",
+            id: "ManchesterCity",
+            name: "Manchester",
+            parentRelationshipIds: [
+                "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "City",
+            id: "ChicagoCity",
+            name: "Chicago",
+            parentRelationshipIds: [
+                "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "City",
+            id: "SingapoorCity",
+            name: "Singapoor",
+            parentRelationshipIds: [
+                "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "City",
+            id: "BeijingCity",
+            name: "Beijing",
+            parentRelationshipIds: [
+                "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "City",
+            id: "BulgariaCity",
+            name: "Bulgaria",
+            parentRelationshipIds: [
+                "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "City",
+            id: "RandomCity",
+            name: "Random",
+            parentRelationshipIds: [
+                "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "root", //could also be called GraphTheme
+            id: "GraphThemeCity",
+            name: "City",
+            parentRelationshipIds: [],
+            childRelationshipIds: []
+        },
+        {
+            type: "root", //could also be called GraphTheme
+            id: "GraphThemePeople",
+            name: "People",
+            parentRelationshipIds: [],
+            childRelationshipIds: []
+        },
+        {
+            type: "root", //could also be called GraphTheme
+            id: "GraphThemeMovement",
+            name: "Movement",
+            parentRelationshipIds: [],
+            childRelationshipIds: []
+        }
+    ];
+
+    var height, width, svg, root, diagonal, nodeCollection, edgeCollection, duration, zoom;
+
+    root = {
+        nodes: [],
+        edges: []
+    };
+
+    duration = 5000;
+    height = window.innerHeight;
+    width = window.innerWidth;
+    zoom = d3.behavior.zoom()
+        .scaleExtent([1, 10])
+        .on("zoom", zoomed);
+
+    svg = d3.select('#graph')
+        .append('svg')
+        .attr("height", height)
+        .attr("width", width)
+        .append('g')
+        .attr("fill", "#333")
+        .call(zoom);
+
+
+    function zoomed() {
+        nodeContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
+
+    var nodeContainer = svg.append('g')
+        .attr("class", "node-container");
+
+    var pathContainer = nodeContainer.append('g')
+        .attr("class", "path-container");
+
+
+//--------------------Layout--------------------------//
+
+    function initialize(data) {
+        function processNodes(data) {
+            data.forEach(function (obj) {
+                obj.x = obj.y = 0;
+                obj.cx = width / 2;
+                obj.cy = height / 2;
+                obj.r = 2;
+                root.nodes.push(obj)
+            })
+        }
+
+        function processScenes() {
+            root.nodes.forEach(function (node) {
+                if (node.childRelationshipIds.length > 0) {
+                    node.childRelationshipIds.forEach(function (child) {
+                        root.nodes.push({
+                            id: child,
+                            type: 'Scene',
+                            name: child,
+                            parentRelationshipIds: [node.id],
+                            x: 0,
+                            y: 0,
+                            cx: width / 2,
+                            cy: height / 2,
+                            r: 2
+                        })
+                    })
+                }
+            })
+        }
+
+        function processsEdges() {
+            root.nodes.forEach(function (node) {
+                node.parentRelationshipIds.forEach(function (parent) {
+                    var parentObj = _.find(root.nodes, function (obj) {
+                        return obj.id == parent;
+                    })
+                    if (parentObj != undefined)
+                        root.edges.push({source: parentObj, target: node})
+                })
+
+            })
+        }
+
+        processNodes(data);
+        processScenes();
+        processsEdges();
+        console.log(root)
+    }
+
+
+    initialize(rootData);
+    draw(root)
+
+    function findElement(collection, element) {
+        return _.find(collection, function (obj) {
+            console.log(obj.__data__ == element)
+            return obj.__data__ == element;
+        })
+    }
+
+//--------------------Drawing--------------------------//
+    function draw(processedData) {
+
+        nodeCollection = nodeContainer.selectAll('circle').data(processedData.nodes);
+        edgeCollection = pathContainer.selectAll('path').data(processedData.edges);
+
+
+        var nodeEnter = nodeCollection.enter().append('circle')
+            .attr('cy', function (d) {
+                return d.cy
+            })
+            .attr('cx', function (d) {
+                return d.cx
+            })
+            .attr('r', function (d) {
+                return d.r
+            })
+            .attr('id', function (d) {
+                return d.id
+            })
+            .attr('class', function (d) {
+                return createClassName(d.id);
+            })
+            .call(circle);
+
+        var linkEnter = edgeCollection.enter().append('path')
+            .attr('d', function (d) {
+                var diagonal = [
+                    "M", d.source.cx, d.source.cy,
+                    "A", height, height, 0, 0, 1, d.target.cx, d.target.cy
+                ].join(" ");
+                return diagonal;
+            })
+            .attr('class', function (d) {
+                return 'opaque';
+            });
+
+        function createClassName(nodeId) {
+            return nodeId.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').toLowerCase()
+        }
+
+        function circle(nodeArr) {
+            nodeArr
+                .attr('x', function (d) {
+                    d.x = width / 2 + (Math.random() * width / 2) * ((Math.random() > 0.5) ? -1 : 1)
+                    return d.x
+                })
+                .attr('y', function (d) {
+                    d.y = height / 2 + (height / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
+                    return d.y
+                })
+                .attr('r', function (d) {
+                    d.r = 4;
+                    return d.r
+                });
+        }
+
+        var cityNodes = nodeEnter.filter(function (d) {
+            return d.type == "City";
+        });
+        var angle = (2 * Math.PI) / cityNodes[0].length;
+        cityNodes
+            .attr('r', function (d) {
+                d.r = 16;
+                return d.r;
+            })
+            .attr('y', function (d, i) {
+                d.y = (Math.sin(angle * i) * height / 2) + d.cy;
+                return d.y;
+            })
+            .attr('x', function (d, i) {
+                d.x = (Math.cos(angle * i) * width / 2) + d.cx;
+                if (d.x == 0) {
+                    d.x = d.x + d.r * 2;
+                }
+                if (d.x == width) {
+                    d.x = d.x - d.r * 2;
+                }
+                console.log(d.x)
+                return d.x;
+            });
+
+
+        var rootNodes = nodeEnter.filter(function (d) {
+            return d.type == 'root'
+        });
+        rootNodes.attr('x', function (d, i) {
+                d.x = ((width / rootNodes[0].length) / 2) * i + width / rootNodes[0].length;
+                return d.x
+            })
+            .attr('y', function (d) {
+                d.y = height - height / 2;
+                return d.y;
+            })
+            .attr('r', function (d) {
+                d.r = 8;
+                return d.r;
+            });
+        var sceneNodes = nodeEnter.filter(function (d) {
+            return d.type == 'Scene'
+        });
+        sceneNodes.style('fill', 'yellow');
+
+        d3.select('#reset-new2').on('click', function () {
+            resetGraph();
+        });
+        function resetGraph() {
+            d3.select('h1').html = '';
+            zoom.scale(1);
+            zoom.translate([0, 0])
+            nodeContainer.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
+            transitionGraphElements();
+        }
+
+        function cluster(node, key, radius, recurse, start) {
+            //todo rewrite to use thresholds
+            var total = node[key].length;
+            node[key].forEach(function (child, index) {
+                var radian = (2 * Math.PI) * (index / total);
+                var x = (Math.cos(radian) * radius) + cx;
+                var y = (Math.sin(radian) * radius) + cy;
+                var to = [x, y];
+                var duration = initDuration;
+                moveNode(child, x, y, duration);
+                if (recurse) {
+                    var elm = getDomElementById(nodeEnter[0], child);
+                    cluster(child, elm, key, radius / 2, false);
+                }
+            });
+        }
+
+        function transitionGraphElements() {
+
+            var ratio = 1 - Math.pow(1 / duration, 5);
+            nodeEnter.transition()
+                .duration(duration)
+                .attr('cx', function (d) {
+                    if (ratio >= 1) {
+                        d.cx = d.x;
+                    } else {
+                        d.cx = ratio * (d.x - d.cx) + cx;
+                    }
+                    return d.cx;
+                })
+                .attr('cy', function (d) {
+                    if (ratio >= 1) {
+                        d.cy = d.y;
+                    } else {
+                        d.cy = ratio * (d.y - d.cy) + cy;
+                    }
+                    return d.cy;
+                });
+
+            linkEnter.transition()
+                .duration(duration)
+                .attr('d', function (d) {
+                    var diagonal = [
+                        "M", d.source.cx, d.source.cy,
+                        "A", height, height, 0, 0, 1, d.target.cx, d.target.cy
+                    ].join(" ");
+                    return diagonal;
+                })
+                .transition()
+                .duration(Math.random() * 200)
+                .attr('class', function (d) {
+                    //return createClassName(d.source.id)+ ' ' + createClassName(d.target.id);
+                    return d.source.id + ' ' + d.target.id
+                });
+
+
+        }
+
+        transitionGraphElements()
+
+    }
+
+//
+}
+var d3Graph = function (data, container) {
+
+    var graphData = {
+        nodes: [],
+        links: [],
+        scenes: []
+    };
+
+    var height, width;
+    height = window.innerHeight;
+    width = window.innerWidth;
+    var nodeCollection, linkCollection;
+    var initDuration = 5000;
+
+    var zoom = d3.behavior.zoom()
+        .scaleExtent([1, 10])
+        .on("zoom", zoomed);
+
+    var svg = d3.select('#graph')
+        .append('svg')
+        .attr("height", height)
+        .attr("width", width)
+        .append('g')
+        .attr("fill", "#333")
+        .call(zoom);
+
+    var parseNodes = function (data) {
+        data.forEach(function (d) {
+            d.id = d.getAttribute('IRI').substring(1);
+            graphData.nodes.push(
+                {
+                    element: d,
+                    children: [],
+                    parents: [],
+                    scenes: [],
+                    links: [],
+                    wormholes: []
+                }
+            );
+
+        });
+    };
+    var parseEdgeConnections = function (node) {
+        node.children.forEach(function (target) {
+            graphData.links.push({source: node, target: target});
+        });
+    };
+    var parseHierarchy = function (subclasses) {
+        subclasses.forEach(function (d) {
+            var edge = d.querySelector('ObjectSomeValuesFrom') || null;
+
+            var nodesFrom = d.querySelectorAll('Class');
+            var child = _.find(graphData.nodes, function (obj) {
+
+                return obj.element.id == nodesFrom[0].getAttribute('IRI').substring(1);
+            });
+            var parent = _.find(graphData.nodes, function (obj) {
+                return obj.element.id == nodesFrom[1].getAttribute('IRI').substring(1);
+            });
+
+            if (edge) {
+                var predicate = edge.querySelector('ObjectProperty').getAttribute('IRI');
+                if (predicate == '#isSceneOf') {
+                    graphData.scenes.push(child);
+                    parent.scenes.push(child)
+                } else {
+                    parent.wormholes.push(child);
+                }
+            } else {
+                parent.children.push(child);
+                child.parents.push(parent);
+            }
+        })
+    }
+
+    var processData = function (data) {
+        parseNodes(data.querySelectorAll('Declaration > Class'));
+        parseHierarchy(data.querySelectorAll('SubClassOf'));
+        graphData.nodes.forEach(function (d) {
+            parseEdgeConnections(d)
+        });
+    };
+    var nodeContainer = svg.append('g')
+        .attr("class", "node-container");
+
+    var pathContainer = nodeContainer.append('g')
+        .attr("class", "path-container");
+
+
+
+    function zoomed() {
+        nodeContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
+    }
+
+    function mouseout(d) {
+        d3.select('h2').style("opacity", "0");
+        d3.select(this).classed('highlight', false);
+        //graphData.links.forEach(function (test) {
+        //    var link = getDomElementByObj(linkCollection[0], test)
+        //    d3.select(link).classed('highlightedLink', false);
+        //});
+    }
+
+    function singletap(d) {
+        var t2 = d3.event.timeStamp,
+            t1 = $(this).data('lastTouch') || t2,
+            dt = t2 - t1,
+            fingers = d3.event.originalEvent.touches.length;
+            console.log(fingers)
+        $(this).data('lastTouch', t2);
+
+        if (!dt || dt > 500 || fingers > 1) {
+            console.log('touch');
+            var test = _.filter(graphData.links, function (item) {
+                return item.source == d;
+            });
+            test.forEach(function (item) {
+                var link = getDomElementByObj(linkCollection[0], item)
+                d3.select(link).classed('highlightedLink', true);
+            })
+        } else {
+            console.log('dispatch event')
+            elem.dispatchEvent(doubleTapEvent);
+        }
+    }
+
+    function doubletap(d) {
+        console.log('double tapped');
+        console.log(d);
+    }
+
+    function mouseover(d) {
+        console.log('mouseover');
+        var node = this;
+        d3.select('h2')
+            .html(cleanTitle(this.id))
+            .style('top', function (d) {
+                return node.getAttribute('cy') - 75 + 'px';
+            })
+            .style('left', function (d) {
+                return node.getAttribute('cx') - 50 + 'px';
+            })
+            .style("opacity", "1");
+        d3.select(this).classed('highlight', true);
+
+
+    }
+
+
+    function filter(data, field, values) {
+        _.filter(data, function (item) {
+            return _.contains(values, item[field]);
+        })
+    }
+
+
+    function getDomElementById(collection, object) {
+        return _.find(collection, function (obj) {
+            return obj.id == object.element.id;
+        })
+    }
+
+    function getDomElementByObj(collection, object) {
+        return _.find(collection, function (obj) {
+            return obj.__data__ == object;
+        })
+    }
+
+
+    var drawGraph = function (data) {
+        var prefix = [];
+        var splits = [];
+
+        prefix.push('Chicago');
+        prefix.push('Beijing');
+
+        splits.push('City');
+        splits.push('Movement');
+        splits.push('People');
+
+        nodeCollection = nodeContainer.selectAll('circle').data(data.nodes);
+
+        linkCollection = pathContainer.selectAll('path').data(data.links);
+
+        var nodeEnter = nodeCollection.enter().append('circle')
+            .attr('cy', function () {
+                return height / 2
+            })
+            .attr('cx', function () {
+                return width / 2
+            })
+            .attr('r', 2)
+            .attr('id', function (d) {
+                return d.element.getAttribute('IRI').substring(1) || 'Error';
+            })
+            .attr('class', function (d) {
+                return d.element.getAttribute('IRI').substring(1).replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').toLowerCase();
+            })
+            .call(circle)
+            .on('mouseover', mouseover)
+            .on('mouseout',mouseout)
+            .on('click',contextualize)
+            .on('touchend', contextualize);
+
+            //.on('touchstart', singletap);
+
+        var linkEnter = linkCollection.enter().append('path')
+            .attr('d', function (d) {
+                var source = getDomElementById(nodeEnter[0], d.source)
+                var target = getDomElementById(nodeEnter[0], d.target)
+                var diagonal = [
+                    "M", source.getAttribute('cx'), source.getAttribute('cy'),
+                    "A", height, height, 0, 0, 1, target.getAttribute('cx'), target.getAttribute('cy')
+                ].join(" ");
+                return diagonal;
+            })
+            .attr('class', function (d) {
+                return 'opaque';
+            });
+
+        function cluster(node, element, key, radius, recurse, start) {
+            var total = node[key].length;
+            var cx = parseFloat(d3.select(element).attr('cx'));
+            var cy = parseFloat(d3.select(element).attr('cy'));
+            node[key].forEach(function (child, index) {
+                var radian = (2 * Math.PI) * (index / total);
+                var x = (Math.cos(radian) * radius) + cx;
+                var y = (Math.sin(radian) * radius) + cy;
+                var to = [x, y];
+                var duration = initDuration;
+                moveNode(child, x, y, duration);
+                if (recurse) {
+                    var elm = getDomElementById(nodeEnter[0], child);
+                    cluster(child, elm, key, radius / 2, false);
+                }
+            });
+        }
+
+        d3.select('#reset-new').on('click', function () {
+            resetGraph();
+        });
+        function resetGraph() {
+            d3.select('h1').html = '';
+            zoom.scale(1);
+            zoom.translate([0, 0])
+            nodeContainer.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
+            transitionGraphElements();
+        }
+
+        function moveNode(node, positionX, positionY, duration) {
+            var ratio = 1 - Math.pow(1 / duration, 5);
+            d3.select(getDomElementById(nodeEnter[0], node)).transition()
+                .duration(duration)
+                .attr('cx', function (d) {
+                    var cx = this.getAttribute('cx');
+                    if (ratio >= 1) {
+                        return positionX;
+                    } else {
+                        return ratio * (positionX - cx) + cx;
+                    }
+                })
+                .attr('cy', function (d) {
+                    var cy = this.getAttribute('cy');
+                    if (ratio >= 1) {
+                        return positionY;
+                    } else {
+                        return ratio * (positionY - cy) + cy;
+                    }
+                });
+        }
+
+        function moveLinks() {
+            linkEnter.transition()
+                .duration(initDuration)
+                .attr('d', function (d) {
+                    var source = getDomElementById(nodeEnter[0], d.source)
+                    var target = getDomElementById(nodeEnter[0], d.target)
+                    var diagonal = [
+                        "M", source.getAttribute('cx'), source.getAttribute('cy'),
+                        "A", height, height, 0, 0, 1, target.getAttribute('cx'), target.getAttribute('cy')
+                    ].join(" ");
+                    return diagonal;
+                });
+        }
+
+        function contextualize(d) {
+            var scenes = getScenes(d);
+            console.log('doing the click')
+            var clean_name = cleanTitle(d.element.id);
+            var scale = 1;
+            var radius = 0;
+            if (d.children.length > 0) {
+                scale = Math.min(Math.pow(2, Math.sqrt(64 / this.getAttribute('r'))), 16);
+                radius = Math.max(5, Math.min(Math.pow(this.getAttribute('r'), 1.5), (height / 2.5) / scale));
+                cluster(d, this, 'children', radius, true);
+            } else if (d.scenes.length > 0) {
+                cluster(d, this, 'scenes', 10, false);
+            } else if (d.wormholes.length > 0) {
+                cluster(d, this, 'wormholes', 15, false, 0);
+                scale = Math.min(Math.pow(2, Math.sqrt(64 / this.getAttribute('r'))), 16);
+            } else if (d.parents.length > 0) {
+                cluster(d, this, 'parents', 64, false);
+                scale = 3;
+            } else if (d3.select(d).classed('guiscene')) {
+                socket.emit('sendCommand', roomId, 'showScenes', [{name: d.element.id}]);
+                return;
+            }
+            console.log(scale)
+            var panx = scale == 1 ? 0 : (width / 2) - this.getAttribute('cx') * scale;
+            var pany = scale == 1 ? 0 : (height / 2) - this.getAttribute('cy') * scale + 50;
+            nodeContainer.attr("transform", "translate(" + panx + "," + pany + ")scale(" + scale + ")");
+            d3.select('h1').html(clean_name);
+            //socket.emit('sendCommand', roomId, 'showScenes', scenes.map(function (scene) {
+            //    return {'name': scene};
+            //}));
+            moveLinks();
+        }
+
+        function circle(nodeArr) {
+            nodeArr.each(function (node, i) {
+                var indexInPrefix = prefix.indexOf(node.element.id);
+                var indexInSplits = splits.indexOf(node.element.id);
+                var parentInPrefix = checkIfParentIsInPrefix(node);
+
+                if (indexInPrefix < 0 && indexInSplits < 0 && !parentInPrefix) {
+                    d3.select(this).attr('x', function (d) {
+                            return (width / 2) + (Math.random() * width / 2 ) * ((Math.random() > 0.5) ? -1 : 1)
+                        })
+                        .attr('y', function (d) {
+                            return height / 2 + (height / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1));
+                        })
+                        .attr('r', 2);
+                }
+
+                if (indexInPrefix >= 0) {
+                    d3.select(this).attr('x', function (d, index) {
+                            return ((width - 200) * indexInPrefix + 100);
+                        })
+                        .attr('y', function (d) {
+                            return height / 2;
+                        })
+                        .attr('r', 32);
+                    if (node.children.length > 0) {
+                        node.children.forEach(function (child, idx) {
+                            var child = getDomElementById(nodeCollection[0], child);
+                            d3.select(child).attr('x', function (d) {
+                                    var spacing = (width / splits.length);
+                                    return spacing * idx + (spacing / 2);
+                                })
+                                .attr('y', function (d) {
+                                    return ( height - height / 2 ) * indexInPrefix + ( height / 4 );
+                                })
+                                .attr('r', 8);
+                        });
+                    }
+                }
+                if (indexInSplits >= 0) {
+                    d3.select(this).attr('x', function (d, index) {
+                            return ((width / splits.length) / 2) * indexInSplits + width / splits.length;
+                        })
+                        .attr('y', function (d) {
+                            return height - height / 2
+                        })
+                        .attr('r', 16);
+                }
+            });
+        };
+
+        function transitionGraphElements() {
+            var duration = initDuration;
+            var ratio = 1 - Math.pow(1 / duration, 5);
+            nodeEnter.transition()
+                .duration(duration)
+                .attr('cx', function (d) {
+                    var x = this.getAttribute('x')
+                    var cx = this.getAttribute('cx')
+                    if (ratio >= 1) {
+                        return x;
+                    } else {
+                        return ratio * (x - cx) + cx;
+                    }
+                })
+                .attr('cy', function (d) {
+                    var y = this.getAttribute('y')
+                    var cy = this.getAttribute('cy')
+                    if (ratio >= 1) {
+                        return y;
+                    } else {
+                        return ratio * (y - cy) + cy;
+                    }
+
+                });
+
+
+            linkEnter.transition()
+                .duration(duration)
+                .attr('d', function (d) {
+                    var source = getDomElementById(nodeEnter[0], d.source)
+                    var target = getDomElementById(nodeEnter[0], d.target)
+                    var diagonal = [
+                        "M", source.getAttribute('x'), source.getAttribute('y'),
+                        "A", height, height, 0, 0, 1, target.getAttribute('x'), target.getAttribute('y')
+                    ].join(" ");
+                    return diagonal;
+                })
+                .transition()
+                .duration(Math.random() * 200)
+                .attr('class', function (d) {
+                    return d.source.element.id + ' ' + d.target.element.id;
+                });
+        }
+
+        function getScenes(node) {
+            var scenes = node.scenes;
+            node.children.forEach(function (childNode) {
+                scenes = scenes.concat(getScenes(childNode));
+            }, this);
+            return scenes.reduce(function (principle, current) {
+                if (principle.indexOf(current) < 0) principle.push(current);
+                return principle;
+            }, []);
+        }
+
+
+        function checkIfParentIsInPrefix(object) {
+            if (object.parents) {
+                var test;
+                object.parents.forEach(function (parent) {
+                    if (prefix.indexOf(parent.element.id) >= 0) {
+                        test = true;
+                    }
+                });
+                return test == undefined ? false : true;
+            }
+            return false;
+        }
+
+        transitionGraphElements();
+    };
+
+    processData(data);
+    drawGraph(graphData);
+
+
+};
 
 var socket = null;
 var graph = null;
@@ -54,7 +1055,7 @@ var connect = function (evt) {
                 if (this.querySelector('input[name=store]').checked) {
                     document.cookie = password;
                 }
-              
+
                 // Get the Graph XML
                 viewer.classList.remove('hidden');
                 roomId = serverRoomId;
@@ -111,16 +1112,6 @@ if (browser() == 'Chrome') {
 
     head.appendChild(script)
 }
-
-var cleanTitle = function (title) {
-    return title.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').replace('GUIscene', 'scene').replace(/(scene|chicago|beijing)?\s(.*)?/i, '<sup>$1</sup><span class="$1">$2</span>');
-};
-
-var form = document.querySelector('form');
-form.addEventListener('submit', connect);
-form.querySelector('input[type=checkbox]').addEventListener('change', connect.bind(form));
-
-
 request.open('GET', 'GDC_installation_GUI_Final_5.13.15.xml');
 request.setRequestHeader("Content-Type", "text/xml");
 
@@ -142,27 +1133,10 @@ request.onreadystatechange = function () {
         }
     }
 }
-d3.select('#old').on('click',function(){
+d3.select('#build-old').on('click',function(){
     d3.selectAll('svg').remove();
-        request.send();
+    request.send();
 });
-d3.select('#new').on('click',function(){
-    d3.selectAll('svg').remove();
-    console.log('clicked new');
-    d3.xml('GDC_installation_GUI_Final_5.13.15.xml')
-        .header("Content-Type", "text/xml")
-        .get(function (err, data) {
-            if (err) {
-                console.log(err)
-            } else {
-                console.log('Got the data')
-                var graphEl = $('#graph');
-                d3Graph(data, graphEl);
-            }
-        });
-
-});
-
 var Clock = function (timeout) {
     this.timeout = timeout;
     this.configure(1);
@@ -472,7 +1446,7 @@ Graph.prototype = {
                 zoom = 3;
             } else if (elem.classList.contains('guiscene')) {
                 layout.reset(clean_name);
-                socket.emit('sendCommand', roomId, 'showScenes', [{name: elem.id}]);
+                //socket.emit('sendCommand', roomId, 'showScenes', [{name: elem.id}]);
 
                 return;
             } else {
@@ -494,9 +1468,9 @@ Graph.prototype = {
 
 
             // scenes mapped to this format [{name:'scene'}, {name:'otherscene}...]
-            socket.emit('sendCommand', roomId, 'showScenes', scenes.map(function (scene) {
-                return {'name': scene};
-            }));
+            //socket.emit('sendCommand', roomId, 'showScenes', scenes.map(function (scene) {
+            //    return {'name': scene};
+            //}));
 
         } else if (evt.target.nodeName == 'path') {
             var connection = evt.target.classList;
@@ -583,437 +1557,5 @@ Graph.prototype = {
     }
 };
 
-if (document.cookie) {
-// document.cookie;
-    form.querySelector('label').style.display = 'none';
-    var evt = document.createEvent("MouseEvents");
-    evt.initMouseEvent("submit", true, true, window, 0, 0, 0, 0, 0, false, false, false, false, 0, null);
-    form.dispatchEvent(evt);
-}
-function xmlToJson(xml) {
-
-    // Create the return object
-    var obj = {};
-
-    if (xml.nodeType == 1) { // element
-        // do attributes
-        if (xml.attributes.length > 0) {
-            obj["@attributes"] = {};
-            for (var j = 0; j < xml.attributes.length; j++) {
-                var attribute = xml.attributes.item(j);
-                obj["@attributes"][attribute.nodeName] = attribute.nodeValue;
-            }
-        }
-    } else if (xml.nodeType == 3) { // text
-        obj = xml.nodeValue;
-    }
-
-    // do children
-    if (xml.hasChildNodes()) {
-        for (var i = 0; i < xml.childNodes.length; i++) {
-            var item = xml.childNodes.item(i);
-            var nodeName = item.nodeName;
-            if (typeof(obj[nodeName]) == "undefined") {
-                obj[nodeName] = xmlToJson(item);
-            } else {
-                if (typeof(obj[nodeName].push) == "undefined") {
-                    var old = obj[nodeName];
-                    obj[nodeName] = [];
-                    obj[nodeName].push(old);
-                }
-                obj[nodeName].push(xmlToJson(item));
-            }
-        }
-    }
-    return obj;
-};
-var d3Graph = function (data, container) {
-
-    var graphData = {
-        nodes: [],
-        links: [],
-        scenes: []
-    };
-
-    var height, width;
-    height = window.innerHeight;
-    width = window.innerWidth;
-
-    var initDuration = 5000;
-    var zoom = d3.behavior.zoom()
-        .scaleExtent([1, 10])
-        .on("zoom", zoomed);
-
-    var svg = d3.select('#graph')
-        .append('svg')
-        .attr("height", height)
-        .attr("width", width)
-        .append('g')
-        .attr("fill","#333")
-        .call(zoom);
-
-
-
-    function zoomed() {
-        nodeContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
-    }
-    var nodeContainer = svg.append('g')
-        .attr("class", "node-container");
-
-    var pathContainer = nodeContainer.append('g')
-        .attr("class", "path-container");
-
-
-    var parseNodes = function (data) {
-
-        data.forEach(function (d) {
-            d.id = d.getAttribute('IRI').substring(1);
-            graphData.nodes.push(
-                {
-                    element: d,
-                    children: [],
-                    parents: [],
-                    scenes: [],
-                    links: [],
-                    wormholes: []
-                }
-            );
-
-        });
-    };
-    var parseEdgeConnections = function (node) {
-        node.children.forEach(function (target) {
-            graphData.links.push({source: node, target: target});
-        });
-    };
-    var parseHierarchy = function (subclasses) {
-        subclasses.forEach(function (d) {
-            var edge = d.querySelector('ObjectSomeValuesFrom') || null;
-
-            var nodesFrom = d.querySelectorAll('Class');
-            var child = _.find(graphData.nodes, function (obj) {
-
-                return obj.element.id == nodesFrom[0].getAttribute('IRI').substring(1);
-            });
-            var parent = _.find(graphData.nodes, function (obj) {
-                return obj.element.id == nodesFrom[1].getAttribute('IRI').substring(1);
-            });
-
-            if (edge) {
-                var predicate = edge.querySelector('ObjectProperty').getAttribute('IRI');
-                if (predicate == '#isSceneOf') {
-                    graphData.scenes.push(child);
-                    parent.scenes.push(child)
-                } else {
-                    parent.wormholes.push(child);
-                }
-            } else {
-                parent.children.push(child);
-                child.parents.push(parent);
-            }
-        })
-    }
-
-    var processData = function (data) {
-        parseNodes(data.querySelectorAll('Declaration > Class'));
-        parseHierarchy(data.querySelectorAll('SubClassOf'));
-        graphData.nodes.forEach(function (d) {
-            parseEdgeConnections(d)
-        });
-    };
-
-    function mouseover(d) {
-        var node = this;
-        d3.select('h2')
-            .html(cleanTitle(this.id))
-            .style('top', function (d) {
-                return node.getAttribute('cy') - 75+'px';
-            })
-            .style('left', function (d) {
-                return node.getAttribute('cx') - 50+'px';
-            })
-            .style("opacity", "1");
-        d3.select(this).classed('highlight',true);
-    }
-    function mouseout(d) {
-        d3.select('h2').style("opacity", "0");
-        d3.select(this).classed('highlight',false);
-    }
-
-    function getDomElement(collection, object) {
-        return _.find(collection, function (obj) {
-            return obj.id == object.element.id;
-        })
-    }
-
-    var drawGraph = function (data) {
-        var prefix = [];
-        var splits = [];
-
-        prefix.push('Chicago');
-        prefix.push('Beijing');
-
-        splits.push('City');
-        splits.push('Movement');
-        splits.push('People');
-
-        var nodeCollection = nodeContainer.selectAll('circle').data(data.nodes);
-
-        var linkCollection = pathContainer.selectAll('path').data(data.links);
-
-        var nodeEnter = nodeCollection.enter().append('circle')
-            .attr('cy', function () {
-                return height / 2
-            })
-            .attr('cx', function () {
-                return width / 2
-            })
-            .attr('r', 2)
-            .attr('id', function (d) {
-                return d.element.getAttribute('IRI').substring(1) || 'Error';
-            })
-            .attr('class', function (d) {
-                return d.element.getAttribute('IRI').substring(1).replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').toLowerCase();
-            })
-            .call(circle)
-            .on('mouseover', mouseover)
-            .on('mouseout',mouseout)
-            .on('click',contextualize)
-            .on('touchend', contextualize);
-
-        var linkEnter = linkCollection.enter().append('path')
-            .attr('d', function (d) {
-                var source = getDomElement(nodeEnter[0], d.source)
-                var target = getDomElement(nodeEnter[0], d.target)
-                var diagonal = [
-                    "M", source.getAttribute('cx'), source.getAttribute('cy'),
-                    "A", height, height, 0, 0, 1, target.getAttribute('cx'), target.getAttribute('cy')
-                ].join(" ");
-                return diagonal;
-            })
-            .attr('class', function (d) {
-                return 'opaque';
-            });
-
-        function cluster(node,element,key,radius,recurse,start) {
-            var total = node[key].length;
-            var cx = parseFloat(d3.select(element).attr('cx'));
-            var cy = parseFloat(d3.select(element).attr('cy'));
-            node[key].forEach(function(child,index){
-                var radian = (2 * Math.PI) * (index / total);
-                var x = (Math.cos(radian) * radius) + cx;
-                var y = (Math.sin(radian) * radius) + cy;
-                var to = [x,y];
-                var duration = initDuration;
-                moveNode(child,x,y,duration);
-                if(recurse){
-                    var elm = getDomElement(nodeEnter[0],child);
-                    cluster(child,elm,key,radius/2,false);
-                }
-            });
-        }
-        d3.select('#reset').on('click', function() {
-            resetGraph();
-        });
-        function resetGraph(){
-            d3.select('h1').html = '';
-            zoom.scale(1);
-            zoom.translate([0,0])
-            nodeContainer.attr("transform", "translate("+ zoom.translate()+")scale(" + zoom.scale()+")");
-            transitionGraphElements();
-        }
-        function moveNode(node,positionX,positionY,duration){
-            var ratio = 1 - Math.pow(1 / duration, 5);
-            d3.select(getDomElement(nodeEnter[0],node)).transition()
-                .duration(duration)
-                .attr('cx', function (d) {
-                    var cx = this.getAttribute('cx');
-                    if (ratio >= 1) {
-                        return positionX;
-                    } else {
-                        return ratio * (positionX - cx) + cx;
-                    }
-                })
-                .attr('cy', function (d) {
-                    var cy = this.getAttribute('cy');
-                    if (ratio >= 1) {
-                        return positionY;
-                    } else {
-                        return ratio * (positionY - cy) + cy;
-                    }
-                });
-        }
-        function moveLinks(){
-            linkEnter.transition()
-                .duration(initDuration)
-                .attr('d', function (d) {
-                    var source = getDomElement(nodeEnter[0], d.source)
-                    var target = getDomElement(nodeEnter[0], d.target)
-                    var diagonal = [
-                        "M", source.getAttribute('cx'), source.getAttribute('cy'),
-                        "A", height, height, 0, 0, 1, target.getAttribute('cx'), target.getAttribute('cy')
-                    ].join(" ");
-                    return diagonal;
-                });
-        }
-
-        function contextualize(d) {
-            var scenes = getScenes(d);
-            var clean_name = cleanTitle(d.element.id);
-            var scale = 1;
-            var radius = 0;
-            if(d.children.length >0){
-                scale =  Math.min(Math.pow(2, Math.sqrt(64 / this.getAttribute('r'))), 16);
-                radius =Math.max(5, Math.min(Math.pow(this.getAttribute('r'), 1.5), (height / 2.5) / scale));
-                cluster(d,this,'children',radius,true);
-            }else if (d.scenes.length > 0) {
-                cluster(d,this, 'scenes', 10, false);
-            } else if (d.wormholes.length > 0) {
-                cluster(d,this, 'wormholes', 15, false, 0);
-                scale = Math.min(Math.pow(2, Math.sqrt(64 / this.getAttribute('r'))), 16);
-            } else if (d.parents.length > 0) {
-                cluster(d,this, 'parents', 64, false);
-                scale = 3;
-            } else if (d3.select(d).classed('guiscene')) {
-                socket.emit('sendCommand', roomId, 'showScenes', [{name: d.element.id}]);
-                return;
-            }
-            console.log(scale)
-            var panx = scale == 1 ? 0 : (width / 2) - this.getAttribute('cx') * scale;
-            var pany = scale == 1 ? 0 : (height / 2) -this.getAttribute('cy') * scale + 50;
-            nodeContainer.attr("transform", "translate("+panx+","+ pany+")scale(" + scale+")");
-            d3.select('h1').html(clean_name);
-            //socket.emit('sendCommand', roomId, 'showScenes', scenes.map(function (scene) {
-            //    return {'name': scene};
-            //}));
-            moveLinks();
-        }
-
-        function circle(nodeArr) {
-            nodeArr.each(function (node, i) {
-                var indexInPrefix = prefix.indexOf(node.element.id);
-                var indexInSplits = splits.indexOf(node.element.id);
-                var parentInPrefix = checkIfParentIsInPrefix(node);
-
-                if (indexInPrefix < 0 && indexInSplits < 0 && !parentInPrefix) {
-                    d3.select(this).attr('x', function (d) {
-                            return (width / 2) + (Math.random() * width / 2 ) * ((Math.random() > 0.5) ? -1 : 1)
-                        })
-                        .attr('y', function (d) {
-                            return height / 2 + (height / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
-                        })
-                        .attr('r', 2);
-                }
-
-                if (indexInPrefix >= 0) {
-                    d3.select(this).attr('x', function (d, index) {
-                            return ((width - 200) * indexInPrefix + 100);
-                        })
-                        .attr('y', function (d) {
-                            return height / 2;
-                        })
-                        .attr('r', 32);
-                    if (node.children.length > 0) {
-                        node.children.forEach(function (child, idx) {
-                            var child = getDomElement(nodeCollection[0], child);
-                            d3.select(child).attr('x', function (d) {
-                                    var spacing = (width / splits.length);
-                                    return spacing * idx + (spacing / 2);
-                                })
-                                .attr('y', function (d) {
-                                    return ( height - height / 2 ) * indexInPrefix + ( height / 4 );
-                                })
-                                .attr('r', 8);
-                        });
-                    }
-                }
-                if (indexInSplits >= 0) {
-                    d3.select(this).attr('x', function (d, index) {
-                            return ((width / splits.length) / 2) * indexInSplits + width / splits.length;
-                        })
-                        .attr('y', function (d) {
-                            return height - height / 2
-                        })
-                        .attr('r', 16);
-                }
-            });
-        };
-
-        function transitionGraphElements() {
-            var duration = initDuration;
-            var ratio = 1 - Math.pow(1 / duration, 5);
-            nodeEnter.transition()
-                .duration(duration)
-                .attr('cx', function (d) {
-                    var x = this.getAttribute('x')
-                    var cx = this.getAttribute('cx')
-                    if (ratio >= 1) {
-                        return x;
-                    } else {
-                        return ratio * (x - cx) + cx;
-                    }
-                })
-                .attr('cy', function (d) {
-                    var y = this.getAttribute('y')
-                    var cy = this.getAttribute('cy')
-                    if (ratio >= 1) {
-                        return y;
-                    } else {
-                        return ratio * (y - cy) + cy;
-                    }
-
-                });
-
-
-            linkEnter.transition()
-                .duration(duration)
-                .attr('d', function (d) {
-                    var source = getDomElement(nodeEnter[0], d.source)
-                    var target = getDomElement(nodeEnter[0], d.target)
-                    var diagonal = [
-                        "M", source.getAttribute('x'), source.getAttribute('y'),
-                        "A", height, height, 0, 0, 1, target.getAttribute('x'), target.getAttribute('y')
-                    ].join(" ");
-                    return diagonal;
-                })
-                .transition()
-                .duration(Math.random() * 200)
-                .attr('class', function (d) {
-                    return d.source.element.id + ' ' + d.target.element.id;
-                });
-        }
-
-        function getScenes(node) {
-            var scenes = node.scenes;
-            node.children.forEach(function (childNode) {
-                scenes = scenes.concat(getScenes(childNode));
-            }, this);
-            return scenes.reduce(function (principle, current) {
-                if (principle.indexOf(current) < 0) principle.push(current);
-                return principle;
-            }, []);
-        }
-
-
-        function checkIfParentIsInPrefix(object) {
-            if (object.parents) {
-                var test;
-                object.parents.forEach(function (parent) {
-                    if (prefix.indexOf(parent.element.id) >= 0) {
-                        test = true;
-                    }
-                });
-                return test == undefined ? false : true;
-            }
-            return false;
-        }
-        transitionGraphElements();
-    };
-
-    processData(data);
-    drawGraph(graphData);
-
-
-};
 
 
