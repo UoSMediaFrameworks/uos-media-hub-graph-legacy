@@ -29,9 +29,7 @@ var doubleTapEvent = new Event('doubletap');
 //});
 
 
-var cleanTitle = function (title) {
-    return title.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').replace('GUIscene', 'scene').replace(/(scene|chicago|beijing)?\s(.*)?/i, '<sup>$1</sup><span class="$1">$2</span>');
-};
+
 
 d3.select('#build-new').on('click', function () {
     d3.selectAll('svg').remove();

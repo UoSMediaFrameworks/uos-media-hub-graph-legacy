@@ -31,6 +31,7 @@ function d3graphv2() {
 
 //--------------------Global Variables----------------//
 
+
     var rootData = [
         {
             type: "Theme",
@@ -146,15 +147,15 @@ function d3graphv2() {
                 "ThemePainting", "ThemePublicAttractions"
             ]
         },
-        //{
-        //    type: "City",
-        //    id: "ManchesterCity",
-        //    name: "Manchester",
-        //    parentRelationshipIds: [
-        //        "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
-        //    ],
-        //    childRelationshipIds: []
-        //},
+        {
+            type: "City",
+            id: "ManchesterCity",
+            name: "Manchester",
+            parentRelationshipIds: [
+                "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+            ],
+            childRelationshipIds: []
+        },
         {
             type: "City",
             id: "ChicagoCity",
@@ -201,6 +202,42 @@ function d3graphv2() {
             childRelationshipIds: []
         },
         {
+            type: "City",
+            id: "Test1City",
+            name: "Test",
+            parentRelationshipIds: [
+                "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+            ],
+            childRelationshipIds: []
+        },
+        {
+            type: "City",
+            id: "Test2City",
+            name: "Test2",
+            parentRelationshipIds: [
+                "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+            ],
+            childRelationshipIds: []
+        },
+        //{
+        //    type: "City",
+        //    id: "Test4City",
+        //    name: "Test4",
+        //    parentRelationshipIds: [
+        //        "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+        //    ],
+        //    childRelationshipIds: []
+        //},
+        {
+            type: "City",
+            id: "Test3City",
+            name: "Test3",
+            parentRelationshipIds: [
+                "GraphThemeCity", "GraphThemePeople", "GraphThemeMovement"
+            ],
+            childRelationshipIds: []
+        },
+        {
             type: "root", //could also be called GraphTheme
             id: "GraphThemeCity",
             name: "City",
@@ -225,6 +262,27 @@ function d3graphv2() {
 
     var height, width, svg, root, diagonal, nodeCollection, edgeCollection, duration, zoom;
 
+
+    d3.selection.prototype.touchHandler = function (callback) {
+        var last = 0;
+        return this.each(function (d) {
+            var currentEL = this;
+            d3.select(this)
+                .on("touchstart", function (e) {
+                    last = d3.event.timeStamp;
+                })
+                .on('touchend', function (e) {
+                    if (d3.event.timeStamp - last > 1000) {
+                        return callback(currentEL, e, 'longclick');
+                    } else if ((d3.event.timeStamp - last) < 500) {
+                        return callback(currentEL, e, 'tap');
+                    }
+                }).on('touchmove', function (e) {
+                    console.log("moving")
+            });
+        });
+    };
+
     root = {
         nodes: [],
         edges: []
@@ -233,17 +291,21 @@ function d3graphv2() {
     duration = 5000;
     height = window.innerHeight;
     width = window.innerWidth;
+    var margin = {top:20,bot:20,left:20,right:20};
+    var innerH = height - margin.top + margin.bot;
+    var innerW = width - margin.left + margin.right;
     zoom = d3.behavior.zoom()
         .scaleExtent([1, 10])
-        .on("zoom", zoomed);
+        .on("zoom", zoomed)
+
+    var fisheye = d3.fisheye.circular().radius(120);
 
     svg = d3.select('#graph')
         .append('svg')
         .attr("height", height)
         .attr("width", width)
         .append('g')
-        .attr("fill", "#333")
-        .call(zoom);
+        .attr("fill", "#333");
 
 
     function zoomed() {
@@ -253,6 +315,7 @@ function d3graphv2() {
 
     var nodeContainer = svg.append('g')
         .attr("class", "node-container");
+
 
     var pathContainer = nodeContainer.append('g')
         .attr("class", "path-container");
@@ -264,9 +327,12 @@ function d3graphv2() {
         function processNodes(data) {
             data.forEach(function (obj) {
                 obj.x = obj.y = 0;
-                obj.cx = width / 2;
-                obj.cy = height / 2;
+                obj.cx = innerW / 2;
+                obj.cy = innerH / 2;
                 obj.r = 2;
+                obj.children = [];
+                obj.parents = [];
+                obj.related = [];
                 root.nodes.push(obj)
             })
         }
@@ -280,10 +346,12 @@ function d3graphv2() {
                             type: 'Scene',
                             name: child,
                             parentRelationshipIds: [node.id],
+                            parents : [],
+                            related : [],
                             x: 0,
                             y: 0,
-                            cx: width / 2,
-                            cy: height / 2,
+                            cx: innerW / 2,
+                            cy: innerH / 2,
                             r: 2
                         })
                     })
@@ -299,6 +367,8 @@ function d3graphv2() {
                     })
                     if (parentObj != undefined)
                         root.edges.push({source: parentObj, target: node})
+                    parentObj.children.push(node);
+                    node.parents.push(parentObj);
                 })
 
             })
@@ -307,18 +377,127 @@ function d3graphv2() {
         processNodes(data);
         processScenes();
         processsEdges();
-        console.log(root)
     }
 
 
     initialize(rootData);
     draw(root)
+    var cleanTitle = function (title) {
+        return title.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').replace('GUIscene', 'scene').replace(/(scene|chicago|beijing)?\s(.*)?/i, '<sup>$1</sup><span class="$1">$2</span>');
+    };
 
-    function findElement(collection, element) {
-        return _.find(collection, function (obj) {
-            console.log(obj.__data__ == element)
-            return obj.__data__ == element;
+    function contextualize(el, d) {
+        var clean_name = cleanTitle(d.id);
+        var scale = 1;
+        var radius = 0;
+
+        d3.select('.highlight').classed('highlight', false);
+        d3.selectAll('.highlightedLink').classed('highlightedLink', false);
+        d3.select(el).classed('highlight', true);
+        var test = _.filter(edgeCollection[0], function (item) {
+            return item.__data__.source == d || item.__data__.target == d;
+        });
+        d3.selectAll(test).classed('highlightedLink', true);
+
+        scale = Math.min(Math.pow(2, Math.sqrt(64 / d.r), 16));
+        radius = Math.max(5, Math.min(Math.pow(16, 1.5), (innerH / 2.5) / scale));
+        $("#reset-new2").click();
+        cluster(el, radius, true);
+        d3.select('h1').html(clean_name);
+    }
+
+    function cluster(el, radius, recurse) {
+        console.log(radius)
+        d3.select(el).each(function (d) {
+            d.related = _.union(d.children, d.parents);
+            var total = d.related.length;
+            var cx = d.cx;
+            var cy = d.cy;
+            d.related.forEach(function (child, index) {
+                var radian = (2 * Math.PI) * (index / total);
+                var x = (Math.cos(radian) * radius) + cx;
+                var y = (Math.sin(radian) * radius) + cy;
+                moveNode(child, x, y);
+            });
         })
+
+    }
+
+    function moveNode(node, positionX, positionY) {
+        var ratio = 1 - Math.pow(1 / duration, 5);
+        d3.select('#' + node.id).transition()
+            .duration(duration)
+            .attr('cx', function (d) {
+                var cx = d.cx;
+                if (ratio >= 1) {
+                    d.cx = positionX
+                    return d.cx;
+                } else {
+                    d.cx = ratio * (positionX - cx) + cx;
+                    return d.cx;
+                }
+            })
+            .attr('cy', function (d) {
+                var cy = this.cy;
+                if (ratio >= 1) {
+                    d.cy = positionY;
+                    return d.cy;
+                } else {
+                    d.cy = ratio * (positionY - cy) + cy;
+                    return d.cy;
+                }
+            });
+        var test = _.filter(edgeCollection[0], function (item) {
+            return item.__data__.source == node || item.__data__.target == node;
+        });
+
+        var test2 = edgeCollection.filter(function (item) {
+            return item.source == node || item.target == node;
+        });
+
+        test2.transition()
+            .duration(duration)
+            .attr('d', function (d) {
+                var diagonal = [
+                    "M", d.source.cx, d.source.cy,
+                    "A", innerH, innerH, 0, 0, 1, d.target.cx, d.target.cy
+                ].join(" ");
+                return diagonal;
+            });
+    }
+
+    function highlight(el, d) {
+
+        if (d3.select(el).classed('highlight')) {
+
+            d3.select(el).classed('highlight', false);
+            d3.selectAll('.highlightedLink').classed('highlightedLink', false);
+            d3.select('h2').style("opacity", "0");
+        } else {
+
+            d3.select('h2')
+                .html(cleanTitle(d.id))
+                .style('top', function () {
+                    return d.cy - (d.r * 2 + 2) + 'px';
+                })
+                .style('left', function () {
+                    return d.cx - 50 + 'px';
+                })
+                .style("opacity", "1");
+
+            d3.select('.highlight').classed('highlight', false);
+
+
+            d3.selectAll('.highlightedLink').classed('highlightedLink', false);
+            d3.select(el).classed('highlight', true);
+            var test = _.filter(edgeCollection[0], function (item) {
+                return item.__data__.source == d || item.__data__.target == d;
+            });
+
+            d3.selectAll(test).classed('highlightedLink', true);
+
+        }
+
     }
 
 //--------------------Drawing--------------------------//
@@ -344,13 +523,22 @@ function d3graphv2() {
             .attr('class', function (d) {
                 return createClassName(d.id);
             })
-            .call(circle);
+            .call(circle)
+            .touchHandler(function (el, d, type) {
+                if (type == 'tap') {
+                    return highlight(el, d);
+                } else if (type == 'longclick') {
+                    return contextualize(el, d);
+                } else if (type == 'doubletap') {
+                    return contextualize(el, d);
+                }
+            });
 
         var linkEnter = edgeCollection.enter().append('path')
             .attr('d', function (d) {
                 var diagonal = [
                     "M", d.source.cx, d.source.cy,
-                    "A", height, height, 0, 0, 1, d.target.cx, d.target.cy
+                    "A", innerH, innerH, 0, 0, 1, d.target.cx, d.target.cy
                 ].join(" ");
                 return diagonal;
             })
@@ -365,17 +553,28 @@ function d3graphv2() {
         function circle(nodeArr) {
             nodeArr
                 .attr('x', function (d) {
-                    d.x = width / 2 + (Math.random() * width / 2) * ((Math.random() > 0.5) ? -1 : 1)
+                    d.x = innerW / 2 + (Math.random() * innerW / 2) * ((Math.random() > 0.5) ? -1 : 1)
                     return d.x
                 })
                 .attr('y', function (d) {
-                    d.y = height / 2 + (height / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
+                    d.y = innerH / 2 + (innerH / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
                     return d.y
                 })
                 .attr('r', function (d) {
                     d.r = 4;
                     return d.r
                 });
+        }
+
+        var sceneNodes = nodeEnter.filter(function (d) {
+            return d.type == "Scene";
+        });
+
+        if (root.nodes.length > 200) {
+            sceneNodes.attr('visible', false);
+        }
+        else {
+            console.log(root.nodes.length)
         }
 
         var cityNodes = nodeEnter.filter(function (d) {
@@ -388,18 +587,24 @@ function d3graphv2() {
                 return d.r;
             })
             .attr('y', function (d, i) {
-                d.y = (Math.sin(angle * i) * height / 2) + d.cy;
+                d.y = (Math.sin(angle * i) * innerH / 2) + d.cy;
+                if (d.y == 0) {
+                    d.y = d.y + d.r * 2;
+                }
+                if (d.y == innerH) {
+                    d.y = d.y - d.r * 2;
+                }
                 return d.y;
             })
             .attr('x', function (d, i) {
-                d.x = (Math.cos(angle * i) * width / 2) + d.cx;
+                d.x = (Math.cos(angle * i) * innerW / 2) + d.cx;
                 if (d.x == 0) {
                     d.x = d.x + d.r * 2;
                 }
-                if (d.x == width) {
+                if (d.x == innerW) {
                     d.x = d.x - d.r * 2;
                 }
-                console.log(d.x)
+
                 return d.x;
             });
 
@@ -408,15 +613,15 @@ function d3graphv2() {
             return d.type == 'root'
         });
         rootNodes.attr('x', function (d, i) {
-                d.x = ((width / rootNodes[0].length) / 2) * i + width / rootNodes[0].length;
+                d.x = ((innerW / rootNodes[0].length) / 2) * i + innerW / rootNodes[0].length;
                 return d.x
             })
             .attr('y', function (d) {
-                d.y = height - height / 2;
+                d.y = innerH - innerH / 2;
                 return d.y;
             })
             .attr('r', function (d) {
-                d.r = 8;
+                d.r = 16;
                 return d.r;
             });
         var sceneNodes = nodeEnter.filter(function (d) {
@@ -424,7 +629,7 @@ function d3graphv2() {
         });
         sceneNodes.style('fill', 'yellow');
 
-        d3.select('#reset').on('click', function () {
+        d3.select('#reset-new2').on('click', function () {
             resetGraph();
         });
         function resetGraph() {
@@ -433,23 +638,7 @@ function d3graphv2() {
             zoom.translate([0, 0])
             nodeContainer.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
             transitionGraphElements();
-        }
 
-        function cluster(node, key, radius, recurse, start) {
-            //todo rewrite to use thresholds
-            var total = node[key].length;
-            node[key].forEach(function (child, index) {
-                var radian = (2 * Math.PI) * (index / total);
-                var x = (Math.cos(radian) * radius) + cx;
-                var y = (Math.sin(radian) * radius) + cy;
-                var to = [x, y];
-                var duration = initDuration;
-                moveNode(child, x, y, duration);
-                if (recurse) {
-                    var elm = getDomElementById(nodeEnter[0], child);
-                    cluster(child, elm, key, radius / 2, false);
-                }
-            });
         }
 
         function transitionGraphElements() {
@@ -479,7 +668,7 @@ function d3graphv2() {
                 .attr('d', function (d) {
                     var diagonal = [
                         "M", d.source.cx, d.source.cy,
-                        "A", height, height, 0, 0, 1, d.target.cx, d.target.cy
+                        "A", innerH, innerH, 0, 0, 1, d.target.cx, d.target.cy
                     ].join(" ");
                     return diagonal;
                 })
@@ -499,3 +688,4 @@ function d3graphv2() {
 
 //
 }
+d3graphv2()

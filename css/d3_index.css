@@ -1,0 +1,203 @@
+
+body {
+    padding:0;
+    margin:0;
+    font-size:62.5%;
+    font-family:'Helvetica Neue';
+    overflow:hidden;
+    background-color:#333;
+}
+form {
+    margin:5em auto 0;
+    width:50%;
+}
+input[type=password], label {
+    font-size:1.5em;
+    padding:1em;
+    display:block;
+    width:100%;
+    color:#444;
+}
+svg {
+    position: absolute;
+    top:0;
+    left:0;
+    z-index:1;
+}
+circle {
+    fill:#fff;
+    stroke:#333;
+    stroke-opacity:0.5;
+    cursor:pointer;
+
+}
+line, path {
+    stroke-width:0.25;
+    transition:opacity 1s, stroke-width 5s;
+    opacity:0.125;
+    stroke:#fff;
+    fill:none;
+}
+.opaque {
+    opacity:1 !important;
+    stroke-width:0.25 !important;
+}
+h1 {
+    position:relative;
+    z-index:0;
+    color:#aaa;
+    font-weight:200;
+    font-size:5em;
+    margin:1em 2em 0 0;
+    text-align:center;
+}
+h1 sup, h2 sup {
+    font-size:0.5em;
+    font-weight:200;
+    text-transform:capitalize;
+    padding:0 0.25em 0;
+}
+#graph{
+    height:100%;
+    width:100%;
+}
+h2 {
+    font-size:2em;
+    background-color:rgba(51, 51, 51, 0.5);
+    border-radius:1em;
+    font-weight:600;
+    letter-spacing:1px;
+    color:#FFF;
+    position:absolute;
+    margin:0;
+    display:inline-block;
+    width:200px;
+    margin-left:-50px;
+    text-align:center;
+    z-index:1000;
+    transition:opacity 0.5s;
+    text-shadow:1px 1px 2px rgba(0,0,0,0.5);
+}
+h2:empty {
+    opacity:0;
+}
+
+circle.highlight {
+    stroke:#fff !important;
+    stroke-width:5 !important;
+    stroke-opacity:0.9 !important;
+    transition:stroke-width 0.5s;
+}
+
+.button-wrapper {
+    position:absolute;
+    z-index:100;
+    top:2.5em;
+    left:2.5em;
+}
+
+button {
+
+    margin:0;
+    margin-right: 1em;
+    padding:1em;
+    font-size:2.5em;
+
+    opacity:0.25;
+    transition:opacity 0.25s;
+    border:1px solid #eee;
+    background-color:#fff;
+    border-radius:0.5em;
+    cursor:pointer;
+    box-shadow:-0.125em -0.125em rgba(0,0,0,0.2);
+}
+button:focus {
+    outline:none;
+}
+button:hover {
+    opacity:1;
+}
+
+#viewer.hidden {
+    display: none;
+}
+
+circle.chicago {
+    fill: #de9f10;
+}
+span.Chicago {
+    color:#de9f10;
+}
+circle.bulgaria{
+    fill:#711093
+}
+circle.singapoor{
+    fill:#cfdb10
+}
+circle.manchester{
+    fill:#0ca634
+}
+circle.random{
+    fill:#1b3697
+}
+circle.beijing {
+    fill:#DE2910;
+}
+span.Beijing {
+    color:#DE2910;
+}
+
+
+circle.guiscene {
+    fill:#FFCF01;
+}
+span.scene {
+    color:#FFCF01;
+}
+
+/*path.chicago {*/
+/*stroke-width:2;*/
+/*opacity:1;*/
+/*stroke:#B3DDF2;*/
+/*}*/
+
+/*path.beijing {*/
+/*stroke-width:2;*/
+/*opacity:1;*/
+/*stroke:#DE2910;*/
+/*}*/
+/*path.manchester {*/
+/*stroke-width:2;*/
+/*opacity:1;*/
+/*stroke:#0ca634;*/
+/*}*/
+
+/*path.singapoor {*/
+/*stroke-width:2;*/
+/*opacity:1;*/
+/*stroke:#cfdb10;*/
+/*}*/
+/*path.bulgaria {*/
+/*stroke-width:2;*/
+/*opacity:1;*/
+/*stroke:#711093;*/
+/*}*/
+
+/*path.random {*/
+/*stroke-width:2;*/
+/*opacity:1;*/
+/*stroke:#1b3697;*/
+/*}*/
+
+.highlightedLink{
+    stroke-width:1;
+    opacity:1;
+    stroke:#fff;
+}
+
+
+
+
+
+
+
