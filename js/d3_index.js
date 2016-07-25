@@ -896,6 +896,19 @@ function d3graphv2(rootData) {
 }
 function loadData() {
     console.log('load data')
+    var sceneId = '579606bbea09c8f426aaa702';
+
+    function getQueryVariable(variable)
+    {
+        var query = window.location.search.substring(1);
+        var vars = query.split("&");
+        for (var i=0;i<vars.length;i++) {
+            var pair = vars[i].split("=");
+            if(pair[0] == variable){return pair[1];}
+        }
+        return(false);
+    }
+
     socket.on('connect', function (thing) {
         console.log(thing)
         console.log('bursting kittens')
@@ -906,7 +919,8 @@ function loadData() {
                 console.log(token)
                 console.log(serverRoomId)
             }
-            socket.emit('loadSceneGraph', '57950fc250d782446f21c809', function (err, sceneGraph) {
+            sceneId = getQueryVariable("id") || sceneId;
+            socket.emit('loadSceneGraph', sceneId, function (err, sceneGraph) {
                 console.log(sceneGraph);
                 if (err || !sceneGraph) {
                     console.log(err)
