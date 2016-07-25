@@ -545,6 +545,7 @@ function d3graphv2(rootData) {
                 })
             }
 
+            console.log(d.related);
             while (testArr.length < 12) {
                 var node = pluckArray(filteredEdges);
                 if (node == undefined) {
@@ -553,7 +554,7 @@ function d3graphv2(rootData) {
                     testArr.push(node)
                 }
             }
-
+            console.log(testArr);
             hover(testArr);
             //console.log(testArr)
             var total = testArr.length;
