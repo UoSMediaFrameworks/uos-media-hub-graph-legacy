@@ -455,7 +455,7 @@ function d3graphv2(rootData) {
         }
 
         processNodes(data);
-        processScenes();
+        //processScenes();
         processsEdges();
     }
 
