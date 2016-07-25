@@ -43,280 +43,280 @@ function d3graphv2(rootData) {
     var timeout;
     var hoverTimeout;
 
-    var rootData = [{
-        _id: 'city',
-        name: 'city',
-        type: 'root',
-        parentRelationshipIds: [],
-        childrenRelationshIds: []
-    },
-        {
-            _id: 'ThemeWaterFlow',
-            name: 'ThemeWaterFlow',
-            type: 'theme',
-            parentRelationshipIds: ['Waterways'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeRain',
-            name: 'ThemeRain',
-            type: 'theme',
-            parentRelationshipIds: ['Waterways'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeFresh',
-            name: 'ThemeFresh',
-            type: 'theme',
-            parentRelationshipIds: ['Waterways'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Waterways',
-            name: 'Waterways',
-            type: 'subgraphtheme',
-            parentRelationshipIds: ['city', 'Chicago', 'Manchester'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemePainting',
-            name: 'ThemePainting',
-            type: 'theme',
-            parentRelationshipIds: ['ThemeArt'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeGallery',
-            name: 'ThemeGallery',
-            type: 'theme',
-            parentRelationshipIds: ['ThemePublicAttractions'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemePublicAttractions',
-            name: 'ThemePublicAttractions',
-            type: 'theme',
-            parentRelationshipIds: ['ThemeArt'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeArt',
-            name: 'ThemeArt',
-            type: 'subgraphtheme',
-            parentRelationshipIds: ['Chicago', 'Manchester'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeGreat',
-            name: 'ThemeGreat',
-            type: 'subgraphtheme',
-            parentRelationshipIds: ['Chicago'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Chicago',
-            name: 'Chicago',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeMuseam',
-            name: 'ThemeMuseam',
-            type: 'theme',
-            parentRelationshipIds: ['ThemeArt'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Manchester',
-            name: 'Manchester',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeSmog',
-            name: 'ThemeSmog',
-            type: 'subgraphtheme',
-            parentRelationshipIds: ['Beijing'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeDanger',
-            name: 'ThemeDanger',
-            type: 'theme',
-            parentRelationshipIds: ['ThemeIndustry'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeBusy',
-            name: 'ThemeBusy',
-            type: 'theme',
-            parentRelationshipIds: ['ThemeIndustry'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeIndustry',
-            name: 'ThemeIndustry',
-            type: 'subgraphtheme',
-            parentRelationshipIds: ['Beijing'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Beijing',
-            name: 'Beijing',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Dalian',
-            name: 'Dalian',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'KualaLumpur',
-            name: 'KualaLumpur',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Seoul',
-            name: 'Seoul',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 't1',
-            name: 't1',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 't2',
-            name: 't2',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 't3',
-            name: 't3',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Chengdu',
-            name: 'Chengdu',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'HongKong',
-            name: 'HongKong',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Shenyang',
-            name: 'Shenyang',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Panjin',
-            name: 'Panjin',
-            type: 'city',
-            parentRelationshipIds: ['city', 'people', 'movement'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'people',
-            name: 'people',
-            type: 'root',
-            parentRelationshipIds: [],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeHunger',
-            name: 'ThemeHunger',
-            type: 'theme',
-            parentRelationshipIds: ['Poverty'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeFastfood',
-            name: 'ThemeFastfood',
-            type: 'theme',
-            parentRelationshipIds: ['Poverty'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Poverty',
-            name: 'Poverty',
-            type: 'subgraphtheme',
-            parentRelationshipIds: ['people'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemetFastfood',
-            name: 'ThemetFastfood',
-            type: 'subgraphtheme',
-            parentRelationshipIds: ['Chicago'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeTakeaways',
-            name: 'ThemeTakeaways',
-            type: 'subgraphtheme',
-            parentRelationshipIds: ['Manchester'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeStreetFood',
-            name: 'ThemeStreetFood',
-            type: 'subgraphtheme',
-            parentRelationshipIds: ['Beijing'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'movement',
-            name: 'movement',
-            type: 'root',
-            parentRelationshipIds: [],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeCars',
-            name: 'ThemeCars',
-            type: 'theme',
-            parentRelationshipIds: ['ThemeRoads'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'ThemeRoads',
-            name: 'ThemeRoads',
-            type: 'theme',
-            parentRelationshipIds: ['Transport'],
-            childrenRelationshIds: []
-        },
-        {
-            _id: 'Transport',
-            name: 'Transport',
-            type: 'subgraphtheme',
-            parentRelationshipIds: ['movement', 'Chicago', 'Manchester', 'Beijing'],
-            childrenRelationshIds: []
-        }
-    ];
+    //var rootData = [{
+    //    _id: 'city',
+    //    name: 'city',
+    //    type: 'root',
+    //    parentRelationshipIds: [],
+    //    childrenRelationshIds: []
+    //},
+    //    {
+    //        _id: 'ThemeWaterFlow',
+    //        name: 'ThemeWaterFlow',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['Waterways'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeRain',
+    //        name: 'ThemeRain',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['Waterways'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeFresh',
+    //        name: 'ThemeFresh',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['Waterways'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Waterways',
+    //        name: 'Waterways',
+    //        type: 'subgraphtheme',
+    //        parentRelationshipIds: ['city', 'Chicago', 'Manchester'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemePainting',
+    //        name: 'ThemePainting',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['ThemeArt'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeGallery',
+    //        name: 'ThemeGallery',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['ThemePublicAttractions'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemePublicAttractions',
+    //        name: 'ThemePublicAttractions',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['ThemeArt'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeArt',
+    //        name: 'ThemeArt',
+    //        type: 'subgraphtheme',
+    //        parentRelationshipIds: ['Chicago', 'Manchester'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeGreat',
+    //        name: 'ThemeGreat',
+    //        type: 'subgraphtheme',
+    //        parentRelationshipIds: ['Chicago'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Chicago',
+    //        name: 'Chicago',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeMuseam',
+    //        name: 'ThemeMuseam',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['ThemeArt'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Manchester',
+    //        name: 'Manchester',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeSmog',
+    //        name: 'ThemeSmog',
+    //        type: 'subgraphtheme',
+    //        parentRelationshipIds: ['Beijing'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeDanger',
+    //        name: 'ThemeDanger',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['ThemeIndustry'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeBusy',
+    //        name: 'ThemeBusy',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['ThemeIndustry'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeIndustry',
+    //        name: 'ThemeIndustry',
+    //        type: 'subgraphtheme',
+    //        parentRelationshipIds: ['Beijing'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Beijing',
+    //        name: 'Beijing',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Dalian',
+    //        name: 'Dalian',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'KualaLumpur',
+    //        name: 'KualaLumpur',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Seoul',
+    //        name: 'Seoul',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 't1',
+    //        name: 't1',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 't2',
+    //        name: 't2',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 't3',
+    //        name: 't3',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Chengdu',
+    //        name: 'Chengdu',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'HongKong',
+    //        name: 'HongKong',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Shenyang',
+    //        name: 'Shenyang',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Panjin',
+    //        name: 'Panjin',
+    //        type: 'city',
+    //        parentRelationshipIds: ['city', 'people', 'movement'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'people',
+    //        name: 'people',
+    //        type: 'root',
+    //        parentRelationshipIds: [],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeHunger',
+    //        name: 'ThemeHunger',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['Poverty'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeFastfood',
+    //        name: 'ThemeFastfood',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['Poverty'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Poverty',
+    //        name: 'Poverty',
+    //        type: 'subgraphtheme',
+    //        parentRelationshipIds: ['people'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemetFastfood',
+    //        name: 'ThemetFastfood',
+    //        type: 'subgraphtheme',
+    //        parentRelationshipIds: ['Chicago'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeTakeaways',
+    //        name: 'ThemeTakeaways',
+    //        type: 'subgraphtheme',
+    //        parentRelationshipIds: ['Manchester'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeStreetFood',
+    //        name: 'ThemeStreetFood',
+    //        type: 'subgraphtheme',
+    //        parentRelationshipIds: ['Beijing'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'movement',
+    //        name: 'movement',
+    //        type: 'root',
+    //        parentRelationshipIds: [],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeCars',
+    //        name: 'ThemeCars',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['ThemeRoads'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'ThemeRoads',
+    //        name: 'ThemeRoads',
+    //        type: 'theme',
+    //        parentRelationshipIds: ['Transport'],
+    //        childrenRelationshIds: []
+    //    },
+    //    {
+    //        _id: 'Transport',
+    //        name: 'Transport',
+    //        type: 'subgraphtheme',
+    //        parentRelationshipIds: ['movement', 'Chicago', 'Manchester', 'Beijing'],
+    //        childrenRelationshIds: []
+    //    }
+    //];
 
     var height, width, svg, root, diagonal, nodeCollection, edgeCollection, duration, zoom;
 
@@ -913,7 +913,7 @@ function loadData() {
                     console.log('Couldn\'t load requested scene graph, reload the page and try again');
                 } else {
                     console.log(sceneGraph);
-                    d3graphv2(sceneGraph);
+                    d3graphv2(sceneGraph.nodeList);
                 }
             });
         });
