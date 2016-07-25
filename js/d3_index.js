@@ -1,4 +1,7 @@
-function d3graphv2() {
+
+
+var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
+function d3graphv2(rootData) {
     var randomColor = (function () {
         var golden_ratio_conjugate = 0.618033988749895;
         var h = Math.random();
@@ -332,7 +335,7 @@ function d3graphv2() {
                     } else if ((d3.event.timeStamp - last) < 500) {
                         return callback(currentEL, e, 'tap');
                     }
-            })
+                })
         });
     };
 
@@ -390,8 +393,10 @@ function d3graphv2() {
     var nodeContainer = svg.append('g')
         .attr("class", "node-container").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
-    var hoverh2 = nodeContainer.append('text').attr('fill','white');
-
+    var longClickTitle;
+    var shortClickTitle;
+    var longClickedLink;
+    var longClicked;
     var pathContainer = nodeContainer.append('g')
         .attr("class", "path-container");
 
@@ -460,21 +465,31 @@ function d3graphv2() {
     var cleanTitle = function (title) {
         return title.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').replace('GUIscene', 'scene').replace(/(scene|chicago|beijing)?\s(.*)?/i, '<sup>$1</sup><span class="$1">$2</span>');
     };
-    function hover(arraySelection,cancel){
-        var i = 0;
 
-        arraySelection.transition().duration(duration).delay(500).each(function(d){
-            hoverh2
-                .html(cleanTitle(d._id))
-                .style('top', function () {
-                    return d.cy + "px";
+    function hover(arraySelection) {
+        var i = 0;
+        clearInterval(hoverTimeout)
+        hoverTimeout = setInterval(function () {
+            if (i == arraySelection.length) {
+                i = 0;
+            }
+            var d = arraySelection[i];
+            longClickTitle.attr('y', function (data) {
+                    return d.cy < innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
                 })
-                .style('left', function () {
-                    return d.cx + "px";
+                .attr('x', function (data) {
+                    return d.cx < innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2
                 })
-                .style("opacity", "1");
-        })
+                .attr("dy", ".35em")
+                .attr('text-anchor', 'middle')
+                .style("opacity", "1")
+                .text(function () {
+                    return d.name
+                });
+            i++;
+        }, 2500);
     }
+
     function contextualize(el, d) {
         console.log('long touch')
         var clean_name = cleanTitle(d._id);
@@ -482,35 +497,37 @@ function d3graphv2() {
         var radius = 0;
 
 
-        radius = innerH /5;
+        radius = innerH / 5;
         $("#reset-new2").click();
 
         cluster(el, radius, true);
         clusterHighlight(el, d);
         d3.select('h1').html(clean_name);
     }
+
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
+
     function pluckArray(array) {
         //console.log('arr size ' + array.length)
         var index = getRandomInt(0, array.length);
         //console.log('Rand index ' + index)
         var obj = array[index];
         //console.log(obj)
-        array =  array.splice(index, 1);
+        array = array.splice(index, 1);
         return obj;
     }
 
     function cluster(el, radius, recurse) {
-        d3.select(el).attr('r',function(d){
+        d3.select(el).attr('r', function (d) {
             return d.r * 1.5;
         }).each(function (d) {
             d.related = _.union(d.children, d.parents);
             var cx = d.cx;
             var cy = d.cy;
             var testArr = [];
-            var filteredEdges=[];
+            var filteredEdges = [];
             if (d.type == 'root') {
                 //console.log('root')
                 filteredEdges = _.filter(d.related, function (item) {
@@ -530,12 +547,14 @@ function d3graphv2() {
 
             while (testArr.length < 12) {
                 var node = pluckArray(filteredEdges);
-                if(node == undefined){
+                if (node == undefined) {
                     break;
-                }else{
+                } else {
                     testArr.push(node)
                 }
             }
+
+            hover(testArr);
             //console.log(testArr)
             var total = testArr.length;
             testArr.forEach(function (child, index) {
@@ -552,7 +571,7 @@ function d3graphv2() {
         var ratio = 1 - Math.pow(1 / duration, 5);
         d3.select('#' + node._id).transition()
             .duration(duration)
-            .attr('r',function(d){
+            .attr('r', function (d) {
                 return d.r * 1.5;
             })
             .attr('cx', function (d) {
@@ -591,8 +610,8 @@ function d3graphv2() {
             });
     }
 
-    function clusterHighlight(el,d){
-        d3.select('.longHL').classed('longHL',false);
+    function clusterHighlight(el, d) {
+        d3.select('.longHL').classed('longHL', false);
         d3.selectAll('.longLinkHL').classed('longLinkHL', false);
         var filteredEdges;
         if (d.type == 'root') {
@@ -642,28 +661,32 @@ function d3graphv2() {
 
     function tap(el, d) {
         console.log('tap')
-        var longClicked = d3.select('.longHL');
-        var lonkClickedLink = d3.selectAll('.longLinkHL');
+        longClicked = d3.select('.longHL');
+        longClickedLink = d3.selectAll('.longLinkHL');
 
-        longClicked.classed('longHL',false);
-        lonkClickedLink.classed('longLinkHL', false);
+        longClicked.classed('longHL', false);
+        longClickedLink.classed('longLinkHL', false);
 
-        hoverh2
-            .attr('y',function(data) {
-                return d.cy < innerH/2 ? d.cy - d.r * 2 :  d.cy + d.r * 2 })
+        shortClickTitle
+            .attr('y', function (data) {
+                return d.cy < innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
+            })
             .attr('x', d.cx)
             .attr("dy", ".35em")
-            .attr('text-anchor','middle')
+            .attr('text-anchor', 'middle')
             .style("opacity", "1")
-            .text(function () {return d.name});
+            .text(function () {
+                return d.name
+            });
 
         clearTimeout(timeout);
         timeout = setTimeout(function () {
             d3.select(el).classed('highlight', false);
             d3.selectAll('.highlightedLink').classed('highlightedLink', false);
             d3.select('h2').style("opacity", "0");
-            longClicked.classed('longHL',true);
-            lonkClickedLink.classed('longLinkHL', true);
+            longClicked.classed('longHL', true);
+            longClickedLink.classed('longLinkHL', true);
+            shortClickTitle.style("opacity", "0")
         }, 5000);
 
         highlight(el, d)
@@ -701,12 +724,14 @@ function d3graphv2() {
                 } else if (type == 'longtouch') {
                     return contextualize(el, d);
                 }
-            }).on('click',function(d){
-               return tap(this,d);
-            }).on('dblclick',function(d){
-               return contextualize(this,d);
+            }).on('click', function (d) {
+                return tap(this, d);
+            }).on('dblclick', function (d) {
+                return contextualize(this, d);
             });
 
+        longClickTitle = nodeContainer.append('text').attr('fill', 'white');
+        shortClickTitle = nodeContainer.append('text').attr('fill', 'white');
 
         var linkEnter = edgeCollection.enter().append('path')
             .attr('d', function (d) {
@@ -735,7 +760,7 @@ function d3graphv2() {
                     return d.y
                 })
                 .attr('r', function (d) {
-                    d.r = 6;
+                    d.r = 8;
                     return d.r
                 });
         }
@@ -750,6 +775,7 @@ function d3graphv2() {
         else {
             ////console.log(root.nodes.length)
         }
+        sceneNodes.attr("hidden", true);
 
         var cityNodes = nodeEnter.filter(function (d) {
             return d.type == "city";
@@ -757,7 +783,7 @@ function d3graphv2() {
         var angle = (2 * Math.PI) / cityNodes[0].length;
         cityNodes
             .attr('r', function (d) {
-                d.r = 14;
+                d.r = 16;
                 return d.r;
             })
             .attr('y', function (d, i) {
@@ -783,7 +809,6 @@ function d3graphv2() {
             }).style({fill: randomColor});
 
 
-
         var rootNodes = nodeEnter.filter(function (d) {
             return d.type == 'root'
         });
@@ -796,7 +821,7 @@ function d3graphv2() {
                 return d.y;
             })
             .attr('r', function (d) {
-                d.r = 16;
+                d.r = 18;
                 return d.r;
             }).style('fill', 'url(#radial-gradient)');
 
@@ -837,7 +862,9 @@ function d3graphv2() {
                     }
                     return d.cy;
                 })
-                .attr('r', function(d){return d.r});
+                .attr('r', function (d) {
+                    return d.r
+                });
 
             linkEnter.transition()
                 .duration(duration)
@@ -848,17 +875,15 @@ function d3graphv2() {
                     ].join(" ");
                     return diagonal;
                 })
-                .each(function(d){
-                    var source,target;
+                .each(function (d) {
+                    var source, target;
                     source = d.source._id;
                     target = d.target._id;
                     var test = this;
-                        d3.select(test).classed(source, true);
-                        d3.select(test).classed(target, true);
-                        d3.select(test).classed('opaque', false);
+                    d3.select(test).classed(source, true);
+                    d3.select(test).classed(target, true);
+                    d3.select(test).classed('opaque', false);
                 })
-
-
 
 
         }
@@ -869,5 +894,30 @@ function d3graphv2() {
 
 //
 }
-d3graphv2();
+function loadData() {
+    console.log('load data')
+    socket.on('connect', function (thing) {
+        console.log(thing)
+        console.log('bursting kittens')
+        socket.emit('auth', {password: 'kittens'}, function (err, token, serverRoomId) {
+            if (err) {
+                console.log(err)
+            } else {
+                console.log(token)
+                console.log(serverRoomId)
+            }
+            socket.emit('loadSceneGraph', '57950fc250d782446f21c809', function (err, sceneGraph) {
+                console.log(sceneGraph);
+                if (err || !sceneGraph) {
+                    console.log(err)
+                    console.log('Couldn\'t load requested scene graph, reload the page and try again');
+                } else {
+                    console.log(sceneGraph);
+                    d3graphv2(sceneGraph);
+                }
+            });
+        });
+    });
+}
+loadData();
 

@@ -952,7 +952,6 @@ var d3Graph = function (data, container) {
 
                 });
 
-
             linkEnter.transition()
                 .duration(duration)
                 .attr('d', function (d) {
