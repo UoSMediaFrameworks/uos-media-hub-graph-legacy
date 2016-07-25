@@ -847,7 +847,6 @@ var d3Graph = function (data, container) {
 
         function contextualize(d) {
             var scenes = getScenes(d);
-            console.log('doing the click')
             var clean_name = cleanTitle(d.element.id);
             var scale = 1;
             var radius = 0;

@@ -2,7 +2,7 @@
 body {
     padding:0;
     margin:0;
-    font-size:62.5%;
+    font-size:14px;
     font-family:'Helvetica Neue';
     overflow:hidden;
     background-color:#333;
@@ -47,8 +47,7 @@ h1 {
     z-index:0;
     color:#aaa;
     font-weight:200;
-    font-size:5em;
-    margin:1em 2em 0 0;
+    font-size:4em;
     text-align:center;
 }
 h1 sup, h2 sup {
@@ -71,18 +70,22 @@ h2 {
     position:absolute;
     margin:0;
     display:inline-block;
-    width:200px;
-    margin-left:-50px;
-    text-align:center;
-    z-index:1000;
-    transition:opacity 0.5s;
-    text-shadow:1px 1px 2px rgba(0,0,0,0.5);
 }
+text {
+    pointer-events: none;
+}
+.node text { font: 12px sans-serif; }
 h2:empty {
     opacity:0;
 }
 
 circle.highlight {
+    stroke:#fff !important;
+    stroke-width:5 !important;
+    stroke-opacity:0.9 !important;
+    transition:stroke-width 0.5s;
+}
+circle.longHL {
     stroke:#fff !important;
     stroke-width:5 !important;
     stroke-opacity:0.9 !important;
@@ -94,6 +97,9 @@ circle.highlight {
     z-index:100;
     top:2.5em;
     left:2.5em;
+}
+* {
+    -webkit-user-select: none;
 }
 
 button {
@@ -122,38 +128,38 @@ button:hover {
     display: none;
 }
 
-circle.chicago {
-    fill: #de9f10;
-}
-span.Chicago {
-    color:#de9f10;
-}
-circle.bulgaria{
-    fill:#711093
-}
-circle.singapoor{
-    fill:#cfdb10
-}
-circle.manchester{
-    fill:#0ca634
-}
-circle.random{
-    fill:#1b3697
-}
-circle.beijing {
-    fill:#DE2910;
-}
-span.Beijing {
-    color:#DE2910;
-}
+/*circle.chicago {*/
+    /*fill: #de9f10;*/
+/*}*/
+/*span.Chicago {*/
+    /*color:#de9f10;*/
+/*}*/
+/*circle.bulgaria{*/
+    /*fill:#711093*/
+/*}*/
+/*circle.singapoor{*/
+    /*fill:#cfdb10*/
+/*}*/
+/*circle.manchester{*/
+    /*fill:#0ca634*/
+/*}*/
+/*circle.random{*/
+    /*fill:#1b3697*/
+/*}*/
+/*circle.beijing {*/
+    /*fill:#DE2910;*/
+/*}*/
+/*span.Beijing {*/
+    /*color:#DE2910;*/
+/*}*/
 
 
-circle.guiscene {
-    fill:#FFCF01;
-}
-span.scene {
-    color:#FFCF01;
-}
+/*circle.guiscene {*/
+    /*fill:#FFCF01;*/
+/*}*/
+/*span.scene {*/
+    /*color:#FFCF01;*/
+/*}*/
 
 /*path.chicago {*/
 /*stroke-width:2;*/
@@ -190,6 +196,11 @@ span.scene {
 /*}*/
 
 .highlightedLink{
+    stroke-width:1;
+    opacity:1;
+    stroke:#fff;
+}
+.longLinkHL{
     stroke-width:1;
     opacity:1;
     stroke:#fff;
