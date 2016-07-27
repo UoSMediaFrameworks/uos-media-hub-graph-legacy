@@ -1,4 +1,4 @@
-var socket = io("http://localhost:3000/", {forceNew: true});
+var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
 var roomId;
 
 function d3graphv2(rootData) {
@@ -222,6 +222,19 @@ function d3graphv2(rootData) {
         return sceneList;
     }
 
+    function dedupeNodeList(list) {
+        var dedupeList = [];
+
+        for(var listIndex in list) {
+            var item = list[listIndex];
+
+            if(dedupeList.indexOf(item) === -1) {
+                dedupeList.push(item);
+            }
+        }
+        return dedupeList;
+    }
+
     function contextualize(el, d) {
         console.log('long touch')
         var clean_name = cleanTitle(d._id);
@@ -242,6 +255,8 @@ function d3graphv2(rootData) {
         } else {
             list.push(d._id);
         }
+
+        list = dedupeNodeList(list);
 
         socket.emit('sendCommand', roomId, 'showScenes', list);
     }
@@ -659,7 +674,7 @@ function d3graphv2(rootData) {
 }
 function loadData() {
     console.log('load data')
-    var sceneId = '5798a77950c8c5dbb1c98687';
+    var sceneId = '57988f86ec1e72d8833feccc';
 
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
