@@ -1,4 +1,4 @@
-var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
+var socket = io("http://localhost:3000/", {forceNew: true});
 var roomId;
 
 function d3graphv2(rootData) {
@@ -206,6 +206,22 @@ function d3graphv2(rootData) {
         }, 2500);
     }
 
+
+    function nodes(list, sceneList) {
+
+        for(var listIndex in list) {
+            var thisItem = list[listIndex];
+
+            if(thisItem.type !== 'scene') {
+                nodes(thisItem.children, sceneList);
+            } else {
+                sceneList.push(thisItem._id);
+            }
+        }
+
+        return sceneList;
+    }
+
     function contextualize(el, d) {
         console.log('long touch')
         var clean_name = cleanTitle(d._id);
@@ -219,15 +235,15 @@ function d3graphv2(rootData) {
         cluster(el, radius, true);
         clusterHighlight(el, d);
         d3.select('h1').html(clean_name);
-        var scenesArr = _.union(d.children, d.parents);
-        var scenes = _.filter(scenesArr, function (item) {
-            return item.type == 'scene';
-        });
-        var test = scenes.map(function (scene) {
-            return {'name': scene._id};
-        });
-        console.log(test)
-        socket.emit('sendCommand', roomId, 'showScenes', test);
+
+        var list = [];
+        if(d.type !== "scene") {
+            list = nodes(d.children, list);
+        } else {
+            list.push(d._id);
+        }
+
+        socket.emit('sendCommand', roomId, 'showScenes', list);
     }
 
     function getRandomInt(min, max) {
@@ -643,7 +659,7 @@ function d3graphv2(rootData) {
 }
 function loadData() {
     console.log('load data')
-    var sceneId = '57988f86ec1e72d8833feccc';
+    var sceneId = '5798a77950c8c5dbb1c98687';
 
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
