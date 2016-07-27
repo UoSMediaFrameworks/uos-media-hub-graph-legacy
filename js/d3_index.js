@@ -1,6 +1,6 @@
-
-
 var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
+var roomId;
+
 function d3graphv2(rootData) {
     var randomColor = (function () {
         var golden_ratio_conjugate = 0.618033988749895;
@@ -43,282 +43,19 @@ function d3graphv2(rootData) {
     var timeout;
     var hoverTimeout;
 
-    //var rootData = [{
-    //    _id: 'city',
-    //    name: 'city',
-    //    type: 'root',
-    //    parentRelationshipIds: [],
-    //    childrenRelationshIds: []
-    //},
-    //    {
-    //        _id: 'ThemeWaterFlow',
-    //        name: 'ThemeWaterFlow',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['Waterways'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeRain',
-    //        name: 'ThemeRain',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['Waterways'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeFresh',
-    //        name: 'ThemeFresh',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['Waterways'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Waterways',
-    //        name: 'Waterways',
-    //        type: 'subgraphtheme',
-    //        parentRelationshipIds: ['city', 'Chicago', 'Manchester'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemePainting',
-    //        name: 'ThemePainting',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['ThemeArt'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeGallery',
-    //        name: 'ThemeGallery',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['ThemePublicAttractions'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemePublicAttractions',
-    //        name: 'ThemePublicAttractions',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['ThemeArt'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeArt',
-    //        name: 'ThemeArt',
-    //        type: 'subgraphtheme',
-    //        parentRelationshipIds: ['Chicago', 'Manchester'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeGreat',
-    //        name: 'ThemeGreat',
-    //        type: 'subgraphtheme',
-    //        parentRelationshipIds: ['Chicago'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Chicago',
-    //        name: 'Chicago',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeMuseam',
-    //        name: 'ThemeMuseam',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['ThemeArt'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Manchester',
-    //        name: 'Manchester',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeSmog',
-    //        name: 'ThemeSmog',
-    //        type: 'subgraphtheme',
-    //        parentRelationshipIds: ['Beijing'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeDanger',
-    //        name: 'ThemeDanger',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['ThemeIndustry'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeBusy',
-    //        name: 'ThemeBusy',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['ThemeIndustry'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeIndustry',
-    //        name: 'ThemeIndustry',
-    //        type: 'subgraphtheme',
-    //        parentRelationshipIds: ['Beijing'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Beijing',
-    //        name: 'Beijing',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Dalian',
-    //        name: 'Dalian',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'KualaLumpur',
-    //        name: 'KualaLumpur',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Seoul',
-    //        name: 'Seoul',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 't1',
-    //        name: 't1',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 't2',
-    //        name: 't2',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 't3',
-    //        name: 't3',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Chengdu',
-    //        name: 'Chengdu',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'HongKong',
-    //        name: 'HongKong',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Shenyang',
-    //        name: 'Shenyang',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Panjin',
-    //        name: 'Panjin',
-    //        type: 'city',
-    //        parentRelationshipIds: ['city', 'people', 'movement'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'people',
-    //        name: 'people',
-    //        type: 'root',
-    //        parentRelationshipIds: [],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeHunger',
-    //        name: 'ThemeHunger',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['Poverty'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeFastfood',
-    //        name: 'ThemeFastfood',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['Poverty'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Poverty',
-    //        name: 'Poverty',
-    //        type: 'subgraphtheme',
-    //        parentRelationshipIds: ['people'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemetFastfood',
-    //        name: 'ThemetFastfood',
-    //        type: 'subgraphtheme',
-    //        parentRelationshipIds: ['Chicago'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeTakeaways',
-    //        name: 'ThemeTakeaways',
-    //        type: 'subgraphtheme',
-    //        parentRelationshipIds: ['Manchester'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeStreetFood',
-    //        name: 'ThemeStreetFood',
-    //        type: 'subgraphtheme',
-    //        parentRelationshipIds: ['Beijing'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'movement',
-    //        name: 'movement',
-    //        type: 'root',
-    //        parentRelationshipIds: [],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeCars',
-    //        name: 'ThemeCars',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['ThemeRoads'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'ThemeRoads',
-    //        name: 'ThemeRoads',
-    //        type: 'theme',
-    //        parentRelationshipIds: ['Transport'],
-    //        childrenRelationshIds: []
-    //    },
-    //    {
-    //        _id: 'Transport',
-    //        name: 'Transport',
-    //        type: 'subgraphtheme',
-    //        parentRelationshipIds: ['movement', 'Chicago', 'Manchester', 'Beijing'],
-    //        childrenRelationshIds: []
-    //    }
-    //];
 
     var height, width, svg, root, diagonal, nodeCollection, edgeCollection, duration, zoom;
+    var fps = {
+        startTime: 0, frameNumber: 0, getFPS: function () {
+            this.frameNumber++;
+            var d = new Date().getTime(), currentTime = ( d - this.startTime ) / 1000, result = Math.floor(( this.frameNumber / currentTime ));
+            if (currentTime > 1) {
+                this.startTime = new Date().getTime();
+                this.frameNumber = 0;
+            }
+            return result;
+        }
+    };
 
 
     d3.selection.prototype.touchHandler = function (callback) {
@@ -417,27 +154,6 @@ function d3graphv2(rootData) {
             })
         }
 
-        function processScenes() {
-            root.nodes.forEach(function (node) {
-                if (node.childrenRelationshIds.length > 0) {
-                    node.childrenRelationshIds.forEach(function (child) {
-                        root.nodes.push({
-                            id: child,
-                            type: 'Scene',
-                            name: child,
-                            parentRelationshipIds: [node._id],
-                            parents: [],
-                            related: [],
-                            x: 0,
-                            y: 0,
-                            cx: innerW / 2,
-                            cy: innerH / 2,
-                            r: 2
-                        })
-                    })
-                }
-            })
-        }
 
         function processsEdges() {
             root.nodes.forEach(function (node) {
@@ -503,6 +219,15 @@ function d3graphv2(rootData) {
         cluster(el, radius, true);
         clusterHighlight(el, d);
         d3.select('h1').html(clean_name);
+        var scenesArr = _.union(d.children, d.parents);
+        var scenes = _.filter(scenesArr, function (item) {
+            return item.type == 'scene';
+        });
+        var test = scenes.map(function (scene) {
+            return {'name': scene._id};
+        });
+        console.log(test)
+        socket.emit('sendCommand', roomId, 'showScenes', test);
     }
 
     function getRandomInt(min, max) {
@@ -657,6 +382,7 @@ function d3graphv2(rootData) {
         var edges = _.filter(filteredEdges, function (item) {
             return item.__data__.source == d || item.__data__.target == d;
         });
+
         d3.selectAll(edges).classed('highlightedLink', true);
     }
 
@@ -672,14 +398,23 @@ function d3graphv2(rootData) {
             .attr('y', function (data) {
                 return d.cy < innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
             })
-            .attr('x', d.cx)
+            .attr('x', function (data) {
+                return d.cx < innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2
+            })
             .attr("dy", ".35em")
             .attr('text-anchor', 'middle')
             .style("opacity", "1")
             .text(function () {
                 return d.name
             });
-
+        //var test = _.filter(d.children, function (item) {
+        //    return item.type == 'scene';
+        //});
+        //console.log(test)
+        //if (test.length > 0) {
+        //    var test2 = d3.select(test[0]);
+        //    test2.style("opacity", "1");
+        //}
         clearTimeout(timeout);
         timeout = setTimeout(function () {
             d3.select(el).classed('highlight', false);
@@ -687,7 +422,8 @@ function d3graphv2(rootData) {
             d3.select('h2').style("opacity", "0");
             longClicked.classed('longHL', true);
             longClickedLink.classed('longLinkHL', true);
-            shortClickTitle.style("opacity", "0")
+            shortClickTitle.style("opacity", "0");
+            d3.selectAll(test).style("opacity", "1");
         }, 5000);
 
         highlight(el, d)
@@ -746,6 +482,12 @@ function d3graphv2(rootData) {
                 return 'opaque';
             });
 
+        function gameLoop() {
+            setTimeout(gameLoop, 1000 / 60);
+            d3.select('h1').html(fps.getFPS());
+        }
+
+        gameLoop();
         function createClassName(nodeId) {
             return nodeId.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').toLowerCase()
         }
@@ -776,7 +518,7 @@ function d3graphv2(rootData) {
         else {
             ////console.log(root.nodes.length)
         }
-        sceneNodes.attr("hidden", true);
+        //sceneNodes.attr("hidden", true);
 
         var cityNodes = nodeEnter.filter(function (d) {
             return d.type == "city";
@@ -830,6 +572,10 @@ function d3graphv2(rootData) {
             return d.type == 'scene'
         });
         sceneNodes.style('fill', 'yellow');
+
+        d3.select('#openViewer').on('click', function () {
+            window.open('http://smasceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+        });
 
         d3.select('#reset-new2').on('click', function () {
             resetGraph();
@@ -897,17 +643,18 @@ function d3graphv2(rootData) {
 }
 function loadData() {
     console.log('load data')
-    var sceneId = '579606bbea09c8f426aaa702';
+    var sceneId = '57988f86ec1e72d8833feccc';
 
-    function getQueryVariable(variable)
-    {
+    function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
-        for (var i=0;i<vars.length;i++) {
+        for (var i = 0; i < vars.length; i++) {
             var pair = vars[i].split("=");
-            if(pair[0] == variable){return pair[1];}
+            if (pair[0] == variable) {
+                return pair[1];
+            }
         }
-        return(false);
+        return (false);
     }
 
     socket.on('connect', function (thing) {
@@ -918,7 +665,7 @@ function loadData() {
                 console.log(err)
             } else {
                 console.log(token)
-                console.log(serverRoomId)
+                roomId = serverRoomId
             }
             sceneId = getQueryVariable("id") || sceneId;
             socket.emit('loadSceneGraph', sceneId, function (err, sceneGraph) {
