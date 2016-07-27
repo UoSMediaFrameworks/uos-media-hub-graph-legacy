@@ -260,7 +260,14 @@ function d3graphv2(rootData) {
         d3.select('h1').html(clean_name);
 
         var list = [];
-        if(d.type !== "scene") {
+        if (d.type === "root") {
+            //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
+            var children = _.filter(d.children, function(child){
+                return child.type === "subgraphtheme";
+            });
+
+            list = nodes (children, list);
+        } else if(d.type !== "scene") {
             list = nodes(d.children, list);
         } else {
             list.push(d._id);
