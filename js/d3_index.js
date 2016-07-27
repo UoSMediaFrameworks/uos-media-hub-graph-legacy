@@ -1,5 +1,6 @@
 var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
 var roomId;
+var fullRoomId;
 var cityColors = [
     [239, 92, 84],
     [149,110,173],
@@ -275,7 +276,7 @@ function d3graphv2(rootData) {
 
         list = dedupeNodeList(list);
 
-        socket.emit('sendCommand', roomId, 'showScenes', list);
+        socket.emit('sendCommand', fullRoomId, 'showScenes', list);
     }
 
     function getRandomInt(min, max) {
@@ -719,6 +720,7 @@ function loadData() {
                 console.log(err)
             } else {
                 console.log(token)
+                fullRoomId = serverRoomId
                 roomId = serverRoomId.substr(2);
             }
             sceneId = getQueryVariable("id") || sceneId;
