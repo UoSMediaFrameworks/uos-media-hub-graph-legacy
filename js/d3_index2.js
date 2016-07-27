@@ -312,7 +312,7 @@ function d3graphv2(rootData) {
             }
 
             console.log(d.related);
-            while (testArr.length < 12) {
+            while ( d.related) {
                 var node = pluckArray(filteredEdges);
                 if (node == undefined) {
                     break;
@@ -320,11 +320,10 @@ function d3graphv2(rootData) {
                     testArr.push(node)
                 }
             }
-            console.log(testArr);
             hover(testArr);
             //console.log(testArr)
             var total = testArr.length;
-            testArr.forEach(function (child, index) {
+            d.related.forEach(function (child, index) {
                 var radian = (2 * Math.PI) * (index / total);
                 var x = (Math.cos(radian) * radius) + cx;
                 var y = (Math.sin(radian) * radius) + cy;
@@ -380,20 +379,8 @@ function d3graphv2(rootData) {
     function clusterHighlight(el, d) {
         d3.select('.longHL').classed('longHL', false);
         d3.selectAll('.longLinkHL').classed('longLinkHL', false);
-        var filteredEdges;
-        if (d.type == 'root') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
-                return item.__data__.source.type == 'city' || item.__data__.target.type == 'city';
-            })
-        } else if (d.type == 'city') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
-                return item.__data__.source.type != 'root';
-            })
-        } else {
-            filteredEdges = edgeCollection[0]
-        }
         d3.select(el).classed('longHL', true);
-        var edges = _.filter(filteredEdges, function (item) {
+        var edges = _.filter(edgeCollection[0], function (item) {
             return item.__data__.source == d || item.__data__.target == d;
         });
         d3.selectAll(edges).classed('longLinkHL', true);
@@ -406,21 +393,8 @@ function d3graphv2(rootData) {
         d3.selectAll('.highlightedLink').classed('highlightedLink', false);
 
 
-        var filteredEdges;
-        if (d.type == 'root') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
-                return item.__data__.source.type == 'city' || item.__data__.target.type == 'city';
-            })
-        } else if (d.type == 'city') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
-                return item.__data__.source.type != 'root';
-            })
-        } else {
-            filteredEdges = edgeCollection[0]
-        }
-
         d3.select(el).classed('highlight', true);
-        var edges = _.filter(filteredEdges, function (item) {
+        var edges = _.filter(edgeCollection[0], function (item) {
             return item.__data__.source == d || item.__data__.target == d;
         });
 
@@ -428,7 +402,6 @@ function d3graphv2(rootData) {
     }
 
     function tap(el, d) {
-        console.log('tap')
         longClicked = d3.select('.longHL');
         longClickedLink = d3.selectAll('.longLinkHL');
 
@@ -448,14 +421,6 @@ function d3graphv2(rootData) {
             .text(function () {
                 return d.name
             });
-        //var test = _.filter(d.children, function (item) {
-        //    return item.type == 'scene';
-        //});
-        //console.log(test)
-        //if (test.length > 0) {
-        //    var test2 = d3.select(test[0]);
-        //    test2.style("opacity", "1");
-        //}
         clearTimeout(timeout);
         timeout = setTimeout(function () {
             d3.select(el).classed('highlight', false);
@@ -464,7 +429,6 @@ function d3graphv2(rootData) {
             longClicked.classed('longHL', true);
             longClickedLink.classed('longLinkHL', true);
             shortClickTitle.style("opacity", "0");
-            //d3.selectAll(test).style("opacity", "1");
         }, 5000);
 
         highlight(el, d)
@@ -548,78 +512,6 @@ function d3graphv2(rootData) {
                     return d.r
                 });
         }
-
-        var sceneNodes = nodeEnter.filter(function (d) {
-            return d.type == "scene";
-        });
-
-        if (root.nodes.length > 200) {
-            sceneNodes.attr('visible', false);
-        }
-        else {
-            ////console.log(root.nodes.length)
-        }
-        //sceneNodes.attr("hidden", true);
-
-        var cityNodes = nodeEnter.filter(function (d) {
-            return d.type == "city";
-        });
-        var angle = (2 * Math.PI) / cityNodes[0].length;
-        cityNodes
-            .attr('r', function (d) {
-                d.r = 16;
-                return d.r;
-            })
-            .attr('y', function (d, i) {
-                d.y = (Math.sin(angle * i) * innerH / 2) + d.cy;
-                if (d.y == 0) {
-                    d.y = d.y + d.r * 2;
-                }
-                if (d.y == innerH) {
-                    d.y = d.y - d.r * 2;
-                }
-                return d.y;
-            })
-            .attr('x', function (d, i) {
-                d.x = (Math.cos(angle * i) * innerW / 2) + d.cx;
-                if (d.x == 0) {
-                    d.x = d.x + d.r * 2;
-                }
-                if (d.x == innerW) {
-                    d.x = d.x - d.r * 2;
-                }
-
-                return d.x;
-            });
-
-    //.attr('fill',function(d,i){
-    //        console.log(d)
-    //        console.log(i)
-    //        console.log(cityColors[i])
-    //        return d3.hsl(cityColors[i][0],cityColors[i][1],cityColors[i][2]);
-    //    })
-
-
-        var rootNodes = nodeEnter.filter(function (d) {
-            return d.type == 'root'
-        });
-        rootNodes.attr('x', function (d, i) {
-                d.x = ((innerW / rootNodes[0].length) / 2) * i + innerW / rootNodes[0].length;
-                return d.x
-            })
-            .attr('y', function (d) {
-                d.y = innerH - innerH / 2;
-                return d.y;
-            })
-            .attr('r', function (d) {
-                d.r = 18;
-                return d.r;
-            }).style('fill', 'url(#radial-gradient)');
-
-        var sceneNodes = nodeEnter.filter(function (d) {
-            return d.type == 'scene'
-        });
-        sceneNodes.style('fill', 'yellow');
 
         d3.select('#openViewer').on('click', function () {
             window.open('http://uos-sceneditor.azurewebsites.net/manifest2015.html?room=' + roomId);
@@ -713,7 +605,7 @@ function loadData() {
                 console.log(err)
             } else {
                 console.log(token)
-                roomId = serverRoomId.substr(2);
+                roomId = serverRoomId
             }
             sceneId = getQueryVariable("id") || sceneId;
             socket.emit('loadSceneGraph', sceneId, function (err, sceneGraph) {
