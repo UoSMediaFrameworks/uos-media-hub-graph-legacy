@@ -373,7 +373,14 @@ function d3graphv2(rootData) {
         d3.selectAll(edges).classed('highlightedLink', true);
     }
 
-    function tap(el, d) {
+    function tap(el, d,type) {
+        ga('send', 'event', {
+            eventCategory: 'node',
+            eventAction: type,
+            eventLabel: null,
+            eventValue:null,
+            fieldsObject:{name:d.name}
+        });
         longClicked = d3.select('.longHL');
         longClickedLink = d3.selectAll('.longLinkHL');
 
@@ -432,12 +439,13 @@ function d3graphv2(rootData) {
                 return createClassName(d._id);
             })
             .call(circle)
+            .style('fill','white')
             .touchHandler(function (el, d, type) {
                 if (type == 'tap') {
-                    return tap(el, d);
+                    return tap(el, d,'touch');
                 }
             }).on('click', function (d) {
-                return tap(this, d);});
+                return tap(this, d,'click');});
             //}).on('dblclick', function (d) {
             //    return contextualize(this, d);
             //});
@@ -481,6 +489,7 @@ function d3graphv2(rootData) {
                     d.r = 8;
                     return d.r
                 });
+
         }
 
         d3.select('#openViewer').on('click', function () {

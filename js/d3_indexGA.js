@@ -256,7 +256,14 @@ function d3graphv2(rootData, redraw) {
         return dedupeList;
     }
 
-    function contextualize(el, d) {
+    function contextualize(el, d,type) {
+        ga('send', 'event', {
+            eventCategory: 'node',
+            eventAction: type,
+            eventLabel: null,
+            eventValue:null,
+            fieldsObject:{name:d.name}
+        });
         console.log('long touch')
         var clean_name = cleanTitle(d._id);
         var scale = 1;
@@ -445,7 +452,15 @@ function d3graphv2(rootData, redraw) {
         d3.selectAll(edges).classed('highlightedLink', true);
     }
 
-    function tap(el, d) {
+    function tap(el, d,type) {
+        ga('send', 'event', {
+            eventCategory: 'node',
+            eventAction: type,
+            eventLabel: null,
+            eventValue:null,
+            fieldsObject:{name:d.name}
+        });
+
         longClicked = d3.select('.longHL');
         longClickedLink = d3.selectAll('.longLinkHL');
 
@@ -507,14 +522,14 @@ function d3graphv2(rootData, redraw) {
             .call(circle)
             .touchHandler(function (el, d, type) {
                 if (type == 'tap') {
-                    return tap(el, d);
+                    return tap(el, d,'tap');
                 } else if (type == 'longtouch') {
-                    return contextualize(el, d);
+                    return contextualize(el, d,'long-touch');
                 }
             }).on('click', function (d) {
-                return tap(this, d);
+                return tap(this, d,'click');
             }).on('dblclick', function (d) {
-                return contextualize(this, d);
+                return contextualize(this, d,'double-click');
             });
 
         longClickTitle = nodeContainer.append('text').attr('fill', 'white');
