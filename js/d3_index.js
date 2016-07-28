@@ -748,6 +748,7 @@ function loadData() {
                 console.log(err)
             } else {
                 console.log(token)
+                fullRoomId = serverRoomId;
                 roomId = serverRoomId.substr(2);
             }
             sceneId = getQueryVariable("id") || sceneId;
