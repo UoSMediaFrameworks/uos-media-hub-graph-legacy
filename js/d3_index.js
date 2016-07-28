@@ -100,7 +100,7 @@ function d3graphv2(rootData, redraw) {
     duration = 5000;
     height = window.innerHeight;
     width = window.innerWidth;
-    var margin = {top: height * 0.1, bot: height * 0.1, left: width * 0.1, right: width * 0.1};
+    var margin = {top: height * 0.2, bot: height * 0.2, left: width * 0.1, right: width * 0.1};
     var innerH = height - margin.top - margin.bot;
     var innerW = width - margin.left - margin.right;
     zoom = d3.behavior.zoom()
