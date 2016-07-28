@@ -379,7 +379,7 @@ function d3graphv2(rootData) {
             eventAction: type,
             eventLabel: null,
             eventValue:null,
-            fieldsObject:{name:d.name}
+            fieldsObject:{name:d.name,type: d.type}
         });
         longClicked = d3.select('.longHL');
         longClickedLink = d3.selectAll('.longLinkHL');
@@ -584,6 +584,7 @@ function loadData() {
                 console.log(err)
             } else {
                 console.log(token)
+                fullRoomId = serverRoomId;
                 roomId = serverRoomId
             }
             sceneId = getQueryVariable("id") || sceneId;

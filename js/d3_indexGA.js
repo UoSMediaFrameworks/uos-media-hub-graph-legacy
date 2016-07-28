@@ -262,7 +262,7 @@ function d3graphv2(rootData, redraw) {
             eventAction: type,
             eventLabel: null,
             eventValue:null,
-            fieldsObject:{name:d.name}
+            fieldsObject:{name:d.name,type: d.type}
         });
         console.log('long touch')
         var clean_name = cleanTitle(d._id);
@@ -748,6 +748,7 @@ function loadData() {
                 console.log(err)
             } else {
                 console.log(token)
+                fullRoomId = serverRoomId;
                 roomId = serverRoomId.substr(2);
             }
             sceneId = getQueryVariable("id") || sceneId;

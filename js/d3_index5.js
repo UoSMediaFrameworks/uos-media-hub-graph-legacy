@@ -262,7 +262,7 @@ function d3graphv2(rootData, redraw) {
             eventAction: type,
             eventLabel: null,
             eventValue:null,
-            fieldsObject:{name:d.name}
+            fieldsObject:{name:d.name,type: d.type}
         });
         var clean_name = cleanTitle(d._id);
         var scale = 1;
@@ -472,7 +472,7 @@ function d3graphv2(rootData, redraw) {
             eventAction: type,
             eventLabel: null,
             eventValue:null,
-            fieldsObject:{name:d.name}
+            fieldsObject:{name:d.name,type: d.type}
         });
         longClicked = d3.select('.longHL');
         longClickedLink = d3.selectAll('.longLinkHL');
@@ -765,6 +765,7 @@ function loadData() {
                 console.log(err)
             } else {
                 console.log(token)
+                fullRoomId = serverRoomId;
                 roomId = serverRoomId.substr(2);
             }
             sceneId = getQueryVariable("id") || sceneId;
