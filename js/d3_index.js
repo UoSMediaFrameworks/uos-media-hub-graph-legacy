@@ -259,7 +259,7 @@ function d3graphv2(rootData, redraw) {
 
     function contextualize(el, d) {
         console.log('long touch')
-        var clean_name = cleanTitle(d._id);
+        var clean_name = cleanTitle(d.name);
         var scale = 1;
         var radius = 0;
 
