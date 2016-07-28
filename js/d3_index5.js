@@ -1,7 +1,6 @@
 var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
 var roomId;
 var drawn = false;
-var fullRoomId;
 var cityColors = [
     [239, 92, 84],
     [149, 110, 173],
@@ -177,7 +176,7 @@ function d3graphv2(rootData, redraw) {
                 node.parentRelationshipIds.forEach(function (parent) {
                     var parentObj = _.find(root.nodes, function (obj) {
                         return obj._id == parent;
-                    })
+                    });
                     if (parentObj != undefined)
                         root.edges.push({source: parentObj, target: node})
                     parentObj.children.push(node);
@@ -231,10 +230,10 @@ function d3graphv2(rootData, redraw) {
 
     function nodes(list, sceneList) {
 
-        for(var listIndex in list) {
+        for (var listIndex in list) {
             var thisItem = list[listIndex];
 
-            if(thisItem.type !== 'scene') {
+            if (thisItem.type !== 'scene') {
                 nodes(thisItem.children, sceneList);
             } else {
                 sceneList.push(thisItem._id);
@@ -272,14 +271,7 @@ function d3graphv2(rootData, redraw) {
         d3.select('h1').html(clean_name);
 
         var list = [];
-        if (d.type === "root") {
-            //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
-            var children = _.filter(d.children, function(child){
-                return child.type === "subgraphtheme";
-            });
-
-            list = nodes (children, list);
-        } else if(d.type !== "scene") {
+        if (d.type !== "scene") {
             list = nodes(d.children, list);
         } else {
             list.push(d._id);
@@ -287,7 +279,7 @@ function d3graphv2(rootData, redraw) {
 
         list = dedupeNodeList(list);
 
-        socket.emit('sendCommand', fullRoomId, 'showScenes', list);
+        socket.emit('sendCommand', roomId, 'showScenes', list);
     }
 
     function getRandomInt(min, max) {
@@ -305,6 +297,7 @@ function d3graphv2(rootData, redraw) {
     }
 
     function cluster(el, radius, recurse) {
+        d3.selectAll('text').text(null);
         d3.select(el).attr('r', function (d) {
             return d.r * 1.5;
         }).each(function (d) {
@@ -314,24 +307,20 @@ function d3graphv2(rootData, redraw) {
             var testArr = [];
             var filteredEdges = [];
             if (d.type == 'root') {
-                //console.log('root')
                 filteredEdges = _.filter(d.related, function (item) {
                     return item.type == 'subgraphtheme';
                 })
             } else if (d.type == 'city') {
-                //console.log('city')
                 filteredEdges = _.filter(d.related, function (item) {
                     return item.type != 'root';
-                })
+                });
             } else {
                 console.log('Type: ' + d.type)
                 filteredEdges = _.filter(d.related, function (item) {
                     return item.type != 'root';
-                })
+                });
             }
 
-            console.log(d.related);
-            console.log(filteredEdges);
             while (testArr.length < 12) {
                 var node = pluckArray(filteredEdges);
                 if (node == undefined && filteredEdges.length == 0) {
@@ -342,16 +331,34 @@ function d3graphv2(rootData, redraw) {
                     testArr.push(node)
                 }
             }
+            d.related.forEach(function(d){
+                var test = _.find(nodeCollection[0], function (obj) {
+                    return obj.__data__ == d;
+                })
+                d3.select(test).append("text")
+                    .attr('y', function (data) {
+                        return d.cy < innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
+                    })
+                    .attr('x', function (data) {
+                        return d.cx < innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2
+                    })
+                    .style('fill','white')
+                    .attr("dy", ".35em")
+                    .attr('text-anchor', 'middle')
+                    .text(function(d){return d.name})
+            });
             console.log(testArr.length);
-            hover(testArr);
+            //hover(testArr);
+
+
             //console.log(testArr)
             var total = testArr.length;
-            testArr.forEach(function (child, index) {
-                var radian = (2 * Math.PI) * (index / total);
-                var x = (Math.cos(radian) * radius) + cx;
-                var y = (Math.sin(radian) * radius) + cy;
-                moveNode(child, x, y);
-            });
+            //testArr.forEach(function (child, index) {
+            //    var radian = (2 * Math.PI) * (index / total);
+            //    var x = (Math.cos(radian) * radius) + cx;
+            //    var y = (Math.sin(radian) * radius) + cy;
+            //    moveNode(child, x, y);
+            //});
         })
 
     }
@@ -454,7 +461,6 @@ function d3graphv2(rootData, redraw) {
     }
 
     function tap(el, d) {
-        console.log('tap')
         longClicked = d3.select('.longHL');
         longClickedLink = d3.selectAll('.longLinkHL');
 
@@ -497,7 +503,7 @@ function d3graphv2(rootData, redraw) {
         edgeCollection = pathContainer.selectAll('path').data(processedData.edges);
 
 
-        var nodeEnter = nodeCollection.enter().append('circle')
+        var nodeEnter = nodeCollection.enter().append('g').append('circle')
             .attr('cy', function (d) {
                 return d.cy
             })
@@ -627,7 +633,11 @@ function d3graphv2(rootData, redraw) {
             var cityParent = _.find(d.parents, function (item) {
                 return item.type == 'city';
             });
-            return d3.rgb(cityParent.color[0], cityParent.color[1], cityParent.color[2]);
+            if(cityParent != undefined){
+                return d3.rgb(cityParent.color[0], cityParent.color[1], cityParent.color[2]);
+            }else{
+                return d3.rgb('white');
+            }
         });
 
         var rootNodes = nodeEnter.filter(function (d) {
@@ -721,7 +731,6 @@ function d3graphv2(rootData, redraw) {
 //
 }
 function loadData() {
-    console.log('load data')
     var sceneId = '57988f86ec1e72d8833feccc';
 
     function getQueryVariable(variable) {

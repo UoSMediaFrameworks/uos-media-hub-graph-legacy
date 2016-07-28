@@ -100,7 +100,7 @@ function d3graphv2(rootData, redraw) {
     duration = 5000;
     height = window.innerHeight;
     width = window.innerWidth;
-    var margin = {top: height * 0.2, bot: height * 0.2, left: width * 0.1, right: width * 0.1};
+    var margin = {top: height * 0.1, bot: height * 0.1, left: width * 0.1, right: width * 0.1};
     var innerH = height - margin.top - margin.bot;
     var innerW = width - margin.left - margin.right;
     zoom = d3.behavior.zoom()
@@ -259,7 +259,7 @@ function d3graphv2(rootData, redraw) {
 
     function contextualize(el, d) {
         console.log('long touch')
-        var clean_name = cleanTitle(d.name);
+        var clean_name = cleanTitle(d._id);
         var scale = 1;
         var radius = 0;
 
@@ -268,7 +268,7 @@ function d3graphv2(rootData, redraw) {
         $("#reset-new2").click();
 
         cluster(el, radius, true);
-        clusterHighlight(el, d);
+        clusterHighlight(el, d,0,true);
         d3.select('h1').html(clean_name);
 
         var list = [];
@@ -358,7 +358,6 @@ function d3graphv2(rootData, redraw) {
 
     function moveNode(node, positionX, positionY) {
         var ratio = 1 - Math.pow(1 / duration, 5);
-        console.log(nodeCollection)
         var test = _.find(nodeCollection[0], function (obj) {
             return obj.__data__ == node;
         })
@@ -403,13 +402,17 @@ function d3graphv2(rootData, redraw) {
             });
     }
 
-    function clusterHighlight(el, d) {
+    function clusterHighlight(el,d,recurseIndex,recurse) {
+        if(recurseIndex == 0){
+            edgeCollection.style('stroke-width',null).style('opacity',null);
+        }
+        var value = 1- recurseIndex * 1/3;
         d3.select('.longHL').classed('longHL', false);
         d3.selectAll('.longLinkHL').classed('longLinkHL', false);
         var filteredEdges;
         if (d.type == 'root') {
             filteredEdges = _.filter(edgeCollection[0], function (item) {
-                return item.__data__.source.type == 'subgraphtheme' || item.__data__.target.type == 'subgraphtheme';
+                return item.__data__.target.type == 'subgraphtheme';
             })
         } else if (d.type == 'city') {
             filteredEdges = _.filter(edgeCollection[0], function (item) {
@@ -420,9 +423,22 @@ function d3graphv2(rootData, redraw) {
         }
         d3.select(el).classed('longHL', true);
         var edges = _.filter(filteredEdges, function (item) {
-            return item.__data__.source == d || item.__data__.target == d;
+            return item.__data__.target == d;
         });
-        d3.selectAll(edges).classed('longLinkHL', true);
+        console.log(value);
+        console.log(edges);
+
+        d3.selectAll(edges).style('stroke-width',value).style('opacity',value);
+
+        if(recurseIndex < 2){
+            d.children.forEach(function(node){
+                var elem = _.find(nodeCollection[0],function(obj){
+                    obj.__data__ == node;
+                })
+                clusterHighlight(elem,node,recurseIndex+1,true);
+            })
+
+        }
     }
 
     function highlight(el, d) {
@@ -632,7 +648,6 @@ function d3graphv2(rootData, redraw) {
             }else{
                 return d3.rgb('white');
             }
-
         });
 
         var rootNodes = nodeEnter.filter(function (d) {
