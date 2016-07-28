@@ -25,7 +25,6 @@ svg {
     z-index:1;
 }
 circle {
-    fill:#fff;
     stroke:#333;
     stroke-opacity:0.5;
     cursor:pointer;
@@ -91,6 +90,9 @@ circle.longHL {
     stroke-opacity:0.9 !important;
     transition:stroke-width 0.5s;
 }
+
+
+
 
 .button-wrapper {
     position:absolute;

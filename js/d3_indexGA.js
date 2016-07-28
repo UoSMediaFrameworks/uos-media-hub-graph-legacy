@@ -1,7 +1,6 @@
 var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
 var roomId;
 var drawn = false;
-var fullRoomId;
 var cityColors = [
     [239, 92, 84],
     [149, 110, 173],
@@ -177,7 +176,7 @@ function d3graphv2(rootData, redraw) {
                 node.parentRelationshipIds.forEach(function (parent) {
                     var parentObj = _.find(root.nodes, function (obj) {
                         return obj._id == parent;
-                    })
+                    });
                     if (parentObj != undefined)
                         root.edges.push({source: parentObj, target: node})
                     parentObj.children.push(node);
@@ -231,10 +230,10 @@ function d3graphv2(rootData, redraw) {
 
     function nodes(list, sceneList) {
 
-        for(var listIndex in list) {
+        for (var listIndex in list) {
             var thisItem = list[listIndex];
 
-            if(thisItem.type !== 'scene') {
+            if (thisItem.type !== 'scene') {
                 nodes(thisItem.children, sceneList);
             } else {
                 sceneList.push(thisItem._id);
@@ -272,14 +271,7 @@ function d3graphv2(rootData, redraw) {
         d3.select('h1').html(clean_name);
 
         var list = [];
-        if (d.type === "root") {
-            //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
-            var children = _.filter(d.children, function(child){
-                return child.type === "subgraphtheme";
-            });
-
-            list = nodes (children, list);
-        } else if(d.type !== "scene") {
+        if (d.type !== "scene") {
             list = nodes(d.children, list);
         } else {
             list.push(d._id);
@@ -287,7 +279,7 @@ function d3graphv2(rootData, redraw) {
 
         list = dedupeNodeList(list);
 
-        socket.emit('sendCommand', fullRoomId, 'showScenes', list);
+        socket.emit('sendCommand', roomId, 'showScenes', list);
     }
 
     function getRandomInt(min, max) {
@@ -454,7 +446,6 @@ function d3graphv2(rootData, redraw) {
     }
 
     function tap(el, d) {
-        console.log('tap')
         longClicked = d3.select('.longHL');
         longClickedLink = d3.selectAll('.longLinkHL');
 
@@ -721,7 +712,6 @@ function d3graphv2(rootData, redraw) {
 //
 }
 function loadData() {
-    console.log('load data')
     var sceneId = '57988f86ec1e72d8833feccc';
 
     function getQueryVariable(variable) {

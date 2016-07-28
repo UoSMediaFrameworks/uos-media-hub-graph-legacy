@@ -292,37 +292,9 @@ function d3graphv2(rootData) {
             d.related = _.union(d.children, d.parents);
             var cx = d.cx;
             var cy = d.cy;
-            var testArr = [];
-            var filteredEdges = [];
-            if (d.type == 'root') {
-                //console.log('root')
-                filteredEdges = _.filter(d.related, function (item) {
-                    return item.type == 'city';
-                })
-            } else if (d.type == 'city') {
-                //console.log('city')
-                filteredEdges = _.filter(d.related, function (item) {
-                    return item.type != 'root';
-                })
-            } else {
-                //console.log('other')
-                filteredEdges = _.filter(d.related, function (item) {
-                    return item.type != 'root';
-                })
-            }
-
-            console.log(d.related);
-            while ( d.related) {
-                var node = pluckArray(filteredEdges);
-                if (node == undefined) {
-                    break;
-                } else {
-                    testArr.push(node)
-                }
-            }
             hover(testArr);
             //console.log(testArr)
-            var total = testArr.length;
+            var total = d.related;
             d.related.forEach(function (child, index) {
                 var radian = (2 * Math.PI) * (index / total);
                 var x = (Math.cos(radian) * radius) + cx;
@@ -463,14 +435,12 @@ function d3graphv2(rootData) {
             .touchHandler(function (el, d, type) {
                 if (type == 'tap') {
                     return tap(el, d);
-                } else if (type == 'longtouch') {
-                    return contextualize(el, d);
                 }
             }).on('click', function (d) {
-                return tap(this, d);
-            }).on('dblclick', function (d) {
-                return contextualize(this, d);
-            });
+                return tap(this, d);});
+            //}).on('dblclick', function (d) {
+            //    return contextualize(this, d);
+            //});
 
         longClickTitle = nodeContainer.append('text').attr('fill', 'white');
         shortClickTitle = nodeContainer.append('text').attr('fill', 'white');
@@ -569,7 +539,7 @@ function d3graphv2(rootData) {
                     var test = this;
                     d3.select(test).classed(source, true);
                     d3.select(test).classed(target, true);
-                    d3.select(test).classed('opaque', false);
+                    d3.select(test).classed('opaque', true);
                 })
 
 
