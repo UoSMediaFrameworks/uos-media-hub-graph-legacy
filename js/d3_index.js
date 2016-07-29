@@ -548,7 +548,10 @@ function d3graphv2(rootData, redraw) {
 
         //gameLoop();
         function createClassName(nodeId) {
-            return nodeId.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').toLowerCase()
+            if(nodeId)
+                return nodeId.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2')
+            else
+                return ""
         }
 
         function circle(nodeArr) {
