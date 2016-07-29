@@ -676,7 +676,7 @@ function d3graphv2(rootData, redraw) {
             return d.type == 'scene'
         });
         sceneNodes.style('fill', 'yellow')
-        attr('x',function(d){
+            .attr('x',function(d){
             d.x = d.x - margin.left;
             return d.x
         }).attr('y',function(d){
