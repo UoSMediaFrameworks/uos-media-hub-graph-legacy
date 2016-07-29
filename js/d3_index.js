@@ -568,16 +568,6 @@ function d3graphv2(rootData, redraw) {
                 .attr('fill', 'white');
         }
 
-        var sceneNodes = nodeEnter.filter(function (d) {
-            return d.type == "scene";
-        });
-
-        if (root.nodes.length > 200) {
-            sceneNodes.attr('visible', false);
-        }
-        else {
-            ////console.log(root.nodes.length)
-        }
         //sceneNodes.attr("hidden", true);
 
         var cityNodes = nodeEnter.filter(function (d) {
@@ -656,7 +646,9 @@ function d3graphv2(rootData, redraw) {
             return d.type == 'scene'
         });
         sceneNodes.style('fill', 'yellow');
-
+        //if (root.nodes.length > 200) {
+        //    sceneNodes.style('visibility', 'hidden');
+        //}
         d3.select('#openViewer').on('click', function () {
             window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
         });
@@ -727,7 +719,7 @@ function d3graphv2(rootData, redraw) {
 }
 function loadData() {
     console.log('load data')
-    var sceneId = '57988f86ec1e72d8833feccc';
+    var sceneId = '579a2186792e8b3c827d2b15';
 
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
