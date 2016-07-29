@@ -92,11 +92,11 @@ function d3graphv2(rootData) {
     };
 
     duration = 5000;
-    height = window.innerHeight;
-    width = window.innerWidth;
+    height = window.heighteight;
+    width = window.widthidth;
     var margin = {top: height * 0.1, bot: height * 0.1, left: width * 0.1, right: width * 0.1};
-    var innerH = height - margin.top - margin.bot;
-    var innerW = width - margin.left - margin.right;
+    var height = height - margin.top - margin.bot;
+    var width = width - margin.left - margin.right;
     zoom = d3.behavior.zoom()
         .scaleExtent([1, 10])
         .on("zoom", zoomed);
@@ -138,7 +138,7 @@ function d3graphv2(rootData) {
         .attr("stop-color", "#FFFFFF");
 
     var nodeContainer = svg.append('g')
-        .attr("class", "node-container").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+        .attr("class", "node-container");
 
     var longClickTitle;
     var shortClickTitle;
@@ -154,8 +154,8 @@ function d3graphv2(rootData) {
         function processNodes(data) {
             data.forEach(function (obj) {
                 obj.x = obj.y = 0;
-                obj.cx = innerW / 2;
-                obj.cy = innerH / 2;
+                obj.cx = width / 2;
+                obj.cy = height / 2;
                 obj.r = 2;
                 obj.children = [];
                 obj.parents = [];
@@ -201,10 +201,10 @@ function d3graphv2(rootData) {
             }
             var d = arraySelection[i];
             longClickTitle.attr('y', function (data) {
-                    return d.cy < innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
+                    return d.cy < height / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
                 })
                 .attr('x', function (data) {
-                    return d.cx < innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2
+                    return d.cx < width / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2
                 })
                 .attr("dy", ".35em")
                 .attr('text-anchor', 'middle')
@@ -252,7 +252,7 @@ function d3graphv2(rootData) {
         var radius = 0;
 
 
-        radius = innerH / 5;
+        radius = height / 5;
         $("#reset-new2").click();
 
         cluster(el, radius, true);
@@ -342,7 +342,7 @@ function d3graphv2(rootData) {
             .attr('d', function (d) {
                 var diagonal = [
                     "M", d.source.cx, d.source.cy,
-                    "A", innerH, innerH, 0, 0, 1, d.target.cx, d.target.cy
+                    "A", height, height, 0, 0, 1, d.target.cx, d.target.cy
                 ].join(" ");
                 return diagonal;
             });
@@ -389,10 +389,10 @@ function d3graphv2(rootData) {
 
         shortClickTitle
             .attr('y', function (data) {
-                return d.cy < innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
+                return d.cy < height / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
             })
             .attr('x', function (data) {
-                return d.cx < innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2
+                return d.cx < width / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2
             })
             .attr("dy", ".35em")
             .attr('text-anchor', 'middle')
@@ -457,7 +457,7 @@ function d3graphv2(rootData) {
             .attr('d', function (d) {
                 var diagonal = [
                     "M", d.source.cx, d.source.cy,
-                    "A", innerH, innerH, 0, 0, 1, d.target.cx, d.target.cy
+                    "A", height, height, 0, 0, 1, d.target.cx, d.target.cy
                 ].join(" ");
                 return diagonal;
             })
@@ -478,11 +478,11 @@ function d3graphv2(rootData) {
         function circle(nodeArr) {
             nodeArr
                 .attr('x', function (d) {
-                    d.x = innerW / 2 + (Math.random() * innerW / 2) * ((Math.random() > 0.5) ? -1 : 1)
+                    d.x = width / 2 + (Math.random() * width / 2) * ((Math.random() > 0.5) ? -1 : 1)
                     return d.x
                 })
                 .attr('y', function (d) {
-                    d.y = innerH / 2 + (innerH / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
+                    d.y = height / 2 + (height / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
                     return d.y
                 })
                 .attr('r', function (d) {
@@ -537,7 +537,7 @@ function d3graphv2(rootData) {
                 .attr('d', function (d) {
                     var diagonal = [
                         "M", d.source.cx, d.source.cy,
-                        "A", innerH, innerH, 0, 0, 1, d.target.cx, d.target.cy
+                        "A", height, height, 0, 0, 1, d.target.cx, d.target.cy
                     ].join(" ");
                     return diagonal;
                 })
@@ -562,7 +562,7 @@ function d3graphv2(rootData) {
 }
 function loadData() {
     console.log('load data')
-    var sceneId = '57988f86ec1e72d8833feccc';
+    var sceneId = '579a2186792e8b3c827d2b15';
 
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);

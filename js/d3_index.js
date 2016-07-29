@@ -554,11 +554,11 @@ function d3graphv2(rootData, redraw) {
         function circle(nodeArr) {
             nodeArr
                 .attr('x', function (d) {
-                    d.x = innerW / 2 + (Math.random() * innerW / 2) * ((Math.random() > 0.5) ? -1 : 1)
+                    d.x = width / 2 + (Math.random() * width / 2) * ((Math.random() > 0.5) ? -1 : 1)
                     return d.x
                 })
                 .attr('y', function (d) {
-                    d.y = innerH / 2 + (innerH / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
+                    d.y = height / 2 + (height / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
                     return d.y
                 })
                 .attr('r', function (d) {
@@ -607,7 +607,13 @@ function d3graphv2(rootData, redraw) {
         var gThemeNodes = nodeEnter.filter(function (d) {
             return d.type == "subgraphtheme";
         });
-        gThemeNodes.style('fill', d3.rgb(111, 115, 125));
+        gThemeNodes.style('fill', d3.rgb(111, 115, 125)).attr('x',function(d){
+            d.x = d.x - margin.left;
+            return d.x
+        }).attr('y',function(d){
+            d.y = d.y - margin.top;
+            return d.y
+        });
 
         var sThemeNodes = nodeEnter.filter(function (d) {
             return d.type == "theme";
@@ -623,6 +629,12 @@ function d3graphv2(rootData, redraw) {
                 return d3.rgb('white');
             }
 
+        }).attr('x',function(d){
+            d.x = d.x - margin.left;
+            return d.x
+        }).attr('y',function(d){
+            d.y = d.y - margin.top;
+            return d.y
         });
 
         var rootNodes = nodeEnter.filter(function (d) {
@@ -645,7 +657,13 @@ function d3graphv2(rootData, redraw) {
         var sceneNodes = nodeEnter.filter(function (d) {
             return d.type == 'scene'
         });
-        sceneNodes.style('fill', 'yellow');
+        sceneNodes.style('fill', 'yellow').attr('x',function(d){
+            d.x = d.x - margin.left;
+            return d.x
+        }).attr('y',function(d){
+            d.y = d.y - margin.top;
+            return d.y
+        }).attr('r','4');
         //if (root.nodes.length > 200) {
         //    sceneNodes.style('visibility', 'hidden');
         //}
