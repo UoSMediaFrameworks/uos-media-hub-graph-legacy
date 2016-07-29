@@ -632,7 +632,11 @@ function d3graphv2(rootData, redraw) {
             var cityParent = _.find(d.parents, function (item) {
                 return item.type == 'city';
             });
-            return d3.rgb(cityParent.color[0], cityParent.color[1], cityParent.color[2]);
+            if (cityParent != undefined) {
+                return d3.rgb(cityParent.color[0], cityParent.color[1], cityParent.color[2]);
+            } else {
+                return d3.rgb('white');
+            }
         }).attr('x',function(d){
             d.x = d.x - margin.left;
             return d.x
