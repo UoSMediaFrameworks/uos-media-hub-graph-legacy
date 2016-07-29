@@ -573,11 +573,11 @@ function d3graphv2(rootData, redraw) {
         function circle(nodeArr) {
             nodeArr
                 .attr('x', function (d) {
-                    d.x = innerW / 2 + (Math.random() * innerW / 2) * ((Math.random() > 0.5) ? -1 : 1)
+                    d.x = width / 2 + (Math.random() * width / 2) * ((Math.random() > 0.5) ? -1 : 1)
                     return d.x
                 })
                 .attr('y', function (d) {
-                    d.y = innerH / 2 + (innerH / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
+                    d.y = height / 2 + (height / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
                     return d.y
                 })
                 .attr('r', function (d) {
