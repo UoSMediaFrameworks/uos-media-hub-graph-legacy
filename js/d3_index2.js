@@ -92,11 +92,11 @@ function d3graphv2(rootData) {
     };
 
     duration = 5000;
-    height = window.heighteight;
-    width = window.widthidth;
+    height = window.innerHeight;
+    width = window.innerWidth;
     var margin = {top: height * 0.1, bot: height * 0.1, left: width * 0.1, right: width * 0.1};
-    var height = height - margin.top - margin.bot;
-    var width = width - margin.left - margin.right;
+    var innerH = height - margin.top - margin.bot;
+    var innerW = width - margin.left - margin.right;
     zoom = d3.behavior.zoom()
         .scaleExtent([1, 10])
         .on("zoom", zoomed);
