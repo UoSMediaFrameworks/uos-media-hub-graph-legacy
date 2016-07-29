@@ -260,7 +260,7 @@ function d3graphv2(rootData, redraw) {
         ga('send', 'event', {
             eventCategory: 'node',
             eventAction: type,
-            eventLabel: null,
+                eventLabel: 'Type: ' + d.type + ', Name: ' + d.name,
             eventValue:null,
             fieldsObject:{name:d.name,type: d.type}
         });
@@ -675,7 +675,8 @@ function d3graphv2(rootData, redraw) {
         var sceneNodes = nodeEnter.filter(function (d) {
             return d.type == 'scene'
         });
-        sceneNodes.style('fill', 'yellow').attr('x',function(d){
+        sceneNodes.style('fill', 'yellow')
+        attr('x',function(d){
             d.x = d.x - margin.left;
             return d.x
         }).attr('y',function(d){

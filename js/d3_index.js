@@ -231,10 +231,10 @@ function d3graphv2(rootData, redraw) {
 
     function nodes(list, sceneList) {
 
-        for(var listIndex in list) {
+        for (var listIndex in list) {
             var thisItem = list[listIndex];
 
-            if(thisItem.type !== 'scene') {
+            if (thisItem.type !== 'scene') {
                 nodes(thisItem.children, sceneList);
             } else {
                 sceneList.push(thisItem._id);
@@ -274,12 +274,12 @@ function d3graphv2(rootData, redraw) {
         var list = [];
         if (d.type === "root") {
             //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
-            var children = _.filter(d.children, function(child){
+            var children = _.filter(d.children, function (child) {
                 return child.type === "subgraphtheme";
             });
 
-            list = nodes (children, list);
-        } else if(d.type !== "scene") {
+            list = nodes(children, list);
+        } else if (d.type !== "scene") {
             list = nodes(d.children, list);
         } else {
             list.push(d._id);
@@ -492,7 +492,7 @@ function d3graphv2(rootData, redraw) {
 
 //--------------------Drawing--------------------------//
     function draw(processedData, redraw) {
-
+        console.log(root)
         nodeCollection = nodeContainer.selectAll('circle').data(processedData.nodes);
         edgeCollection = pathContainer.selectAll('path').data(processedData.edges);
 
@@ -511,7 +511,12 @@ function d3graphv2(rootData, redraw) {
                 return d._id
             })
             .attr('class', function (d) {
-                return createClassName(d._id);
+                if (d._id == undefined) {
+                    console.log(d)
+                    return 'error'
+                } else {
+                    return createClassName(d._id);
+                }
             })
             .call(circle)
             .touchHandler(function (el, d, type) {
@@ -541,10 +546,6 @@ function d3graphv2(rootData, redraw) {
                 return 'opaque';
             });
 
-        //function gameLoop() {
-        //    setTimeout(gameLoop, 1000 / 60);
-        //    d3.select('h1').html(fps.getFPS());
-        //}
 
         //gameLoop();
         function createClassName(nodeId) {
@@ -576,6 +577,7 @@ function d3graphv2(rootData, redraw) {
         var cityNodes = nodeEnter.filter(function (d) {
             return d.type == "city";
         });
+
         var angle = (2 * Math.PI) / cityNodes[0].length;
         cityNodes
             .attr('r', function (d) {
@@ -610,10 +612,10 @@ function d3graphv2(rootData, redraw) {
         var gThemeNodes = nodeEnter.filter(function (d) {
             return d.type == "subgraphtheme";
         });
-        gThemeNodes.style('fill', d3.rgb(111, 115, 125)).attr('x',function(d){
+        gThemeNodes.style('fill', d3.rgb(111, 115, 125)).attr('x', function (d) {
             d.x = d.x - margin.left;
             return d.x
-        }).attr('y',function(d){
+        }).attr('y', function (d) {
             d.y = d.y - margin.top;
             return d.y
         });
@@ -626,16 +628,16 @@ function d3graphv2(rootData, redraw) {
             var cityParent = _.find(d.parents, function (item) {
                 return item.type == 'city';
             });
-            if(cityParent != undefined){
+            if (cityParent != undefined) {
                 return d3.rgb(cityParent.color[0], cityParent.color[1], cityParent.color[2]);
-            }else{
+            } else {
                 return d3.rgb('white');
             }
 
-        }).attr('x',function(d){
+        }).attr('x', function (d) {
             d.x = d.x - margin.left;
             return d.x
-        }).attr('y',function(d){
+        }).attr('y', function (d) {
             d.y = d.y - margin.top;
             return d.y
         });
@@ -660,13 +662,13 @@ function d3graphv2(rootData, redraw) {
         var sceneNodes = nodeEnter.filter(function (d) {
             return d.type == 'scene'
         });
-        sceneNodes.style('fill', 'yellow').attr('x',function(d){
+        sceneNodes.style('fill', 'yellow').attr('x', function (d) {
             d.x = d.x - margin.left;
             return d.x
-        }).attr('y',function(d){
+        }).attr('y', function (d) {
             d.y = d.y - margin.top;
             return d.y
-        }).attr('r','4');
+        }).attr('r', '4');
         //if (root.nodes.length > 200) {
         //    sceneNodes.style('visibility', 'hidden');
         //}

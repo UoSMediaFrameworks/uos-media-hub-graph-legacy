@@ -260,7 +260,7 @@ function d3graphv2(rootData, redraw) {
         ga('send', 'event', {
             eventCategory: 'node',
             eventAction: type,
-            eventLabel: null,
+             eventLabel: 'Type: ' + d.type + ', Name: ' + d.name,
             eventValue:null,
             fieldsObject:{name:d.name,type: d.type}
         });
@@ -458,7 +458,7 @@ function d3graphv2(rootData, redraw) {
         ga('send', 'event', {
             eventCategory: 'node',
             eventAction: type,
-            eventLabel: null,
+             eventLabel: 'Type: ' + d.type + ', Name: ' + d.name,
             eventValue:null,
             fieldsObject:{name:d.name,type: d.type}
         });
