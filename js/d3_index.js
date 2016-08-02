@@ -2,17 +2,18 @@ var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
 var roomId;
 var drawn = false;
 var fullRoomId;
+var availableScenes = [];
 var cityColors = [
-    [239, 92, 84],
-    [149, 110, 173],
-    [232, 138, 46],
-    [153, 160, 144],
-    [255, 198, 48],
-    [24, 152, 211],
-    [165, 206, 94],
-    [29, 182, 180],
-    [110, 193, 127],
-    [147, 47, 92]
+    [255, 0, 0],
+    [253, 95, 0],
+    [255, 129, 0],
+    [255, 177, 0],
+    [0, 65, 133],
+    [0, 77, 170],
+    [0, 135, 253],
+    [0, 183, 239],
+    [143, 196, 31],
+    [177, 212, 101]
 ]
 function d3graphv2(rootData, redraw) {
     if (redraw) {
@@ -190,6 +191,12 @@ function d3graphv2(rootData, redraw) {
         processNodes(data);
         //processScenes();
         processsEdges();
+        //function gameLoop() {
+        //    setTimeout(gameLoop, 1000 / 60);
+        //    d3.select('h1').html(fps.getFPS());
+        //}
+        //
+        //gameLoop();
     }
 
 
@@ -515,7 +522,7 @@ function d3graphv2(rootData, redraw) {
                     console.log(d)
                     return 'error'
                 } else {
-                    return createClassName(d._id);
+                    return d.name;
                 }
             })
             .call(circle)
@@ -572,7 +579,7 @@ function d3graphv2(rootData, redraw) {
                 .attr('fill', 'white');
         }
 
-        //sceneNodes.attr("hidden", true);
+
 
         var cityNodes = nodeEnter.filter(function (d) {
             return d.type == "city";
@@ -668,10 +675,12 @@ function d3graphv2(rootData, redraw) {
         }).attr('y', function (d) {
             d.y = d.y - margin.top;
             return d.y
-        }).attr('r', '4');
-        //if (root.nodes.length > 200) {
-        //    sceneNodes.style('visibility', 'hidden');
-        //}
+        }).attr('r', function(d){
+            d.r = 4;
+            return d.r;
+        }).each(function(d){
+            availableScenes.push(d.name);
+        });
         d3.select('#openViewer').on('click', function () {
             window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
         });
@@ -734,8 +743,23 @@ function d3graphv2(rootData, redraw) {
 
         }
 
-        transitionGraphElements()
+        nodeEnter.order();
+        console.log(availableScenes)
+        $( "#tags" ).autocomplete({
+            source: [availableScenes],
+            limit: 5
+        });
+        $( "#tags").keyup(function(key){
+            if(key.which === 13){
+                var element = _.find(nodeEnter[0],function(obj){
 
+                    return obj.__data__.name == $("#tags").val();
+                });
+                console.log(element)
+                element.dispatchEvent(new Event('dblclick'));
+            }
+        });
+        transitionGraphElements()
     }
 
 //

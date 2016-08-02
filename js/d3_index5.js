@@ -564,7 +564,7 @@ function d3graphv2(rootData, redraw) {
         //    setTimeout(gameLoop, 1000 / 60);
         //    d3.select('h1').html(fps.getFPS());
         //}
-
+        //
         //gameLoop();
         function createClassName(nodeId) {
             return nodeId.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').toLowerCase()
