@@ -7,7 +7,7 @@ var cityColors = [
     [255, 0, 0],
     [253, 95, 0],
     [255, 129, 0],
-    [255, 223, 0],
+    [255, 231, 64],
     [13, 59, 108],
     [0, 77, 170],
     [0, 135, 253],
@@ -130,6 +130,16 @@ function d3graphv2(rootData, redraw) {
         .attr("cx", "50%")    //The x-center of the gradient, same as a typical SVG circle
         .attr("cy", "50%")    //The y-center of the gradient
         .attr("r", "50%");   //The radius of the gradient, an offset of 100% ends where you've set this radius
+
+    defs.append('pattern')
+        .attr('id', 'diagonalHatch')
+        .attr('patternUnits', 'userSpaceOnUse')
+        .attr('width', 4)
+        .attr('height', 4)
+        .append('path')
+        .attr('d', 'M-1,1 l2,-2 M0,4 l4,-4 M3,5 l2,-2')
+        .attr('stroke', '#000000')
+        .attr('stroke-width', 1);
 
     radialGradient.append("stop")
         .attr("offset", "0%")
