@@ -7,12 +7,12 @@ var cityColors = [
     [255, 0, 0],
     [253, 95, 0],
     [255, 129, 0],
-    [255, 177, 0],
-    [0, 65, 133],
+    [100, 82, 43],
+    [0, 18, 36],
     [0, 77, 170],
     [0, 135, 253],
-    [0, 183, 239],
-    [143, 196, 31],
+    [34, 85, 100],
+    [39, 54, 9],
     [177, 212, 101]
 ]
 function d3graphv2(rootData, redraw) {
@@ -265,7 +265,7 @@ function d3graphv2(rootData, redraw) {
     }
 
     function contextualize(el, d) {
-        console.log('long touch')
+        //console.log('long touch')
         var clean_name = cleanTitle(d.name);
         var scale = 1;
         var radius = 0;
@@ -331,25 +331,25 @@ function d3graphv2(rootData, redraw) {
                     return item.type != 'root';
                 })
             } else {
-                console.log('Type: ' + d.type)
+                //console.log('Type: ' + d.type)
                 filteredEdges = _.filter(d.related, function (item) {
                     return item.type != 'root';
                 })
             }
 
-            console.log(d.related);
-            console.log(filteredEdges);
+            //console.log(d.related);
+            //console.log(filteredEdges);
             while (testArr.length < 12) {
                 var node = pluckArray(filteredEdges);
                 if (node == undefined && filteredEdges.length == 0) {
                     break;
                 } else if (node == undefined && filteredEdges.length > 0) {
-                    console.log('node not found')
+                    //console.log('node not found')
                 } else {
                     testArr.push(node)
                 }
             }
-            console.log(testArr.length);
+            //console.log(testArr.length);
             hover(testArr);
             //console.log(testArr)
             var total = testArr.length;
@@ -365,7 +365,7 @@ function d3graphv2(rootData, redraw) {
 
     function moveNode(node, positionX, positionY) {
         var ratio = 1 - Math.pow(1 / duration, 5);
-        console.log(nodeCollection)
+        //console.log(nodeCollection)
         var test = _.find(nodeCollection[0], function (obj) {
             return obj.__data__ == node;
         })
@@ -461,7 +461,7 @@ function d3graphv2(rootData, redraw) {
     }
 
     function tap(el, d) {
-        console.log('tap')
+        //console.log('tap')
         longClicked = d3.select('.longHL');
         longClickedLink = d3.selectAll('.longLinkHL');
 
@@ -499,7 +499,7 @@ function d3graphv2(rootData, redraw) {
 
 //--------------------Drawing--------------------------//
     function draw(processedData, redraw) {
-        console.log(root)
+        //console.log(root)
         nodeCollection = nodeContainer.selectAll('circle').data(processedData.nodes);
         edgeCollection = pathContainer.selectAll('path').data(processedData.edges);
 
@@ -519,7 +519,7 @@ function d3graphv2(rootData, redraw) {
             })
             .attr('class', function (d) {
                 if (d._id == undefined) {
-                    console.log(d)
+                    //console.log(d)
                     return 'error'
                 } else {
                     return d.name;
@@ -744,7 +744,7 @@ function d3graphv2(rootData, redraw) {
         }
 
         nodeEnter.order();
-        console.log(availableScenes)
+        //console.log(availableScenes)
         $( "#tags" ).autocomplete({
             source: [availableScenes],
             limit: 5
@@ -755,7 +755,7 @@ function d3graphv2(rootData, redraw) {
 
                     return obj.__data__.name == $("#tags").val();
                 });
-                console.log(element)
+                //console.log(element)
                 element.dispatchEvent(new Event('dblclick'));
             }
         });
@@ -765,7 +765,7 @@ function d3graphv2(rootData, redraw) {
 //
 }
 function loadData() {
-    console.log('load data')
+    //console.log('load data')
     var sceneId = '579a2186792e8b3c827d2b15';
 
     function getQueryVariable(variable) {
@@ -784,19 +784,19 @@ function loadData() {
 
         socket.emit('auth', {password: 'kittens'}, function (err, token, serverRoomId) {
             if (err) {
-                console.log(err)
+                //console.log(err)
             } else {
-                console.log(token)
+                //console.log(token)
                 fullRoomId = serverRoomId;
                 roomId = serverRoomId.substr(2);
             }
             sceneId = getQueryVariable("id") || sceneId;
             socket.emit('loadSceneGraph', sceneId, function (err, sceneGraph) {
                 if (err || !sceneGraph) {
-                    console.log(err)
-                    console.log('Couldn\'t load requested scene graph, reload the page and try again');
+                    //console.log(err)
+                    //console.log('Couldn\'t load requested scene graph, reload the page and try again');
                 } else {
-                    console.log(sceneGraph);
+                    //console.log(sceneGraph);
                     if (drawn) {
                         d3graphv2(sceneGraph.nodeList, true);
                     } else {
