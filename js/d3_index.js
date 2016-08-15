@@ -3,6 +3,7 @@ var roomId;
 var drawn = false;
 var fullRoomId;
 var availableScenes = [];
+//RGB values for the city  colors
 var cityColors = [
     [255, 0, 0],
     [253, 95, 0],
@@ -14,7 +15,8 @@ var cityColors = [
     [36, 203, 254],
     [143, 196, 31],
     [198, 235, 116]
-]
+];
+//This function initializes the whole graph.
 function d3graphv2(rootData, redraw) {
     if (redraw) {
         d3.selectAll('svg').remove();
@@ -60,8 +62,9 @@ function d3graphv2(rootData, redraw) {
     var timeout;
     var hoverTimeout;
 
+    var height, width, svg, root, nodeCollection, edgeCollection, duration, zoom;
 
-    var height, width, svg, root, diagonal, nodeCollection, edgeCollection, duration, zoom;
+    //This is a variable containing an object that is used for testing the framerate of the graph
     var fps = {
         startTime: 0, frameNumber: 0, getFPS: function () {
             this.frameNumber++;
@@ -74,7 +77,8 @@ function d3graphv2(rootData, redraw) {
         }
     };
 
-
+    //This is an extension to the d3 selection code giving it the ability to call the touch handler.
+    // THe touch handler will be able to distinguish the touch event that is being triggered on the graph based on time between events happening
     d3.selection.prototype.touchHandler = function (callback) {
         var last = 0;
         return this.each(function (d) {
@@ -92,23 +96,26 @@ function d3graphv2(rootData, redraw) {
                 })
         });
     };
-
+    //This is the structure of the root object containing the nodes and relationships of the graph needed to draw it out.
     root = {
         nodes: [],
         edges: []
     };
-
+    //Default value of transitions 0.5 secs, giving it a nice smooth transition time baking it pleasant to the human eye
     duration = 5000;
     height = window.innerHeight;
     width = window.innerWidth;
+    //Margins from the side of the screen that are used to position the city nodes in a way that prevent nodes getting outside of the screen space
     var margin = {top: height * 0.2, bot: height * 0.2, left: width * 0.1, right: width * 0.1};
     var innerH = height - margin.top - margin.bot;
     var innerW = width - margin.left - margin.right;
+    //This is a variable containing any zoom and pan behaviour that might be needed for the graph.
+    //Currently unused
     zoom = d3.behavior.zoom()
         .scaleExtent([1, 10])
         .on("zoom", zoomed);
 
-
+    //This variable contains a reference to the svg element that will be building the graph.
     svg = d3.select('#graph')
         .append('svg')
         .attr("height", height)
@@ -116,15 +123,16 @@ function d3graphv2(rootData, redraw) {
         .append('g')
         .attr("fill", "#333");
 
-
+    //This function is called if a zoom or pan occurs moving or scaling the svg based on the events initial coordinates
     function zoomed() {
         nodeContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
     }
 
-//Append a defs (for definition) element to your SVG
+//Append a defs (for definition) element to your SVG, in order to use them later as special backgrounds for specific elements
     var defs = svg.append("defs");
 
 //Append a radialGradient element to the defs and give it a unique id
+    // This is used for the root nodes.
     var radialGradient = defs.append("radialGradient")
         .attr("id", "radial-gradient")
         .attr("cx", "50%")    //The x-center of the gradient, same as a typical SVG circle
@@ -154,21 +162,27 @@ function d3graphv2(rootData, redraw) {
         .attr("offset", "100%")
         .attr("stop-color", "#FFFFFF");
 
-    var nodeContainer = svg.append('g')
-        .attr("class", "node-container").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 
     var longClickTitle;
     var shortClickTitle;
     var longClickedLink;
     var longClicked;
+
+    //This variable is a reference to the svg element that will contain all nodes
+    //the transform here, has the purpose of making sure that the nodes are centered in the screen.
+    //This is the case due to the svg starting position is the top left corner.
+    var nodeContainer = svg.append('g')
+        .attr("class", "node-container").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    //This variable is a reference to the svg element that will contain all relationships/paths/edges
     var pathContainer = nodeContainer.append('g')
         .attr("class", "path-container");
 
 
 //--------------------Layout--------------------------//
-
+    //This function is used to process the data received by the server/graph editor and turn it into the graph structure for drawing
     function initialize(data) {
         function processNodes(data) {
+            //for each node in the data received, add these properties in it and push it to the root structure.
             data.forEach(function (obj) {
                 obj.x = obj.y = 0;
                 obj.cx = innerW / 2;
@@ -184,23 +198,32 @@ function d3graphv2(rootData, redraw) {
 
 
         function processsEdges() {
+            //This function creates the relationships between the different nodes based on the data received.
+            //For each node's parent relationship id's find th e parent object, and then push and object containing the source and target for that relationship.
+            //
             root.nodes.forEach(function (node) {
+
                 node.parentRelationshipIds.forEach(function (parent) {
                     var parentObj = _.find(root.nodes, function (obj) {
                         return obj._id == parent;
-                    })
+                    });
+                    //if there is a parent push the edge/relationship
                     if (parentObj != undefined)
                         root.edges.push({source: parentObj, target: node})
+
+                    // add the references to those object for later usage to the objects themselves.
                     parentObj.children.push(node);
                     node.parents.push(parentObj);
+
                 })
 
             })
         }
 
         processNodes(data);
-        //processScenes();
         processsEdges();
+
+        //Uncomment to trigger the fps checker.
         //function gameLoop() {
         //    setTimeout(gameLoop, 1000 / 60);
         //    d3.select('h1').html(fps.getFPS());
@@ -209,18 +232,20 @@ function d3graphv2(rootData, redraw) {
         //gameLoop();
     }
 
-
     initialize(rootData);
+
     if (!redraw) {
+        //Draws the graph
         draw(root, false);
     } else {
+        //Redraws the graph and removes the previous graph to avoid duplication.
         draw(root, true);
     }
 
     var cleanTitle = function (title) {
         return title.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').replace('GUIscene', 'scene').replace(/(scene|chicago|beijing)?\s(.*)?/i, '<sup>$1</sup><span class="$1">$2</span>');
     };
-
+    //This is the hover over teaser functionality, it receives an array of nodes and with a set intervall will go through them unless it was changed.
     function hover(arraySelection) {
         var i = 0;
         clearInterval(hoverTimeout)
@@ -245,7 +270,7 @@ function d3graphv2(rootData, redraw) {
         }, 2500);
     }
 
-
+    //This is a recursive function used to send the scenes to the scene viwer, it gatheres all scenes that are children of the initially selected node
     function nodes(list, sceneList) {
 
         for (var listIndex in list) {
@@ -261,6 +286,7 @@ function d3graphv2(rootData, redraw) {
         return sceneList;
     }
 
+    //Removes duplicates from the list of nodes.
     function dedupeNodeList(list) {
         var dedupeList = [];
 
@@ -274,18 +300,22 @@ function d3graphv2(rootData, redraw) {
         return dedupeList;
     }
 
+    //This function represents one of the interaction events - double click/ long touch
+    //This function at its current version is meant to highlight a set of nodes in order to make them more visible in relation to the element clicked
+
     function contextualize(el, d) {
         //console.log('long touch')
         var clean_name = cleanTitle(d.name);
         var scale = 1;
         var radius = 0;
-
-
         radius = innerH / 5;
+        //Resets the graph to its initial state before proceeding with the clustering and highlighting.
         $("#reset-new2").click();
-
+        //Triggers the position clustering
         cluster(el, radius, true);
+        //Triggers the highlighting based on the clicked element.
         clusterHighlight(el, d);
+        //Sets the name at the top of the screen to the clustered node.
         d3.select('h1').html(clean_name);
 
         var list = [];
@@ -303,14 +333,16 @@ function d3graphv2(rootData, redraw) {
         }
 
         list = dedupeNodeList(list);
-
+        //To finalize this method it sends the list of scenes to the graph viewer
         socket.emit('sendCommand', fullRoomId, 'showScenes', list);
     }
 
+    //This is a utility function for getting a random int used for picking out the random twelve nodes for clustering
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     }
 
+    //This function will take an item out of an array and remove it from the array so it cannot be picked twice
     function pluckArray(array) {
         //console.log('arr size ' + array.length)
         var index = getRandomInt(0, array.length);
@@ -321,15 +353,26 @@ function d3graphv2(rootData, redraw) {
         return obj;
     }
 
+    /*
+     This function takes in the element that triggered the contextualize method,
+     a radius value that can be used to space out the circles from the focused node
+     and a boolean value recurse, which is unused for this version of the function
+     it's reason being: recursively cluster children nodes if requested.
+     */
     function cluster(el, radius, recurse) {
         d3.select(el).attr('r', function (d) {
             return d.r * 1.5;
         }).each(function (d) {
-            d.related = _.union(d.children, d.parents);
+            //the related property contains both the children and the parents of the current element
+
+            d.related = _.union(d.children, d.parents)
             var cx = d.cx;
             var cy = d.cy;
-            var testArr = [];
+            var clusterArray = [];
             var filteredEdges = [];
+
+            //Based on the rules identified as current behaviour requirements which is defined by these if else statements
+            //This based on the type will filter in or out specific nodes based on type, and that will produce a filtered list of nodes for the relationship
             if (d.type == 'root') {
                 //console.log('root')
                 filteredEdges = _.filter(d.related, function (item) {
@@ -346,24 +389,25 @@ function d3graphv2(rootData, redraw) {
                     return item.type != 'root';
                 })
             }
-
-            //console.log(d.related);
-            //console.log(filteredEdges);
-            while (testArr.length < 12) {
+            //This part of the method builds up the random array of twelve nodes that will b e clustered
+            while ( clusterArray.length < 12) {
                 var node = pluckArray(filteredEdges);
                 if (node == undefined && filteredEdges.length == 0) {
                     break;
                 } else if (node == undefined && filteredEdges.length > 0) {
                     //console.log('node not found')
                 } else {
-                    testArr.push(node)
+                     clusterArray.push(node)
                 }
             }
             //console.log(testArr.length);
-            hover(testArr);
+            //Triggering the hover teaser
+            hover( clusterArray);
             //console.log(testArr)
-            var total = testArr.length;
-            testArr.forEach(function (child, index) {
+            var total =  clusterArray.length;
+             //This part of the funcion defines the related  x and y positions for each node based on some geometrically calculated values
+             clusterArray.forEach(function (child, index) {
+                 //The radian is the angle that each node will be position on based on the amount of nodes in the cluster array.
                 var radian = (2 * Math.PI) * (index / total);
                 var x = (Math.cos(radian) * radius) + cx;
                 var y = (Math.sin(radian) * radius) + cy;
@@ -372,14 +416,15 @@ function d3graphv2(rootData, redraw) {
         })
 
     }
-
+    //This function takes in the node and the x and y positions that it needs to be moved to.
     function moveNode(node, positionX, positionY) {
         var ratio = 1 - Math.pow(1 / duration, 5);
         //console.log(nodeCollection)
-        var test = _.find(nodeCollection[0], function (obj) {
+        var data = _.find(nodeCollection[0], function (obj) {
             return obj.__data__ == node;
-        })
-        d3.select(test).transition()
+        });
+
+        d3.select(data).transition()
             .duration(duration)
             .attr('r', function (d) {
                 return d.r * 1.5;
@@ -387,7 +432,7 @@ function d3graphv2(rootData, redraw) {
             .attr('cx', function (d) {
                 var cx = d.cx;
                 if (ratio >= 1) {
-                    d.cx = positionX
+                    d.cx = positionX;
                     return d.cx;
                 } else {
                     d.cx = ratio * (positionX - cx) + cx;
@@ -405,13 +450,15 @@ function d3graphv2(rootData, redraw) {
                 }
             });
 
+        //Find all relationships/edges/paths based on the current node be it source or target.
         var edges = edgeCollection.filter(function (item) {
             return item.source == node || item.target == node;
         });
-
+        //Updating the position and arc of the line's
         edges.transition()
             .duration(duration)
             .attr('d', function (d) {
+                //This functions builds up an arc based on some values.
                 var diagonal = [
                     "M", d.source.cx, d.source.cy,
                     "A", innerH, innerH, 0, 0, 1, d.target.cx, d.target.cy
@@ -419,6 +466,9 @@ function d3graphv2(rootData, redraw) {
                 return diagonal;
             });
     }
+
+    //This function applies a highlighting class to edges leading to related nodes based on the behaviour requirements
+    //defined by the if else statements
 
     function clusterHighlight(el, d) {
         d3.select('.longHL').classed('longHL', false);
@@ -441,6 +491,9 @@ function d3graphv2(rootData, redraw) {
         });
         d3.selectAll(edges).classed('longLinkHL', true);
     }
+
+
+    //This function highlights elements based on a normal click or single tap of a node.
 
     function highlight(el, d) {
 
@@ -470,6 +523,10 @@ function d3graphv2(rootData, redraw) {
         d3.selectAll(edges).classed('highlightedLink', true);
     }
 
+    //This function is the single click / tap  behaviour
+    // It is meant to: highlight the current node, and its relationships
+    // and show the name of the clicked element.
+    // the highlighting will fade away in half a second after selection
     function tap(el, d) {
         //console.log('tap')
         longClicked = d3.select('.longHL');
@@ -493,6 +550,7 @@ function d3graphv2(rootData, redraw) {
             });
 
         clearTimeout(timeout);
+        //This timeout will temporarily, remove any long click highlights  and then re-add them after a delay
         timeout = setTimeout(function () {
             d3.select(el).classed('highlight', false);
             d3.selectAll('.highlightedLink').classed('highlightedLink', false);
@@ -508,8 +566,14 @@ function d3graphv2(rootData, redraw) {
     }
 
 //--------------------Drawing--------------------------//
+    /*
+    * This function contains all the drawing variables and functions that are purely drawing related.
+    * Encompassing drawing rules for specific nodes, drawing initialization , collections for the different elements
+    * graph resetting and the autocomplete scene node search
+    * This part of the script is based stronly on d3 logic which you can lookup the documentation on their website
+    * */
     function draw(processedData, redraw) {
-        //console.log(root)
+
         nodeCollection = nodeContainer.selectAll('circle').data(processedData.nodes);
         edgeCollection = pathContainer.selectAll('path').data(processedData.edges);
 
@@ -564,14 +628,6 @@ function d3graphv2(rootData, redraw) {
             });
 
 
-        //gameLoop();
-        function createClassName(nodeId) {
-            if(nodeId)
-                return nodeId.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2')
-            else
-                return ""
-        }
-
         function circle(nodeArr) {
             nodeArr
                 .attr('x', function (d) {
@@ -588,7 +644,6 @@ function d3graphv2(rootData, redraw) {
                 })
                 .attr('fill', 'white');
         }
-
 
 
         var cityNodes = nodeEnter.filter(function (d) {
@@ -685,10 +740,10 @@ function d3graphv2(rootData, redraw) {
         }).attr('y', function (d) {
             d.y = d.y - margin.top;
             return d.y
-        }).attr('r', function(d){
+        }).attr('r', function (d) {
             d.r = 4;
             return d.r;
-        }).each(function(d){
+        }).each(function (d) {
             availableScenes.push(d.name);
         });
         d3.select('#openViewer').on('click', function () {
@@ -698,6 +753,8 @@ function d3graphv2(rootData, redraw) {
         d3.select('#reset-new2').on('click', function () {
             resetGraph();
         });
+
+        //This function resets the graph to its default state
         function resetGraph() {
             d3.select('h1').html = '';
             zoom.scale(1);
@@ -705,7 +762,7 @@ function d3graphv2(rootData, redraw) {
             nodeContainer.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
             transitionGraphElements();
         }
-
+        //This function transitions the elements to their initial positions
         function transitionGraphElements() {
 
             var ratio = 1 - Math.pow(1 / duration, 5);
@@ -755,13 +812,15 @@ function d3graphv2(rootData, redraw) {
 
         nodeEnter.order();
         //console.log(availableScenes)
-        $( "#tags" ).autocomplete({
+        //This function initializes the autocomplete input with autocompletion
+        $("#tags").autocomplete({
             source: [availableScenes],
             limit: 5
         });
-        $( "#tags").keyup(function(key){
-            if(key.which === 13){
-                var element = _.find(nodeEnter[0],function(obj){
+        //On the key 'Enter' send a double click event for the selected scene node.
+        $("#tags").keyup(function (key) {
+            if (key.which === 13) {
+                var element = _.find(nodeEnter[0], function (obj) {
 
                     return obj.__data__.name == $("#tags").val();
                 });
@@ -774,10 +833,13 @@ function d3graphv2(rootData, redraw) {
 
 //
 }
+
+//This is the initialization function that loads in the data from the server
+//it can take a url parameter for a specific scene group or it will load the default mega graph.
 function loadData() {
     //console.log('load data')
     var sceneId = '579a2186792e8b3c827d2b15';
-
+    //This functions gets any urls parameters that are passed in
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
@@ -790,6 +852,7 @@ function loadData() {
         return (false);
     }
 
+    //This socket connects and authenticates the graph receiving the room id needed for the viewer that is connected to the graph
     socket.on('connect', function (thing) {
 
         socket.emit('auth', {password: 'kittens'}, function (err, token, serverRoomId) {
