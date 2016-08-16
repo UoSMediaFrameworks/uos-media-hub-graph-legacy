@@ -7,6 +7,9 @@ body {
     overflow:hidden;
     background-color:#333;
 }
+#tags{
+    display:none;
+}
 form {
     margin:5em auto 0;
     width:50%;

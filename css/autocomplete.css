@@ -10,7 +10,7 @@ RawBlameHistory     71 lines (66 sloc)  1.5 KB
 }
 
 .xdsoft_autocomplete{
-    display:inline;
+    display:none;
     position:relative;
     word-spacing: normal;
     text-transform: none;
