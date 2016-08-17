@@ -644,7 +644,7 @@
 
         $box
             .css({
-                'display':$input.css('display'),
+                //'display':$input.css('display'),
                 'width':$input.css('width')
             });
 
@@ -876,7 +876,7 @@
                 clearTimeout(timerUpdate);
                 timerUpdate = setTimeout(function(){
                     $box.css({
-                        'display':$input.css('display'),
+                        //'display':$input.css('display'),
                         'width':$input.css('width')
                     });
                     $dropdown.css($.extend(true,{

@@ -817,6 +817,7 @@ function d3graphv2(rootData, redraw) {
             source: [availableScenes],
             limit: 5
         });
+
         //On the key 'Enter' send a double click event for the selected scene node.
         $("#tags").keyup(function (key) {
             if (key.which === 13) {
@@ -829,6 +830,7 @@ function d3graphv2(rootData, redraw) {
             }
         });
         transitionGraphElements()
+
     }
 
 //
@@ -838,6 +840,7 @@ function d3graphv2(rootData, redraw) {
 //it can take a url parameter for a specific scene group or it will load the default mega graph.
 function loadData() {
     //console.log('load data')
+
     var sceneId = '579a2186792e8b3c827d2b15';
     //This functions gets any urls parameters that are passed in
     function getQueryVariable(variable) {
@@ -852,9 +855,9 @@ function loadData() {
         return (false);
     }
 
+
     //This socket connects and authenticates the graph receiving the room id needed for the viewer that is connected to the graph
     socket.on('connect', function (thing) {
-
         socket.emit('auth', {password: 'kittens'}, function (err, token, serverRoomId) {
             if (err) {
                 //console.log(err)
@@ -877,6 +880,34 @@ function loadData() {
                         drawn = true
                     }
                 }
+                function search_keyUp(e) {
+
+                    // this would test for whichever key is 40 and the ctrl key at the same time
+                    console.log('search')
+                    if (e.altKey && e.keyCode == 83) {
+                        // call your function to do the thing
+                        var search = $('.xdsoft_autocomplete');
+                        if(search.is(":visible")){
+                            search.hide()
+                            $('#tags').hide()
+                        }else{
+                            search.show()
+                            $('#tags').show()
+                        }
+                    }
+                }
+// register the handler
+                document.addEventListener('keyup', search_keyUp, false);
+                function viewer_keyUp(e) {
+                    console.log('viewer')
+                    // this would test for whichever key is 40 and the ctrl key at the same time
+                    if (e.altKey && e.keyCode == 86) {
+                        // call your function to do the thing
+                        window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+                    }
+                }
+// register the handler
+                document.addEventListener('keyup', viewer_keyUp, false);
             });
         });
     });
