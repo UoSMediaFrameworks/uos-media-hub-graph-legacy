@@ -264,6 +264,22 @@ function d3graphv2(rootData, redraw) {
         return dedupeList;
     }
 
+    function iterative_nodes(parentList, list) {
+
+        var item = parentList.pop();
+
+        if(item.type === 'scene') {
+            list.push(item._id);
+        } else {
+            _.forEach(item.children, function(child) {
+                parentList.push(child);
+            });
+
+        }
+
+        return parentList;
+    }
+
     function contextualize(el, d) {
         console.log('long touch')
         var clean_name = cleanTitle(d.name);
@@ -285,9 +301,33 @@ function d3graphv2(rootData, redraw) {
                 return child.type === "subgraphtheme";
             });
 
+            console.log("CHILDREN", children);
+
             list = nodes(children, list);
+            
         } else if (d.type !== "scene") {
-            list = nodes(d.children, list);
+
+            console.log("NODE: ", d);
+
+            //list = nodes(d.children, list);
+
+            var parentList = d.children;
+
+            console.log("Parent List: ", parentList);
+
+            var iterativeList = [];
+            
+            while(parentList.length > 0) {
+
+                console.log("parent list iteration: ", parentList.length);
+
+                parentList = iterative_nodes(parentList, iterativeList)
+            }
+
+            console.log("Iterative list: ", iterativeList);
+
+            list = iterativeList;
+
         } else {
             list.push(d._id);
         }
