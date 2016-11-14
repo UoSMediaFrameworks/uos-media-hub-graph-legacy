@@ -4,6 +4,8 @@ var drawn = false;
 var fullRoomId;
 var availableScenes = [];
 //RGB values for the city  colors
+var nodeEnter;
+var linkEnter;
 var cityColors = [
     [255, 0, 0],
     [253, 95, 0],
@@ -118,8 +120,8 @@ function d3graphv2(rootData, redraw) {
     //This variable contains a reference to the svg element that will be building the graph.
     svg = d3.select('#graph')
         .append('svg')
-        .attr("height", height)
-        .attr("width", width)
+        .attr("viewBox", "0 0 " + width + " " + height)
+        .attr("preserveAspectRatio", "xMinYMin")
         .append('g')
         .attr("fill", "#333");
 
@@ -195,7 +197,6 @@ function d3graphv2(rootData, redraw) {
                 root.nodes.push(obj)
             })
         }
-
 
         function processsEdges() {
             //This function creates the relationships between the different nodes based on the data received.
@@ -302,22 +303,109 @@ function d3graphv2(rootData, redraw) {
 
     //This function represents one of the interaction events - double click/ long touch
     //This function at its current version is meant to highlight a set of nodes in order to make them more visible in relation to the element clicked
+    function transitionGraphElements(focusedNode) {
+        console.log(focusedNode)
+        var ratio = 1 - Math.pow(1 / duration, 5);
+        nodeEnter.transition().delay(function (d) {
+                if (focusedNode.type == "subgraphtheme") {
+                    return 3000;
+                }
+                if (focusedNode.type == "theme") {
+                    return 1500;
+                }
+                if (focusedNode.type == "scene") {
+                    return 1000;
+                } else {
+                    return 0;
+                }
+            })
+            .duration(duration)
+            .attr('cx', function (d) {
+                if (d.name == focusedNode.name) {
+                    return d.cx
+                } else {
+                    if (ratio >= 1) {
+                        d.cx = d._x;
+                    } else {
+                        d.cx = ratio * (d._x - d.cx) + cx;
+
+                    }
+                    return d.cx;
+                }
+
+            })
+            .attr('cy', function (d) {
+                if (d.name == focusedNode.name) {
+                    return d.cy
+                } else {
+                    if (ratio >= 1) {
+                        d.cy = d._y;
+                    } else {
+                        d.cy = ratio * (d._y - d.cy) + cy;
+                    }
+                    return d.cy;
+                }
+
+            }).attr('r', function (d) {
+            //console.log(d3.select(this).classed('longHL'))
+            if (d.name == focusedNode.name) {
+                return 10;
+            }else{
+                return d.r;
+            }
+
+
+        });
+
+        linkEnter.transition().delay(function (d) {
+                if (focusedNode.type == "subgraphtheme") {
+                    return 3000;
+                }
+                if (focusedNode.type == "theme") {
+                    return 1500;
+                }
+                if (focusedNode.type == "scene") {
+                    return 1000;
+                } else {
+                    return 0;
+                }
+            })
+            .duration(duration)
+            .attr('d', function (d) {
+                var diagonal = [
+                    "M", d.source.cx, d.source.cy,
+                    "A", innerH, innerH, 0, 0, 1, d.target.cx, d.target.cy
+                ].join(" ");
+                return diagonal;
+            })
+            .each(function (d) {
+                var source, target;
+                source = d.source._id;
+                target = d.target._id;
+                var test = this;
+                d3.select(test).classed(source, true);
+                d3.select(test).classed(target, true);
+                d3.select(test).classed('opaque', false);
+            })
+
+
+    }
 
     function contextualize(el, d) {
         //console.log('long touch')
+        //Resets the graph to its initial state before proceeding with the clustering and highlighting.
+
         var clean_name = cleanTitle(d.name);
         var scale = 1;
         var radius = 0;
         radius = innerH / 5;
-        //Resets the graph to its initial state before proceeding with the clustering and highlighting.
-        $("#reset-new2").click();
+        transitionGraphElements(d)
         //Triggers the position clustering
         cluster(el, radius, true);
         //Triggers the highlighting based on the clicked element.
         clusterHighlight(el, d);
         //Sets the name at the top of the screen to the clustered node.
         d3.select('h1').html(clean_name);
-
         var list = [];
         if (d.type === "root") {
             //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
@@ -361,7 +449,8 @@ function d3graphv2(rootData, redraw) {
      */
     function cluster(el, radius, recurse) {
         d3.select(el).attr('r', function (d) {
-            return d.r * 1.5;
+            // d.r * 1.5
+            return 10;
         }).each(function (d) {
             //the related property contains both the children and the parents of the current element
 
@@ -381,33 +470,35 @@ function d3graphv2(rootData, redraw) {
             } else if (d.type == 'city') {
                 //console.log('city')
                 filteredEdges = _.filter(d.related, function (item) {
-                    return item.type != 'root';
+                    return item.type != 'root' && item.type != 'city';
                 })
             } else {
                 //console.log('Type: ' + d.type)
                 filteredEdges = _.filter(d.related, function (item) {
-                    return item.type != 'root';
+                    return item.type != 'root' && item.type != 'city';
                 })
             }
+
             //This part of the method builds up the random array of twelve nodes that will b e clustered
-            while ( clusterArray.length < 12) {
+            while (clusterArray.length < 12) {
                 var node = pluckArray(filteredEdges);
                 if (node == undefined && filteredEdges.length == 0) {
                     break;
                 } else if (node == undefined && filteredEdges.length > 0) {
                     //console.log('node not found')
                 } else {
-                     clusterArray.push(node)
+                    clusterArray.push(node)
                 }
             }
             //console.log(testArr.length);
             //Triggering the hover teaser
-            hover( clusterArray);
+            hover(clusterArray);
             //console.log(testArr)
-            var total =  clusterArray.length;
-             //This part of the funcion defines the related  x and y positions for each node based on some geometrically calculated values
-             clusterArray.forEach(function (child, index) {
-                 //The radian is the angle that each node will be position on based on the amount of nodes in the cluster array.
+            var total = clusterArray.length;
+            //This part of the funcion defines the related  x and y positions for each node based on some geometrically calculated values
+
+            clusterArray.forEach(function (child, index) {
+                //The radian is the angle that each node will be position on based on the amount of nodes in the cluster array.
                 var radian = (2 * Math.PI) * (index / total);
                 var x = (Math.cos(radian) * radius) + cx;
                 var y = (Math.sin(radian) * radius) + cy;
@@ -416,6 +507,7 @@ function d3graphv2(rootData, redraw) {
         })
 
     }
+
     //This function takes in the node and the x and y positions that it needs to be moved to.
     function moveNode(node, positionX, positionY) {
         var ratio = 1 - Math.pow(1 / duration, 5);
@@ -427,15 +519,18 @@ function d3graphv2(rootData, redraw) {
         d3.select(data).transition()
             .duration(duration)
             .attr('r', function (d) {
-                return d.r * 1.5;
+                //d.r * 1.5
+                return 10;
             })
             .attr('cx', function (d) {
                 var cx = d.cx;
                 if (ratio >= 1) {
                     d.cx = positionX;
+                    d.x = d.cx;
                     return d.cx;
                 } else {
                     d.cx = ratio * (positionX - cx) + cx;
+                    d.x = d.cx;
                     return d.cx;
                 }
             })
@@ -443,9 +538,11 @@ function d3graphv2(rootData, redraw) {
                 var cy = this.cy;
                 if (ratio >= 1) {
                     d.cy = positionY;
+                    d.y = d.cy;
                     return d.cy;
                 } else {
                     d.cy = ratio * (positionY - cy) + cy;
+                    d.y = d.cy;
                     return d.cy;
                 }
             });
@@ -567,18 +664,18 @@ function d3graphv2(rootData, redraw) {
 
 //--------------------Drawing--------------------------//
     /*
-    * This function contains all the drawing variables and functions that are purely drawing related.
-    * Encompassing drawing rules for specific nodes, drawing initialization , collections for the different elements
-    * graph resetting and the autocomplete scene node search
-    * This part of the script is based stronly on d3 logic which you can lookup the documentation on their website
-    * */
+     * This function contains all the drawing variables and functions that are purely drawing related.
+     * Encompassing drawing rules for specific nodes, drawing initialization , collections for the different elements
+     * graph resetting and the autocomplete scene node search
+     * This part of the script is based stronly on d3 logic which you can lookup the documentation on their website
+     * */
     function draw(processedData, redraw) {
 
         nodeCollection = nodeContainer.selectAll('circle').data(processedData.nodes);
         edgeCollection = pathContainer.selectAll('path').data(processedData.edges);
 
 
-        var nodeEnter = nodeCollection.enter().append('circle')
+        nodeEnter = nodeCollection.enter().append('circle')
             .attr('cy', function (d) {
                 return d.cy
             })
@@ -615,7 +712,7 @@ function d3graphv2(rootData, redraw) {
         longClickTitle = nodeContainer.append('text').attr('fill', 'white');
         shortClickTitle = nodeContainer.append('text').attr('fill', 'white');
 
-        var linkEnter = edgeCollection.enter().append('path')
+        linkEnter = edgeCollection.enter().append('path')
             .attr('d', function (d) {
                 var diagonal = [
                     "M", d.source.cx, d.source.cy,
@@ -631,20 +728,40 @@ function d3graphv2(rootData, redraw) {
         function circle(nodeArr) {
             nodeArr
                 .attr('x', function (d) {
-                    d.x = width / 2 + (Math.random() * width / 2) * ((Math.random() > 0.5) ? -1 : 1)
+                    //d.x = width / 2 + (Math.random() * width / 2) * ((Math.random() > 0.5) ? -1 : 1);
+                    d.x = Math.random() * width
                     return d.x
                 })
                 .attr('y', function (d) {
-                    d.y = height / 2 + (height / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1))
+                    //d.y = height / 2 + (height / 2 * Math.random() * ((Math.random() > 0.5) ? -1 : 1));
+                    d.y = Math.random() * height
                     return d.y
                 })
                 .attr('r', function (d) {
-                    d.r = 8;
+                    d.r = 2;
                     return d.r
                 })
                 .attr('fill', 'white');
         }
 
+        var rootNodes = nodeEnter.filter(function (d) {
+            return d.type == 'root'
+        });
+
+        rootNodes.attr('x', function (d, i) {
+                d.x = ((innerW / rootNodes[0].length) / 2) * i + innerW / rootNodes[0].length;
+                d._x = d.x;
+                return d.x
+            })
+            .attr('y', function (d) {
+                d.y = innerH - innerH / 2;
+                d._y = d.y;
+                return d.y;
+            })
+            .attr('r', function (d) {
+                d.r = 18;
+                return d.r;
+            }).style('fill', 'url(#radial-gradient)');
 
         var cityNodes = nodeEnter.filter(function (d) {
             return d.type == "city";
@@ -664,6 +781,7 @@ function d3graphv2(rootData, redraw) {
                 if (d.y == innerH) {
                     d.y = d.y - d.r * 2;
                 }
+                d._y = d.y;
                 return d.y;
             })
             .attr('x', function (d, i) {
@@ -674,84 +792,102 @@ function d3graphv2(rootData, redraw) {
                 if (d.x == innerW) {
                     d.x = d.x - d.r * 2;
                 }
-
+                d._x = d.x;
                 return d.x;
             }).style('fill', function (d, i) {
             d.color = cityColors[i];
             return d3.rgb(d.color[0], d.color[1], d.color[2]);
         });
 
-        var gThemeNodes = nodeEnter.filter(function (d) {
-            return d.type == "subgraphtheme";
+        var nonStaticNodes = nodeEnter.filter(function (d) {
+            return d.type != "city" && d.type != "root";
         });
-        gThemeNodes.style('fill', d3.rgb(111, 115, 125)).attr('x', function (d) {
+
+        nonStaticNodes.attr('x', function (d) {
             d.x = d.x - margin.left;
+            d._x = d.x;
             return d.x
         }).attr('y', function (d) {
             d.y = d.y - margin.top;
+            d._y = d.y;
             return d.y
         });
+
+        //
+        //function distance(a, b) {
+        //    console.log("A:type", a.type,"B:type", b.type)
+        //    var dx = a[0] - b[0],
+        //        dy = a[1] - b[1];
+        //    return Math.sqrt(dx * dx + dy * dy);
+        //}
+        //
+        //function mergeSort(array){
+        //    var mid = Math.floor(array.length/2);
+        //    var subLeft = mergeSort(array.slice(0,mid));
+        //    var subRight = mergeSort(array.slice(mid));
+        //    return merge(subLeft,subRight);
+        //}
+        //function merge(a,b){
+        //    var result=[];
+        //
+        //    while(a.length > 0 && b.length > 0){
+        //        var distance = distance(a[0],b[0]);
+        //        console.log(distance)
+        //        if()
+        //        result.push
+        //    }
+        //
+        //}
+
+        var gThemeNodes = nodeEnter.filter(function (d) {
+            return d.type == "subgraphtheme";
+        });
+        gThemeNodes.style('fill', d3.rgb(111, 115, 125)).attr('r', function (d) {
+            d.r = getRandomInt(3, 5);
+            return d.r;
+        });
+
 
         var sThemeNodes = nodeEnter.filter(function (d) {
             return d.type == "theme";
         });
 
         sThemeNodes.style('fill', function (d) {
-            var cityParent = _.find(d.parents, function (item) {
-                return item.type == 'city';
-            });
-            if (cityParent != undefined) {
-                return d3.rgb(cityParent.color[0], cityParent.color[1], cityParent.color[2]);
-            } else {
-                return d3.rgb('white');
-            }
-
-        }).attr('x', function (d) {
-            d.x = d.x - margin.left;
-            return d.x
-        }).attr('y', function (d) {
-            d.y = d.y - margin.top;
-            return d.y
-        });
-
-        var rootNodes = nodeEnter.filter(function (d) {
-            return d.type == 'root'
-        });
-
-        rootNodes.attr('x', function (d, i) {
-                d.x = ((innerW / rootNodes[0].length) / 2) * i + innerW / rootNodes[0].length;
-                return d.x
-            })
-            .attr('y', function (d) {
-                d.y = innerH - innerH / 2;
-                return d.y;
+                var cityParent = _.find(d.parents, function (item) {
+                    return item.type == 'city';
+                });
+                if (cityParent != undefined) {
+                    return d3.rgb(cityParent.color[0], cityParent.color[1], cityParent.color[2]);
+                } else {
+                    return d3.rgb('white');
+                }
             })
             .attr('r', function (d) {
-                d.r = 18;
+                d.r = getRandomInt(2, 4)
                 return d.r;
-            }).style('fill', 'url(#radial-gradient)');
+            });
+
 
         var sceneNodes = nodeEnter.filter(function (d) {
             return d.type == 'scene'
         });
-        sceneNodes.style('fill', 'yellow').attr('x', function (d) {
-            d.x = d.x - margin.left;
-            return d.x
-        }).attr('y', function (d) {
-            d.y = d.y - margin.top;
-            return d.y
-        }).attr('r', function (d) {
-            d.r = 4;
+        sceneNodes.style('fill', 'yellow').attr('r', function (d) {
+            d.r = getRandomInt(1, 3);
             return d.r;
         }).each(function (d) {
             availableScenes.push(d.name);
         });
+
+
         d3.select('#openViewer').on('click', function () {
             window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
         });
 
-        d3.select('#reset-new2').on('click', function () {
-            resetGraph();
+        d3.select('#reset-new2').on('click', function (e) {
+            resetGraphToOrigin();
+        });
+        d3.select('#reset-origin').on('click', function () {
+            resetGraphToOrigin();
         });
 
         //This function resets the graph to its default state
@@ -762,25 +898,37 @@ function d3graphv2(rootData, redraw) {
             nodeContainer.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
             transitionGraphElements();
         }
+
+        function resetGraphToOrigin() {
+            d3.select('h1').html = '';
+            zoom.scale(1);
+            zoom.translate([margin.left, margin.top]);
+            nodeContainer.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
+            transitionGraphElementsToOrigin();
+        }
+
         //This function transitions the elements to their initial positions
-        function transitionGraphElements() {
+
+
+        function transitionGraphElementsToOrigin() {
 
             var ratio = 1 - Math.pow(1 / duration, 5);
             nodeEnter.transition()
                 .duration(duration)
                 .attr('cx', function (d) {
                     if (ratio >= 1) {
-                        d.cx = d.x;
+                        d.cx = d._x;
                     } else {
-                        d.cx = ratio * (d.x - d.cx) + cx;
+                        d.cx = ratio * (d._x - d.cx) + cx;
                     }
                     return d.cx;
                 })
                 .attr('cy', function (d) {
                     if (ratio >= 1) {
-                        d.cy = d.y;
+
+                        d.cy = d._y;
                     } else {
-                        d.cy = ratio * (d.y - d.cy) + cy;
+                        d.cy = ratio * (d._y - d.cy) + cy;
                     }
                     return d.cy;
                 })
@@ -805,7 +953,7 @@ function d3graphv2(rootData, redraw) {
                     d3.select(test).classed(source, true);
                     d3.select(test).classed(target, true);
                     d3.select(test).classed('opaque', false);
-                })
+                });
 
 
         }
@@ -829,7 +977,7 @@ function d3graphv2(rootData, redraw) {
                 element.dispatchEvent(new Event('dblclick'));
             }
         });
-        transitionGraphElements()
+        transitionGraphElementsToOrigin()
 
     }
 
@@ -887,15 +1035,16 @@ function loadData() {
                     if (e.altKey && e.keyCode == 83) {
                         // call your function to do the thing
                         var search = $('.xdsoft_autocomplete');
-                        if(search.is(":visible")){
+                        if (search.is(":visible")) {
                             search.hide()
                             $('#tags').hide()
-                        }else{
+                        } else {
                             search.show()
                             $('#tags').show()
                         }
                     }
                 }
+
 // register the handler
                 document.addEventListener('keyup', search_keyUp, false);
                 function viewer_keyUp(e) {
@@ -906,6 +1055,7 @@ function loadData() {
                         window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
                     }
                 }
+
 // register the handler
                 document.addEventListener('keyup', viewer_keyUp, false);
             });
