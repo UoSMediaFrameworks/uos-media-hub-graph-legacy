@@ -350,7 +350,7 @@ function d3graphv2(rootData, redraw) {
             //console.log(d3.select(this).classed('longHL'))
             if (d.name == focusedNode.name) {
                 return 10;
-            }else{
+            } else {
                 return d.r;
             }
 
@@ -516,11 +516,11 @@ function d3graphv2(rootData, redraw) {
             return obj.__data__ == node;
         });
 
-        d3.select(data).transition()
-            .duration(duration)
+        d3.select(data).transition().style("fill", "black").transition()
+            .duration(1000)
             .attr('r', function (d) {
                 //d.r * 1.5
-                return 10;
+                return d.r;
             })
             .attr('cx', function (d) {
                 var cx = d.cx;
@@ -809,41 +809,80 @@ function d3graphv2(rootData, redraw) {
             return d.x
         }).attr('y', function (d) {
             d.y = d.y - margin.top;
+            //d.y = innerH - innerH / 2;
             d._y = d.y;
-            return d.y
+
+            return d.y;
         });
 
-        //
-        //function distance(a, b) {
-        //    console.log("A:type", a.type,"B:type", b.type)
-        //    var dx = a[0] - b[0],
-        //        dy = a[1] - b[1];
-        //    return Math.sqrt(dx * dx + dy * dy);
-        //}
-        //
-        //function mergeSort(array){
-        //    var mid = Math.floor(array.length/2);
-        //    var subLeft = mergeSort(array.slice(0,mid));
-        //    var subRight = mergeSort(array.slice(mid));
-        //    return merge(subLeft,subRight);
-        //}
-        //function merge(a,b){
-        //    var result=[];
-        //
-        //    while(a.length > 0 && b.length > 0){
-        //        var distance = distance(a[0],b[0]);
-        //        console.log(distance)
-        //        if()
-        //        result.push
-        //    }
-        //
-        //}
+
+        //This function will check the distance between both nodes
+        function distance(a, b) {
+
+            var dx = a.x - b.x,
+                dy = a.y - b.y;
+
+            var math = Math.sqrt(dx * dx + dy * dy) - (a.r + b.r)
+            var angleDegA = Math.atan2(a.y - b.y, a.x - b.x);
+            var angleDegB = Math.atan2(b.y - a.y, b.x - a.x);
+            //console.log(Math.floor(math),dx,dy);
+            if (math < 0) {
+                if (a.type == 'city' || a.type == 'root') {
+                    console.log("A:type", a.type)
+                    var x = (Math.cos(angleDegB) * a.r + 2) + b.cx;
+                    var y = (Math.sin(angleDegB) * a.r + 2) + b.cy;
+                    //An alternative function to move node will be added this is a placeholder
+                    moveNode(b, x, y);
+                } else if (b.type == 'city' || b.type == 'root') {
+                    console.log("B:type", b.type)
+                    var x = (Math.cos(angleDegA) * b.r + 2) + a.cx;
+                    var y = (Math.sin(angleDegA) * b.r + 2) + a.cy;
+                    moveNode(a, x, y);
+                }else{
+                    var bx = (Math.cos(angleDegB) * b.r + 2)/2 + b.cx;
+                    var by = (Math.sin(angleDegB) * b.r + 2)/2 + b.cy;
+                    var ax = (Math.cos(angleDegA) * a.r + 2)/2 + a.cx;
+                    var ay = (Math.sin(angleDegA) * a.r + 2)/2 + a.cy;
+                    moveNode(a, ax, ay);
+                    moveNode(b, bx, by);
+                    console.log("A:type", a.type, a.name, "B:type", b.name, b.type, angleDegA, angleDegB, "distance", math)
+                }
+            }
+
+            return math;
+        }
+
+
+
+        //Merge sort function
+        function mergeSort(array) {
+            if (array.length < 2) {
+                return array
+            }
+
+            var mid = Math.floor(array.length / 2);
+            var subLeft = mergeSort(array.slice(0, mid));
+            var subRight = mergeSort(array.slice(mid));
+            var res = merge(subLeft, subRight)
+
+            return res;
+        }
+        //Merge for merge sort
+        function merge(a, b) {
+            var result = [];
+            while (a.length > 0 && b.length > 0) {
+                var dist = distance(a[0].__data__, b[0].__data__);
+                result.push(a[0].__data__.x < b[0].__data__.x ? a.shift() : b.shift());
+            }
+            return result.concat(a.length ? a : b);
+        }
+
 
         var gThemeNodes = nodeEnter.filter(function (d) {
             return d.type == "subgraphtheme";
         });
         gThemeNodes.style('fill', d3.rgb(111, 115, 125)).attr('r', function (d) {
-            d.r = getRandomInt(3, 5);
+            d.r = getRandomInt(4, 6);
             return d.r;
         });
 
@@ -863,7 +902,7 @@ function d3graphv2(rootData, redraw) {
                 }
             })
             .attr('r', function (d) {
-                d.r = getRandomInt(2, 4)
+                d.r = getRandomInt(4, 6);
                 return d.r;
             });
 
@@ -872,7 +911,7 @@ function d3graphv2(rootData, redraw) {
             return d.type == 'scene'
         });
         sceneNodes.style('fill', 'yellow').attr('r', function (d) {
-            d.r = getRandomInt(1, 3);
+            d.r = getRandomInt(4, 6);
             return d.r;
         }).each(function (d) {
             availableScenes.push(d.name);
@@ -885,6 +924,8 @@ function d3graphv2(rootData, redraw) {
 
         d3.select('#reset-new2').on('click', function (e) {
             resetGraphToOrigin();
+        }); d3.select('#clearOverlap').on('click', function (e) {
+            clearOverlap();
         });
         d3.select('#reset-origin').on('click', function () {
             resetGraphToOrigin();
@@ -906,7 +947,9 @@ function d3graphv2(rootData, redraw) {
             nodeContainer.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
             transitionGraphElementsToOrigin();
         }
-
+        function clearOverlap(){
+            mergeSort(nodeEnter[0])
+        }
         //This function transitions the elements to their initial positions
 
 
@@ -954,7 +997,7 @@ function d3graphv2(rootData, redraw) {
                     d3.select(test).classed(target, true);
                     d3.select(test).classed('opaque', false);
                 });
-
+           // var test = mergeSort(nodeEnter[0]);
 
         }
 
