@@ -60,12 +60,10 @@ function d3graphv2(rootData, redraw) {
     })();
 
 //--------------------Global Variables----------------//
-
     var timeout;
     var hoverTimeout;
-
     var height, width, svg, root, nodeCollection, edgeCollection, duration, zoom;
-
+    var overlappingElementsCounter = 0;
     //This is a variable containing an object that is used for testing the framerate of the graph
     var fps = {
         startTime: 0, frameNumber: 0, getFPS: function () {
@@ -78,7 +76,6 @@ function d3graphv2(rootData, redraw) {
             return result;
         }
     };
-
     //This is an extension to the d3 selection code giving it the ability to call the touch handler.
     // THe touch handler will be able to distinguish the touch event that is being triggered on the graph based on time between events happening
     d3.selection.prototype.touchHandler = function (callback) {
@@ -116,7 +113,6 @@ function d3graphv2(rootData, redraw) {
     zoom = d3.behavior.zoom()
         .scaleExtent([1, 10])
         .on("zoom", zoomed);
-
     //This variable contains a reference to the svg element that will be building the graph.
     svg = d3.select('#graph')
         .append('svg')
@@ -124,7 +120,6 @@ function d3graphv2(rootData, redraw) {
         .attr("preserveAspectRatio", "xMinYMin")
         .append('g')
         .attr("fill", "#333");
-
     //This function is called if a zoom or pan occurs moving or scaling the svg based on the events initial coordinates
     function zoomed() {
         nodeContainer.attr("transform", "translate(" + d3.event.translate + ")scale(" + d3.event.scale + ")");
@@ -132,7 +127,6 @@ function d3graphv2(rootData, redraw) {
 
 //Append a defs (for definition) element to your SVG, in order to use them later as special backgrounds for specific elements
     var defs = svg.append("defs");
-
 //Append a radialGradient element to the defs and give it a unique id
     // This is used for the root nodes.
     var radialGradient = defs.append("radialGradient")
@@ -223,7 +217,6 @@ function d3graphv2(rootData, redraw) {
 
         processNodes(data);
         processsEdges();
-
         //Uncomment to trigger the fps checker.
         //function gameLoop() {
         //    setTimeout(gameLoop, 1000 / 60);
@@ -234,7 +227,6 @@ function d3graphv2(rootData, redraw) {
     }
 
     initialize(rootData);
-
     if (!redraw) {
         //Draws the graph
         draw(root, false);
@@ -242,7 +234,6 @@ function d3graphv2(rootData, redraw) {
         //Redraws the graph and removes the previous graph to avoid duplication.
         draw(root, true);
     }
-
     var cleanTitle = function (title) {
         return title.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').replace('GUIscene', 'scene').replace(/(scene|chicago|beijing)?\s(.*)?/i, '<sup>$1</sup><span class="$1">$2</span>');
     };
@@ -304,7 +295,6 @@ function d3graphv2(rootData, redraw) {
     //This function represents one of the interaction events - double click/ long touch
     //This function at its current version is meant to highlight a set of nodes in order to make them more visible in relation to the element clicked
     function transitionGraphElements(focusedNode) {
-        console.log(focusedNode)
         var ratio = 1 - Math.pow(1 / duration, 5);
         nodeEnter.transition().delay(function (d) {
                 if (focusedNode.type == "subgraphtheme") {
@@ -502,49 +492,59 @@ function d3graphv2(rootData, redraw) {
                 var radian = (2 * Math.PI) * (index / total);
                 var x = (Math.cos(radian) * radius) + cx;
                 var y = (Math.sin(radian) * radius) + cy;
-                moveNode(child, x, y);
+                moveNode(child, x, y,"cluster");
             });
         })
 
     }
 
     //This function takes in the node and the x and y positions that it needs to be moved to.
-    function moveNode(node, positionX, positionY) {
+    function moveNode(node, positionX, positionY, type) {
         var ratio = 1 - Math.pow(1 / duration, 5);
         //console.log(nodeCollection)
         var data = _.find(nodeCollection[0], function (obj) {
             return obj.__data__ == node;
         });
 
-        d3.select(data).transition().style("fill", "black").transition()
-            .duration(1000)
+        d3.select(data).transition()
+            .duration(duration)
             .attr('r', function (d) {
                 //d.r * 1.5
-                return d.r;
+                if (type == "cluster") {
+                    return 10
+                } else {
+                    return d.r;
+                }
             })
             .attr('cx', function (d) {
                 var cx = d.cx;
                 if (ratio >= 1) {
                     d.cx = positionX;
                     d.x = d.cx;
-                    return d.cx;
+
                 } else {
                     d.cx = ratio * (positionX - cx) + cx;
                     d.x = d.cx;
-                    return d.cx;
                 }
+                if (type == "optimize") {
+                    d._x = d.cx
+                }
+                return d.cx;
             })
             .attr('cy', function (d) {
                 var cy = this.cy;
                 if (ratio >= 1) {
                     d.cy = positionY;
                     d.y = d.cy;
-                    return d.cy;
                 } else {
                     d.cy = ratio * (positionY - cy) + cy;
                     d.y = d.cy;
-                    return d.cy;
+
                 }
+                if (type == "optimize") {
+                    d._y = d.cy
+                }
+                return d.cy;
             });
 
         //Find all relationships/edges/paths based on the current node be it source or target.
@@ -738,7 +738,7 @@ function d3graphv2(rootData, redraw) {
                     return d.y
                 })
                 .attr('r', function (d) {
-                    d.r = 2;
+                    d.r = 4;
                     return d.r
                 })
                 .attr('fill', 'white');
@@ -811,78 +811,63 @@ function d3graphv2(rootData, redraw) {
             d.y = d.y - margin.top;
             //d.y = innerH - innerH / 2;
             d._y = d.y;
-
             return d.y;
         });
 
-
         //This function will check the distance between both nodes
         function distance(a, b) {
-
-            var dx = a.x - b.x,
+            var dx, dy;
+            //console.log(a.r, b.r)
+            if (b.type == 'city' || b.type == 'root') {
+                dx = b.x - a.x;
+                dy = b.y - a.y;
+            } else {
+                dx = a.x - b.x;
                 dy = a.y - b.y;
-
-            var math = Math.sqrt(dx * dx + dy * dy) - (a.r + b.r)
+            }
+            var math = Math.sqrt(dx * dx + dy * dy) - (a.r + b.r);
             var angleDegA = Math.atan2(a.y - b.y, a.x - b.x);
             var angleDegB = Math.atan2(b.y - a.y, b.x - a.x);
             //console.log(Math.floor(math),dx,dy);
-            if (math < 0) {
-                if (a.type == 'city' || a.type == 'root') {
-                    console.log("A:type", a.type)
-                    var x = (Math.cos(angleDegB) * a.r + 2) + b.cx;
-                    var y = (Math.sin(angleDegB) * a.r + 2) + b.cy;
+            if (math < 10) {
+                overlappingElementsCounter++;
+                if (b.type == 'city' || b.type == 'root') {
+                    //console.log("B:type", b.type)
+                    var x = (Math.cos(angleDegA) * (b.r + 10)) + a.x;
+                    var y = (Math.sin(angleDegA) * (b.r + 10)) + a.y;
+                    moveNode(a, x, y,"optimize");
+                } else {
+                    //console.log("A:type", a.name)
+                    var x = (Math.cos(angleDegB) * (a.r + 10)) + b.x;
+                    var y = (Math.sin(angleDegB) * (a.r + 10)) + b.y;
                     //An alternative function to move node will be added this is a placeholder
-                    moveNode(b, x, y);
-                } else if (b.type == 'city' || b.type == 'root') {
-                    console.log("B:type", b.type)
-                    var x = (Math.cos(angleDegA) * b.r + 2) + a.cx;
-                    var y = (Math.sin(angleDegA) * b.r + 2) + a.cy;
-                    moveNode(a, x, y);
-                }else{
-                    var bx = (Math.cos(angleDegB) * b.r + 2)/2 + b.cx;
-                    var by = (Math.sin(angleDegB) * b.r + 2)/2 + b.cy;
-                    var ax = (Math.cos(angleDegA) * a.r + 2)/2 + a.cx;
-                    var ay = (Math.sin(angleDegA) * a.r + 2)/2 + a.cy;
-                    moveNode(a, ax, ay);
-                    moveNode(b, bx, by);
-                    console.log("A:type", a.type, a.name, "B:type", b.name, b.type, angleDegA, angleDegB, "distance", math)
+                    moveNode(b, x, y,"optimize");
                 }
             }
 
-            return math;
         }
-
 
 
         //Merge sort function
-        function mergeSort(array) {
-            if (array.length < 2) {
-                return array
+        function comapreAllElements(array) {
+            overlappingElementsCounter = 0;
+            for (var i = 0; i < array.length; i++) {
+                for (var k = 0; k < array.length; k++) {
+                    if (array[k] == array[i]) {
+                        break;
+                    } else {
+                        distance(array[i].__data__, array[k].__data__);
+                    }
+                }
             }
 
-            var mid = Math.floor(array.length / 2);
-            var subLeft = mergeSort(array.slice(0, mid));
-            var subRight = mergeSort(array.slice(mid));
-            var res = merge(subLeft, subRight)
-
-            return res;
         }
-        //Merge for merge sort
-        function merge(a, b) {
-            var result = [];
-            while (a.length > 0 && b.length > 0) {
-                var dist = distance(a[0].__data__, b[0].__data__);
-                result.push(a[0].__data__.x < b[0].__data__.x ? a.shift() : b.shift());
-            }
-            return result.concat(a.length ? a : b);
-        }
-
 
         var gThemeNodes = nodeEnter.filter(function (d) {
             return d.type == "subgraphtheme";
         });
         gThemeNodes.style('fill', d3.rgb(111, 115, 125)).attr('r', function (d) {
-            d.r = getRandomInt(4, 6);
+            d.r = getRandomInt(4, 7);
             return d.r;
         });
 
@@ -902,7 +887,7 @@ function d3graphv2(rootData, redraw) {
                 }
             })
             .attr('r', function (d) {
-                d.r = getRandomInt(4, 6);
+                d.r = getRandomInt(3, 6);
                 return d.r;
             });
 
@@ -911,7 +896,7 @@ function d3graphv2(rootData, redraw) {
             return d.type == 'scene'
         });
         sceneNodes.style('fill', 'yellow').attr('r', function (d) {
-            d.r = getRandomInt(4, 6);
+            d.r = getRandomInt(2, 5);
             return d.r;
         }).each(function (d) {
             availableScenes.push(d.name);
@@ -924,8 +909,6 @@ function d3graphv2(rootData, redraw) {
 
         d3.select('#reset-new2').on('click', function (e) {
             resetGraphToOrigin();
-        }); d3.select('#clearOverlap').on('click', function (e) {
-            clearOverlap();
         });
         d3.select('#reset-origin').on('click', function () {
             resetGraphToOrigin();
@@ -947,9 +930,14 @@ function d3graphv2(rootData, redraw) {
             nodeContainer.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
             transitionGraphElementsToOrigin();
         }
-        function clearOverlap(){
-            mergeSort(nodeEnter[0])
+
+        function clearOverlap() {
+            overlappingElementsCounter++;
+            while (overlappingElementsCounter> 0) {
+                comapreAllElements(nodeEnter[0]);
+            }
         }
+
         //This function transitions the elements to their initial positions
 
 
@@ -997,8 +985,8 @@ function d3graphv2(rootData, redraw) {
                     d3.select(test).classed(target, true);
                     d3.select(test).classed('opaque', false);
                 });
-           // var test = mergeSort(nodeEnter[0]);
-
+            // var test = mergeSort(nodeEnter[0]);
+            clearOverlap();
         }
 
         nodeEnter.order();
