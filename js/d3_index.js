@@ -1064,8 +1064,7 @@ function loadData() {
                     }
                 }
                 var jqueryH = window.innerHeight * 0.3;
-                jQuery('#qrcode').qrcode(
-                    {width:jqueryH,height:jqueryH,text: 'http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId});
+                jQuery('#qrcode').qrcode('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
 
                 function search_keyUp(e) {
 
