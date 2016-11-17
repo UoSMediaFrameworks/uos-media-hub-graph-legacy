@@ -19,6 +19,7 @@ var cityColors = [
     [198, 235, 116]
 ];
 //This function initializes the whole graph.
+window.addEventListener("contextmenu", function(e) { e.preventDefault(); })
 function d3graphv2(rootData, redraw) {
     if (redraw) {
         d3.selectAll('svg').remove();
@@ -738,7 +739,7 @@ function d3graphv2(rootData, redraw) {
                     return d.y
                 })
                 .attr('r', function (d) {
-                    d.r = 4;
+                    d.r = 2;
                     return d.r
                 })
                 .attr('fill', 'white');
@@ -852,7 +853,7 @@ function d3graphv2(rootData, redraw) {
         function comapreAllElements(array) {
             overlappingElementsCounter = 0;
             for (var i = 0; i < array.length; i++) {
-                for (var k = 0; k < array.length; k++) {
+                for (var k = i+1; k < array.length; k++) {
                     if (array[k] == array[i]) {
                         break;
                     } else {
@@ -867,7 +868,7 @@ function d3graphv2(rootData, redraw) {
             return d.type == "subgraphtheme";
         });
         gThemeNodes.style('fill', d3.rgb(111, 115, 125)).attr('r', function (d) {
-            d.r = getRandomInt(4, 7);
+            d.r = getRandomInt(4, 6);
             return d.r;
         });
 
@@ -887,7 +888,7 @@ function d3graphv2(rootData, redraw) {
                 }
             })
             .attr('r', function (d) {
-                d.r = getRandomInt(3, 6);
+                d.r = getRandomInt(3, 5);
                 return d.r;
             });
 
@@ -896,7 +897,7 @@ function d3graphv2(rootData, redraw) {
             return d.type == 'scene'
         });
         sceneNodes.style('fill', 'yellow').attr('r', function (d) {
-            d.r = getRandomInt(2, 5);
+            d.r = getRandomInt(2, 4);
             return d.r;
         }).each(function (d) {
             availableScenes.push(d.name);
