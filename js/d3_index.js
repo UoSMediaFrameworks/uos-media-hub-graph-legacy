@@ -19,7 +19,10 @@ var cityColors = [
     [198, 235, 116]
 ];
 //This function initializes the whole graph.
-window.addEventListener("contextmenu", function(e) { e.preventDefault(); })
+window.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+});
+
 function d3graphv2(rootData, redraw) {
     if (redraw) {
         d3.selectAll('svg').remove();
@@ -493,7 +496,7 @@ function d3graphv2(rootData, redraw) {
                 var radian = (2 * Math.PI) * (index / total);
                 var x = (Math.cos(radian) * radius) + cx;
                 var y = (Math.sin(radian) * radius) + cy;
-                moveNode(child, x, y,"cluster");
+                moveNode(child, x, y, "cluster");
             });
         })
 
@@ -836,13 +839,13 @@ function d3graphv2(rootData, redraw) {
                     //console.log("B:type", b.type)
                     var x = (Math.cos(angleDegA) * (b.r + 10)) + a.x;
                     var y = (Math.sin(angleDegA) * (b.r + 10)) + a.y;
-                    moveNode(a, x, y,"optimize");
+                    moveNode(a, x, y, "optimize");
                 } else {
                     //console.log("A:type", a.name)
                     var x = (Math.cos(angleDegB) * (a.r + 10)) + b.x;
                     var y = (Math.sin(angleDegB) * (a.r + 10)) + b.y;
                     //An alternative function to move node will be added this is a placeholder
-                    moveNode(b, x, y,"optimize");
+                    moveNode(b, x, y, "optimize");
                 }
             }
 
@@ -853,7 +856,7 @@ function d3graphv2(rootData, redraw) {
         function comapreAllElements(array) {
             overlappingElementsCounter = 0;
             for (var i = 0; i < array.length; i++) {
-                for (var k = i+1; k < array.length; k++) {
+                for (var k = i + 1; k < array.length; k++) {
                     if (array[k] == array[i]) {
                         break;
                     } else {
@@ -934,7 +937,7 @@ function d3graphv2(rootData, redraw) {
 
         function clearOverlap() {
             overlappingElementsCounter++;
-            while (overlappingElementsCounter> 0) {
+            while (overlappingElementsCounter > 0) {
                 comapreAllElements(nodeEnter[0]);
             }
         }
@@ -1060,6 +1063,10 @@ function loadData() {
                         drawn = true
                     }
                 }
+                var jqueryH = window.innerHeight * 0.3;
+                jQuery('#qrcode').qrcode(
+                    {width:jqueryH,height:jqueryH,text: 'http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId});
+
                 function search_keyUp(e) {
 
                     // this would test for whichever key is 40 and the ctrl key at the same time
@@ -1087,9 +1094,26 @@ function loadData() {
                         window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
                     }
                 }
+                function qr_keyUp(e) {
+                    console.log('qrcode')
+                    // this would test for whichever key is 40 and the ctrl key at the same time
+                    if (e.altKey && e.keyCode == 67) {
+                        // call your function to do the thing
+                        var qr = $('#qrcode');
+                        if (qr.is(":visible")) {
+                            qr.hide()
+
+                        } else {
+                            qr.show()
+                        }
+                    }
+
+                }
+
 
 // register the handler
                 document.addEventListener('keyup', viewer_keyUp, false);
+                document.addEventListener('keyup', qr_keyUp, false);
             });
         });
     });
