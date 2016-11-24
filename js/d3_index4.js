@@ -394,7 +394,7 @@ function d3graphv2(rootData, redraw) {
                 }
             });
 
-        var edges = edgeCollection.filter(function (item) {
+        var edges = linkCollection.filter(function (item) {
             return item.source == node || item.target == node;
         });
 
@@ -411,22 +411,22 @@ function d3graphv2(rootData, redraw) {
 
     function clusterHighlight(el,d,recurseIndex,recurse) {
         if(recurseIndex == 0){
-            edgeCollection.style('stroke-width',null).style('opacity',null);
+            linkCollection.style('stroke-width',null).style('opacity',null);
         }
         var value = 1- recurseIndex * 1/3;
         d3.select('.longHL').classed('longHL', false);
         d3.selectAll('.longLinkHL').classed('longLinkHL', false);
         var filteredEdges;
         if (d.type == 'root') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
+            filteredEdges = _.filter(linkCollection[0], function (item) {
                 return item.__data__.target.type == 'subgraphtheme';
             })
         } else if (d.type == 'city') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
+            filteredEdges = _.filter(linkCollection[0], function (item) {
                 return item.__data__.source.type != 'root';
             })
         } else {
-            filteredEdges = edgeCollection[0]
+            filteredEdges = linkCollection[0]
         }
         d3.select(el).classed('longHL', true);
         var edges = _.filter(filteredEdges, function (item) {
@@ -457,15 +457,15 @@ function d3graphv2(rootData, redraw) {
 
         var filteredEdges;
         if (d.type == 'root') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
+            filteredEdges = _.filter(linkCollection[0], function (item) {
                 return item.__data__.source.type == 'city' || item.__data__.target.type == 'city';
             })
         } else if (d.type == 'city') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
+            filteredEdges = _.filter(linkCollection[0], function (item) {
                 return item.__data__.source.type != 'root';
             })
         } else {
-            filteredEdges = edgeCollection[0]
+            filteredEdges = linkCollection[0]
         }
 
         d3.select(el).classed('highlight', true);
@@ -524,7 +524,7 @@ function d3graphv2(rootData, redraw) {
     function draw(processedData, redraw) {
 
         nodeCollection = nodeContainer.selectAll('circle').data(processedData.nodes);
-        edgeCollection = pathContainer.selectAll('path').data(processedData.edges);
+        linkCollection = pathContainer.selectAll('path').data(processedData.edges);
 
 
         var nodeEnter = nodeCollection.enter().append('circle')
@@ -559,7 +559,7 @@ function d3graphv2(rootData, redraw) {
         longClickTitle = nodeContainer.append('text').attr('fill', 'white');
         shortClickTitle = nodeContainer.append('text').attr('fill', 'white');
 
-        var linkEnter = edgeCollection.enter().append('path')
+        var linkEnter = linkCollection.enter().append('path')
             .attr('d', function (d) {
                 var diagonal = [
                     "M", d.source.cx, d.source.cy,

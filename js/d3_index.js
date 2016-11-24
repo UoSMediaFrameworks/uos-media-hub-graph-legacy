@@ -3,7 +3,6 @@ var roomId;
 var drawn = false;
 var fullRoomId;
 var availableScenes = [];
-//RGB values for the city  colors
 var nodeEnter;
 var linkEnter;
 var cityColors = [
@@ -525,7 +524,6 @@ function d3graphv2(rootData, redraw) {
                 if (ratio >= 1) {
                     d.cx = positionX;
                     d.x = d.cx;
-
                 } else {
                     d.cx = ratio * (positionX - cx) + cx;
                     d.x = d.cx;
@@ -543,7 +541,6 @@ function d3graphv2(rootData, redraw) {
                 } else {
                     d.cy = ratio * (positionY - cy) + cy;
                     d.y = d.cy;
-
                 }
                 if (type == "optimize") {
                     d._y = d.cy
@@ -552,7 +549,7 @@ function d3graphv2(rootData, redraw) {
             });
 
         //Find all relationships/edges/paths based on the current node be it source or target.
-        var edges = edgeCollection.filter(function (item) {
+        var edges = linkCollection.filter(function (item) {
             return item.source == node || item.target == node;
         });
         //Updating the position and arc of the line's
@@ -576,15 +573,15 @@ function d3graphv2(rootData, redraw) {
         d3.selectAll('.longLinkHL').classed('longLinkHL', false);
         var filteredEdges;
         if (d.type == 'root') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
+            filteredEdges = _.filter(linkCollection[0], function (item) {
                 return item.__data__.source.type == 'subgraphtheme' || item.__data__.target.type == 'subgraphtheme';
             })
         } else if (d.type == 'city') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
+            filteredEdges = _.filter(linkCollection[0], function (item) {
                 return item.__data__.source.type != 'root';
             })
         } else {
-            filteredEdges = edgeCollection[0]
+            filteredEdges = linkCollection[0]
         }
         d3.select(el).classed('longHL', true);
         var edges = _.filter(filteredEdges, function (item) {
@@ -605,15 +602,15 @@ function d3graphv2(rootData, redraw) {
 
         var filteredEdges;
         if (d.type == 'root') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
+            filteredEdges = _.filter(linkCollection[0], function (item) {
                 return item.__data__.source.type == 'city' || item.__data__.target.type == 'city';
             })
         } else if (d.type == 'city') {
-            filteredEdges = _.filter(edgeCollection[0], function (item) {
+            filteredEdges = _.filter(linkCollection[0], function (item) {
                 return item.__data__.source.type != 'root';
             })
         } else {
-            filteredEdges = edgeCollection[0]
+            filteredEdges = linkCollection[0]
         }
 
         d3.select(el).classed('highlight', true);
@@ -676,7 +673,7 @@ function d3graphv2(rootData, redraw) {
     function draw(processedData, redraw) {
 
         nodeCollection = nodeContainer.selectAll('circle').data(processedData.nodes);
-        edgeCollection = pathContainer.selectAll('path').data(processedData.edges);
+        linkCollection = pathContainer.selectAll('path').data(processedData.edges);
 
 
         nodeEnter = nodeCollection.enter().append('circle')
@@ -716,7 +713,7 @@ function d3graphv2(rootData, redraw) {
         longClickTitle = nodeContainer.append('text').attr('fill', 'white');
         shortClickTitle = nodeContainer.append('text').attr('fill', 'white');
 
-        linkEnter = edgeCollection.enter().append('path')
+        linkEnter = linkCollection.enter().append('path')
             .attr('d', function (d) {
                 var diagonal = [
                     "M", d.source.cx, d.source.cy,

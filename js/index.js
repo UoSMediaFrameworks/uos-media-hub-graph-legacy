@@ -386,7 +386,7 @@ function d3graphv2() {
     function draw(processedData) {
 
         nodeCollection = nodeContainer.selectAll('circle').data(processedData.nodes);
-        edgeCollection = pathContainer.selectAll('path').data(processedData.edges);
+        linkCollection = pathContainer.selectAll('path').data(processedData.edges);
 
 
         var nodeEnter = nodeCollection.enter().append('circle')
@@ -407,7 +407,7 @@ function d3graphv2() {
             })
             .call(circle);
 
-        var linkEnter = edgeCollection.enter().append('path')
+        var linkEnter = linkCollection.enter().append('path')
             .attr('d', function (d) {
                 var diagonal = [
                     "M", d.source.cx, d.source.cy,
