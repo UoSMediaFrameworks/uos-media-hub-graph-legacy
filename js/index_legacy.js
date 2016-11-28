@@ -284,7 +284,7 @@ function d3graphv2() {
         }
     ];
 
-    var height, width, svg, root, diagonal, nodeCollection, edgeCollection, duration, zoom;
+    var height, width, svg, root, diagonal, nodeCollection, linkCollection, duration, zoom;
 
     root = {
         nodes: [],

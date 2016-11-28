@@ -65,7 +65,7 @@ function d3graphv2(rootData, redraw) {
 //--------------------Global Variables----------------//
     var timeout;
     var hoverTimeout;
-    var height, width, svg, root, nodeCollection, edgeCollection, duration, zoom;
+    var height, width, svg, root, nodeCollection, linkCollection, duration, zoom;
     var overlappingElementsCounter = 0;
     //This is a variable containing an object that is used for testing the framerate of the graph
     var fps = {
@@ -904,17 +904,25 @@ function d3graphv2(rootData, redraw) {
         });
 
 
-        d3.select('#openViewer').on('click', function () {
-            window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
-        });
 
         d3.select('#reset-new2').on('click', function (e) {
             resetGraphToOrigin();
         });
+
+        d3.select('#openViewer').on('click', function () {
+            window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+        });
+
         d3.select('#reset-origin').on('click', function () {
             resetGraphToOrigin();
         });
-
+        function resetGraphToOrigin() {
+            d3.select('h1').html = '';
+            zoom.scale(1);
+            zoom.translate([margin.left, margin.top]);
+            nodeContainer.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
+            transitionGraphElementsToOrigin();
+        }
         //This function resets the graph to its default state
         function resetGraph() {
             d3.select('h1').html = '';
@@ -924,13 +932,7 @@ function d3graphv2(rootData, redraw) {
             transitionGraphElements();
         }
 
-        function resetGraphToOrigin() {
-            d3.select('h1').html = '';
-            zoom.scale(1);
-            zoom.translate([margin.left, margin.top]);
-            nodeContainer.attr("transform", "translate(" + zoom.translate() + ")scale(" + zoom.scale() + ")");
-            transitionGraphElementsToOrigin();
-        }
+
 
         function clearOverlap() {
             overlappingElementsCounter++;
@@ -1046,6 +1048,8 @@ function loadData() {
                 fullRoomId = serverRoomId;
                 roomId = serverRoomId.substr(2);
             }
+
+            //Gets url parameter to load the scene list from a specific graph or the default id
             sceneId = getQueryVariable("id") || sceneId;
             socket.emit('loadSceneGraph', sceneId, function (err, sceneGraph) {
                 if (err || !sceneGraph) {
@@ -1053,7 +1057,7 @@ function loadData() {
                     //console.log('Couldn\'t load requested scene graph, reload the page and try again');
                 } else {
                     //console.log(sceneGraph);
-                    if (drawn) {
+                    if (sceneGraph) {
                         d3graphv2(sceneGraph.nodeList, true);
                     } else {
                         d3graphv2(sceneGraph.nodeList, false);
@@ -1064,9 +1068,7 @@ function loadData() {
                 jQuery('#qrcode').qrcode('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
 
                 function search_keyUp(e) {
-
                     // this would test for whichever key is 40 and the ctrl key at the same time
-                    console.log('search')
                     if (e.altKey && e.keyCode == 83) {
                         // call your function to do the thing
                         var search = $('.xdsoft_autocomplete');
@@ -1080,10 +1082,7 @@ function loadData() {
                     }
                 }
 
-// register the handler
-                document.addEventListener('keyup', search_keyUp, false);
                 function viewer_keyUp(e) {
-                    console.log('viewer')
                     // this would test for whichever key is 40 and the ctrl key at the same time
                     if (e.altKey && e.keyCode == 86) {
                         // call your function to do the thing
@@ -1091,25 +1090,21 @@ function loadData() {
                     }
                 }
                 function qr_keyUp(e) {
-                    console.log('qrcode')
                     // this would test for whichever key is 40 and the ctrl key at the same time
                     if (e.altKey && e.keyCode == 67) {
                         // call your function to do the thing
                         var qr = $('#qrcode');
                         if (qr.is(":visible")) {
                             qr.hide()
-
                         } else {
                             qr.show()
                         }
                     }
-
                 }
-
-
-// register the handler
+                // register the handlers
                 document.addEventListener('keyup', viewer_keyUp, false);
                 document.addEventListener('keyup', qr_keyUp, false);
+                document.addEventListener('keyup', search_keyUp, false);
             });
         });
     });
