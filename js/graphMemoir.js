@@ -191,7 +191,33 @@ function MemoirGraph(properties) {
             d3.selectAll(links).classed('highlightedLink', true);
 
         };
+        function nodes(list, sceneList) {
 
+            for (var listIndex in list) {
+                var thisItem = list[listIndex];
+
+                if (thisItem.type !== 'scene') {
+                    nodes(thisItem.children, sceneList);
+                } else {
+                    sceneList.push(thisItem._id);
+                }
+            }
+
+            return sceneList;
+        }
+        //Removes duplicates from the list of nodes.
+        function dedupeNodeList(list) {
+            var dedupeList = [];
+
+            for (var listIndex in list) {
+                var item = list[listIndex];
+
+                if (dedupeList.indexOf(item) === -1) {
+                    dedupeList.push(item);
+                }
+            }
+            return dedupeList;
+        }
         function tap(el, d) {
             self.shortClickTitle
                 .attr('y', function () {
@@ -208,6 +234,23 @@ function MemoirGraph(properties) {
                 });
 
             highlight(el, d)
+            var list = [];
+            if (d.type === "root") {
+                //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
+                var children = _.filter(d.children, function (child) {
+                    return child.type === "subgraphtheme";
+                });
+
+                list = nodes(children, list);
+            } else if (d.type !== "scene") {
+                list = nodes(d.children, list);
+            } else {
+                list.push(d._id);
+            }
+
+            list = dedupeNodeList(list);
+            //To finalize this method it sends the list of scenes to the graph viewer
+            socket.emit('sendCommand', fullRoomId, 'showScenes', list);
 
         }
         //This function transitions the elements to their initial positions
