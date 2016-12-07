@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d55e386-9404-4c4f-914d-072c131bde34" name="Default" comment="">
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphLoader.js" afterPath="$PROJECT_DIR$/js/graphLoader.js" />
     </list>
     <ignored path="uos-media-hub-graph-legacy.iws" />
@@ -52,7 +53,14 @@
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
               <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
+              <folding>
+                <marker date="1481154939568" expanded="true" signature="59:66540" placeholder="..." />
+                <marker date="1481154939568" expanded="true" signature="98:254" placeholder="..." />
+                <marker date="1481154939568" expanded="true" signature="192:254" placeholder="..." />
+                <marker date="1481154939568" expanded="true" signature="66466:66483" placeholder="..." />
+                <marker date="1481154939568" expanded="true" signature="66466:66501" placeholder="..." />
+                <marker date="1481154939568" expanded="true" signature="66466:66514" placeholder="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -60,9 +68,11 @@
       <file leaf-file-name="graphLoader.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.38181818">
-              <caret line="239" column="109" selection-start-line="239" selection-start-column="109" selection-end-line="239" selection-end-column="109" />
-              <folding />
+            <state vertical-scroll-proportion="-1.6119791">
+              <caret line="233" column="114" selection-start-line="233" selection-start-column="114" selection-end-line="233" selection-end-column="114" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -717,12 +727,12 @@
       <workItem from="1480326338602" duration="11451000" />
       <workItem from="1480344113854" duration="7917000" />
       <workItem from="1480370418457" duration="3845000" />
-      <workItem from="1481153203724" duration="553000" />
+      <workItem from="1481153203724" duration="1819000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119703000" />
+    <option name="totallyTimeSpent" value="120969000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -733,7 +743,7 @@
       <window_info id="Palette&#9;" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3251634" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32569557" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Sequence" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32405892" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -809,7 +819,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/js/graphLoader.js</url>
-          <line>179</line>
+          <line>185</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
@@ -822,14 +832,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/indexGA.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="16" column="0" selection-start-line="16" selection-start-column="0" selection-end-line="25" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/event.js">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -1172,7 +1174,14 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
           <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
+          <folding>
+            <marker date="1481154939568" expanded="true" signature="59:66540" placeholder="..." />
+            <marker date="1481154939568" expanded="true" signature="98:254" placeholder="..." />
+            <marker date="1481154939568" expanded="true" signature="192:254" placeholder="..." />
+            <marker date="1481154939568" expanded="true" signature="66466:66483" placeholder="..." />
+            <marker date="1481154939568" expanded="true" signature="66466:66501" placeholder="..." />
+            <marker date="1481154939568" expanded="true" signature="66466:66514" placeholder="..." />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -1204,11 +1213,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$USER_HOME$/AppData/Local/Temp/tmp9E6F.tmp.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.38181818">
-          <caret line="239" column="109" selection-start-line="239" selection-start-column="109" selection-end-line="239" selection-end-column="109" />
-          <folding />
+        <state vertical-scroll-proportion="-1.6119791">
+          <caret line="233" column="114" selection-start-line="233" selection-start-column="114" selection-end-line="233" selection-end-column="114" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

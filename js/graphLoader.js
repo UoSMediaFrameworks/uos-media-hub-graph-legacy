@@ -1,6 +1,12 @@
 /**
  * Created by Angel.P on 28/11/2016.
  */
+
+if (location.hostname === "localhost" || location.hostname === "dev-uos-mediahubgraph.azurewebsites.net"){
+    var socket = io("http://dev-uos-mediahub.azurewebsites.net/", {forceNew: true});
+}else{
+    var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
+}
 var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
 var sceneId;
 function initializeGraph(rootData, type) {
@@ -224,8 +230,13 @@ function loadData() {
                         initializeGraph(sceneGraph.nodeList, sceneGraph.type);
                     }
                 });
+
                 //We use the jqeury QR library to build up a link to the scene viewer for users to be able to scan
-                jQuery('#qrcode').qrcode('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+                if (location.hostname === "localhost" || location.hostname === "dev-uos-mediahubgraph.azurewebsites.net"){
+                    jQuery('#qrcode').qrcode('http://dev-uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+                }else{
+                    jQuery('#qrcode').qrcode('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+                }
 
 
                 //Key Up event handlers for the different keyboard shortscuts
