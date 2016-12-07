@@ -1,8 +1,9 @@
 /**
  * Created by Angel.P on 28/11/2016.
  */
+
 function GlobalDigitalCityGraph(properties) {
-    console.log(properties)
+
     this.nodeContainer = properties.nodeContainer;
     this.linkContainer = properties.linkContainer;
     this.innerW = properties.innerW;
@@ -12,11 +13,16 @@ function GlobalDigitalCityGraph(properties) {
     this.width = properties.width;
     this.margin = properties.margin;
     this.zoom = properties.zoom;
+    this.graphId = properties.sceneId
     this.shortClickTitle = "";
     this.nodeEnter = [];
     this.linkEnter = [];
     this.availableScenes = [];
+    this.breadcrumbs = [];
+    this.breadcrumbsList = [];
+
     var self = this;
+
     var cityColors = [
         [255, 0, 0],
         [253, 95, 0],
@@ -27,12 +33,19 @@ function GlobalDigitalCityGraph(properties) {
         [0, 135, 253],
         [36, 203, 254],
         [143, 196, 31],
-        [198, 235, 116],
+        [198, 235, 116]
     ];
-    console.log(this)
+    //console.log(this)
 
     this.draw = function (processedData) {
-        console.log(processedData);
+        var before;
+        var replaying = false;
+        //console.log(processedData);
+        self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList") || [];
+        console.log(self.breadcrumbsList)
+        self.breadcrumbsList.push({breadcrumbs: []});
+
+        console.log(self.breadcrumbsList)
         var nodeCollection = self.nodeContainer.selectAll('circle').data(processedData.nodes);
         var linkCollection = self.linkContainer.selectAll('path').data(processedData.links);
         var overlappingElementsCounter = 0;
@@ -178,7 +191,6 @@ function GlobalDigitalCityGraph(properties) {
             return d.x
         }).attr('y', function (d) {
             d.y = d.y - self.margin.top;
-            //d.y = innerH - innerH / 2;
             d._y = d.y;
             return d.y;
         });
@@ -225,8 +237,23 @@ function GlobalDigitalCityGraph(properties) {
         }).each(function (d) {
             self.availableScenes.push(d.name);
         });
+       // console.log(self.availableScenes);
 
 
+        $("#tags").autocomplete({
+            source: [self.availableScenes],
+            limit: 5
+        });
+        $("#tags").keyup(function (key) {
+            if (key.which === 13) {
+                var element = _.find(self.nodeEnter[0], function (obj) {
+
+                    return obj.__data__.name == $("#tags").val();
+                });
+                //console.log(element)
+                element.dispatchEvent(new Event('dblclick'));
+            }
+        });
         //This function will check the distance between both nodes
         function distance(a, b) {
             var dx, dy;
@@ -355,7 +382,6 @@ function GlobalDigitalCityGraph(properties) {
             } else {
                 filteredEdges = linkCollection[0]
             }
-
             d3.select(el).classed('highlight', true);
             var links = _.filter(filteredEdges, function (item) {
                 return item.__data__.source == d || item.__data__.target == d;
@@ -368,8 +394,49 @@ function GlobalDigitalCityGraph(properties) {
         // It is meant to: highlight the current node, and its relationships
         // and show the name of the clicked element.
         // the highlighting will fade away in half a second after selection
+        function getTimeDifference() {
+           // console.log(before)
+            var now, diff;
+            now = moment(new Date());
+
+            if (before == undefined) {
+                before = now;
+                diff = 0;
+            }
+            if (before != now) {
+                diff = now.diff(before, 'milliseconds');
+                before = now;
+            }
+           // console.log("before", before)
+            // /console.log("diff", diff)
+            return diff;
+        }
+
         function tap(el, d) {
-            //console.log('tap')
+
+            ga('send', 'event', {
+                eventCategory: 'node',
+                eventAction: "tap",
+                eventLabel: 'Type: ' + d.type + ', Name: ' + d.name,
+                eventValue: null,
+                fieldsObject: {name: d.name, type: d.type}
+            });
+            if (!replaying) {
+                var diff = getTimeDifference();
+                self.breadcrumbs.push({
+                    node: d._id,
+                    event: "tap",
+                    difference: diff
+                });
+                var index = (self.breadcrumbsList.length - 1 >= 0) ? self.breadcrumbsList.length - 1 : 0;
+                self.breadcrumbsList[index] = {breadcrumbs: self.breadcrumbs};
+                //console.log(self.breadcrumbsList, self.breadcrumbsList.length);
+                Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
+
+            }
+
+
+
             self.longClicked = d3.select('.longHL');
             self.longClickedLink = d3.selectAll('.longLinkHL');
 
@@ -389,7 +456,6 @@ function GlobalDigitalCityGraph(properties) {
                 .text(function () {
                     return d.name
                 });
-
             clearTimeout(self.timeout);
             //This timeout will temporarily, remove any long click highlights  and then re-add them after a delay
             self.timeout = setTimeout(function () {
@@ -400,11 +466,10 @@ function GlobalDigitalCityGraph(properties) {
                 self.longClickedLink.classed('longLinkHL', true);
                 self.shortClickTitle.style("opacity", "0");
             }, 5000);
-
             highlight(el, d)
+        }
 
-
-        }var cleanTitle = function (title) {
+        var cleanTitle = function (title) {
             return title.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').replace('GUIscene', 'scene').replace(/(scene|chicago|beijing)?\s(.*)?/i, '<sup>$1</sup><span class="$1">$2</span>');
         };
         //This is the hover over teaser functionality, it receives an array of nodes and with a set intervall will go through them unless it was changed.
@@ -476,6 +541,7 @@ function GlobalDigitalCityGraph(properties) {
             }
 
         }
+
         d3.select('#openViewer').on('click', function () {
             window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
         });
@@ -483,6 +549,7 @@ function GlobalDigitalCityGraph(properties) {
         d3.select('#reset-origin').on('click', function () {
             resetGraphToOrigin();
         });
+
         function resetGraphToOrigin() {
             d3.select('h1').html = '';
             self.zoom.scale(1);
@@ -490,8 +557,8 @@ function GlobalDigitalCityGraph(properties) {
             self.nodeContainer.attr("transform", "translate(" + self.zoom.translate() + ")scale(" + self.zoom.scale() + ")");
             transitionGraphElementsToOrigin();
         }
-        function transitionGraphElementsToOrigin() {
 
+        function transitionGraphElementsToOrigin() {
             var ratio = 1 - Math.pow(1 / self.duration, 5);
             self.nodeEnter.transition()
                 .duration(self.duration)
@@ -546,7 +613,6 @@ function GlobalDigitalCityGraph(properties) {
                 var cy = d.cy;
                 var clusterArray = [];
                 var filteredEdges = [];
-
                 //Based on the rules identified as current behaviour requirements which is defined by these if else statements
                 //This based on the type will filter in or out specific nodes based on type, and that will produce a filtered list of nodes for the relationship
                 if (d.type == 'root') {
@@ -590,12 +656,35 @@ function GlobalDigitalCityGraph(properties) {
                     moveNode(child, x, y, "cluster");
                 });
             })
-
         }
 
         function contextualize(el, d) {
             //console.log('long touch')
             //Resets the graph to its initial state before proceeding with the clustering and highlighting.
+
+
+            ga('send', 'event', {
+                eventCategory: 'node',
+                eventAction: "contextualize",
+                eventLabel: 'Type: ' + d.type + ', Name: ' + d.name,
+                eventValue: null,
+                fieldsObject: {name: d.name, type: d.type}
+            });
+            if (!replaying) {
+                var diff = getTimeDifference();
+                self.breadcrumbs.push({
+                    node: d._id,
+                    event: "contextualize",
+                    difference: diff
+                });
+                var index = (self.breadcrumbsList.length - 1 >= 0) ? self.breadcrumbsList.length - 1 : 0;
+                self.breadcrumbsList[index] = {breadcrumbs: self.breadcrumbs};
+                //  console.log(self.breadcrumbsList, self.breadcrumbsList.length);
+                Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
+
+            }
+
+
 
             var clean_name = cleanTitle(d.name);
             var scale = 1;
@@ -648,13 +737,102 @@ function GlobalDigitalCityGraph(properties) {
             d3.selectAll(edges).classed('longLinkHL', true);
         }
 
-        transitionGraphElementsToOrigin();
+        function showBreadcrumbs(e) {
+            if (e.altKey && e.keyCode == 66) {
+                var cc = $('#crumbs-container');
+                if (cc.is(":visible")) {
+                    cc.hide();
+                } else {
+                    breadcrumbs();
+                    cc.show();
 
-    }
+                }
+
+            }
+        }
+
+        function playoutBreadcrumbs(breadcrumbs) {
+            replaying=true;
+            var time = 1000;
+            _.forEach(breadcrumbs, function (value,i) {
+                console.log(time,value.difference);
+                time += value.difference
+                setTimeout(function () {
+                    var data = _.find(nodeCollection[0], function (obj) {
+                        return obj.id == value.node;
+                    });
+                    console.log(value,data)
+                    if (value.event == "tap") {
+                        tap(data, data.__data__);
+                    } else if (value.event == "contextualize") {
+                        contextualize(data, data.__data__);
+                    }
+                    if(breadcrumbs.length-1 == i){
+                        replaying = false;
+                    }
+                }, time);
+                //if(value.difference == 0)
+                //    value.difference = 1000;
+
+            });
+        }
+
+        function breadcrumbs() {
+
+            // call your function to do the thing
+            var crumbs = Lockr.get(self.graphId + " breadcrumbsList");
+            d3.select('#crumbs-container').selectAll("*").remove();
+
+            var container = d3.select('#crumbs-container')
+                .selectAll("div")
+                .data(crumbs).enter().append("div").classed("crumbs", true);
+
+            var infoContainer = container.append("div").classed("controls col-sm-2", true);
+
+            infoContainer.append("p").text(function (d, i) {
+                return "breadcrumbs " + i;
+            });
+
+            var buttonsContainer = infoContainer.append("div").classed("buttons col-sm-12", true);
+
+            buttonsContainer.append("div").classed("col-sm-6", true)
+                .append("i").classed("fa fa-play", true)
+                .on("click", function (d, i) {
+                    playoutBreadcrumbs(crumbs[i].breadcrumbs)
+                });
+            buttonsContainer.append("div").classed("col-sm-6", true)
+                .append("i").classed("fa fa-times", true)
+                .on("click", function (d, i) {
+                    crumbs.splice(i, 1);
+                    Lockr.set(self.graphId + " breadcrumbsList", crumbs);
+                    breadcrumbs();
+                });
+            var ul = container.append("ul").classed("col-sm-10", true);
+
+            ul.each(function (crumb, index) {
+                var br = d3.select(this).selectAll("li").data(crumb.breadcrumbs).enter()
+                    .append("li");
+
+                br.append("a")
+                    .text(function (d) {
+                        return d.node + "." + d.event
+                    })
+                    .append("i").classed("fa fa-times", true).on("click", function (d, i) {
+                    crumbs[index].breadcrumbs.splice(i, 1);
+                    Lockr.set(self.graphId + " breadcrumbsList", crumbs);
+                    breadcrumbs();
+                });
+            });
+        };
+        document.addEventListener('keyup', showBreadcrumbs, false);
+        transitionGraphElementsToOrigin();
+    };
+
 
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     };
+
     function pluckArray(array) {
         //console.log('arr size ' + array.length)
         var index = getRandomInt(0, array.length);

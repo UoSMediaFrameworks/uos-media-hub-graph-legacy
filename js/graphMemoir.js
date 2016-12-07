@@ -12,22 +12,31 @@ function MemoirGraph(properties) {
     this.width = properties.width;
     this.margin = properties.margin;
     this.zoom = properties.zoom;
+    this.graphId = properties.sceneId;
     this.shortClickTitle = "";
     this.nodeEnter = [];
     this.linkEnter = [];
     this.availableScenes = [];
+    this.breadcrumbs = [];
+    this.breadcrumbsList = [];
+
     var self = this;
-    console.log(this)
+   // console.log(this)
     d3.select('#reset-new2').on('click', function (e) {
         resetGraphToOrigin();
     });
 
 
     this.draw = function (processedData) {
-        console.log(processedData);
+        var before;
+        var replaying = false;
+        //console.log(processedData);
         var nodeCollection = self.nodeContainer.selectAll('circle').data(processedData.nodes);
         var linkCollection = self.linkContainer.selectAll('path').data(processedData.links);
         self.shortClickTitle = self.nodeContainer.append('text').attr('fill', 'white');
+
+        self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList") || [];
+        self.breadcrumbsList.push({breadcrumbs: []});
 
         this.nodeEnter = nodeCollection.enter().append('circle')
             .attr('cy', function (d) {
@@ -132,6 +141,12 @@ function MemoirGraph(properties) {
                 d._y = d.y;
                 return d.y;
             });
+        var sceneNodes = self.nodeEnter.filter(function (d) {
+            return d.type == 'scene'
+        });
+        sceneNodes.each(function (d) {
+            self.availableScenes.push(d.name);
+        });
 
         var otherNodes = this.nodeEnter.filter(function (d) {
             return d.type != "chapter" && d.type != "root";
@@ -146,9 +161,28 @@ function MemoirGraph(properties) {
                 d._x = d.x;
             })
             .attr('y', function (d, index) {
+
                 d.y = self.innerH / otherNodes[0].length * index;
+
                 d._y = d.y;
             });
+
+
+        $("#tags").autocomplete({
+            source: [self.availableScenes],
+            limit: 5
+        });
+        $("#tags").keyup(function (key) {
+            if (key.which === 13) {
+                var element = _.find(self.nodeEnter[0], function (obj) {
+
+                    return obj.__data__.name == $("#tags").val();
+                });
+                //console.log(element)
+                element.dispatchEvent(new Event('dblclick'));
+            }
+        });
+
         d3.select('#openViewer').on('click', function () {
             window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
         });
@@ -163,7 +197,8 @@ function MemoirGraph(properties) {
             self.nodeContainer.attr("transform", "translate(" + self.zoom.translate() + ")scale(" + self.zoom.scale() + ")");
             transitionGraphElementsToOrigin();
         }
-        function highlight(el,d) {
+
+        function highlight(el, d) {
 
             d3.select('.highlight').classed('highlight', false);
 
@@ -205,6 +240,7 @@ function MemoirGraph(properties) {
 
             return sceneList;
         }
+
         //Removes duplicates from the list of nodes.
         function dedupeNodeList(list) {
             var dedupeList = [];
@@ -218,7 +254,45 @@ function MemoirGraph(properties) {
             }
             return dedupeList;
         }
+        function getTimeDifference() {
+            // console.log(before)
+            var now, diff;
+            now = moment(new Date());
+
+            if (before == undefined) {
+                before = now;
+                diff = 0;
+            }
+            if (before != now) {
+                diff = now.diff(before, 'milliseconds');
+                before = now;
+            }
+            // console.log("before", before)
+            // /console.log("diff", diff)
+            return diff;
+        }
+
         function tap(el, d) {
+            ga('send', 'event', {
+                eventCategory: 'node',
+                eventAction: "tap",
+                eventLabel: 'Type: ' + d.type + ', Name: ' + d.name,
+                eventValue: null,
+                fieldsObject: {name: d.name, type: d.type}
+            });
+            if (!replaying) {
+                var diff = getTimeDifference();
+                self.breadcrumbs.push({
+                    node: d._id,
+                    event: "tap",
+                    difference: diff
+                });
+                var index = (self.breadcrumbsList.length - 1 >= 0) ? self.breadcrumbsList.length - 1 : 0;
+                self.breadcrumbsList[index] = {breadcrumbs: self.breadcrumbs};
+                //console.log(self.breadcrumbsList, self.breadcrumbsList.length);
+                Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
+
+            }
             self.shortClickTitle
                 .attr('y', function () {
                     return d.cy < self.innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
@@ -253,6 +327,7 @@ function MemoirGraph(properties) {
             socket.emit('sendCommand', fullRoomId, 'showScenes', list);
 
         }
+
         //This function transitions the elements to their initial positions
         function transitionGraphElementsToOrigin() {
             var ratio = 1 - Math.pow(1 / self.duration, 5);
@@ -302,6 +377,92 @@ function MemoirGraph(properties) {
         }
 
         self.nodeEnter.order();
+
+
+        function showBreadcrumbs(e) {
+            if (e.altKey && e.keyCode == 66) {
+                var cc = $('#crumbs-container');
+                if (cc.is(":visible")) {
+                    cc.hide();
+                } else {
+                    breadcrumbs();
+                    cc.show();
+
+                }
+
+            }
+        }
+
+        function playoutBreadcrumbs(breadcrumbs) {
+            replaying=true;
+            var time = 1000;
+            _.forEach(breadcrumbs, function (value,i) {
+                // console.log(time)
+                time += value.difference
+                setTimeout(function () {
+                    var data = _.find(nodeCollection[0], function (obj) {
+                        return obj.id == value.node;
+                    });
+                    if (value.event == "tap") {
+                        tap(data, data.__data__);
+                    }
+                    if(breadcrumbs.length-1 == i){
+                        replaying = false;
+                    }
+                }, time);
+
+            });
+        }
+
+        function breadcrumbs() {
+
+            // call your function to do the thing
+            var crumbs = Lockr.get(self.graphId + " breadcrumbsList");
+            d3.select('#crumbs-container').selectAll("*").remove();
+
+            var container = d3.select('#crumbs-container')
+                .selectAll("div")
+                .data(crumbs).enter().append("div").classed("crumbs", true);
+
+            var infoContainer = container.append("div").classed("controls col-sm-2", true);
+
+            infoContainer.append("p").text(function (d, i) {
+                return "breadcrumbs " + i;
+            });
+
+            var buttonsContainer = infoContainer.append("div").classed("buttons col-sm-12", true);
+
+            buttonsContainer.append("div").classed("col-sm-6", true)
+                .append("i").classed("fa fa-play", true)
+                .on("click", function (d, i) {
+                    playoutBreadcrumbs(crumbs[i].breadcrumbs)
+                });
+            buttonsContainer.append("div").classed("col-sm-6", true)
+                .append("i").classed("fa fa-times", true)
+                .on("click", function (d, i) {
+                    crumbs.splice(i, 1);
+                    Lockr.set(self.graphId + " breadcrumbsList", crumbs);
+                    breadcrumbs();
+                });
+            var ul = container.append("ul").classed("col-sm-10", true);
+
+            ul.each(function (crumb, index) {
+                var br = d3.select(this).selectAll("li").data(crumb.breadcrumbs).enter()
+                    .append("li");
+
+                br.append("a")
+                    .text(function (d) {
+                        return d.node + "." + d.event
+                    })
+                    .append("i").classed("fa fa-times", true).on("click", function (d, i) {
+                    crumbs[index].breadcrumbs.splice(i, 1);
+                    Lockr.set(self.graphId + " breadcrumbsList", crumbs);
+                    breadcrumbs();
+                });
+            });
+        };
+        document.addEventListener('keyup', showBreadcrumbs, false);
+
         //This function initializes the autocomplete input with autocompletion
         transitionGraphElementsToOrigin()
 

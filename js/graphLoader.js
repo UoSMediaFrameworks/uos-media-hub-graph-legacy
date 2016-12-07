@@ -2,6 +2,7 @@
  * Created by Angel.P on 28/11/2016.
  */
 var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
+var sceneId;
 function initializeGraph(rootData, type) {
     console.log(type)
 //--------------------Global Variables----------------//
@@ -155,8 +156,10 @@ function initializeGraph(rootData, type) {
         width: width,
         height: height,
         margin: margin,
-        zoom:zoom
+        zoom:zoom,
+        sceneId:sceneId
     };
+
     if (type == "MEMOIR_SCENE_GRAPH") {
         var graphMemoir = new MemoirGraph(properties);
         graphMemoir.draw(root);
@@ -169,7 +172,7 @@ function initializeGraph(rootData, type) {
 }
 function loadData() {
     //Default graph id to be loaded
-    var sceneId = "579a2186792e8b3c827d2b15";
+     sceneId = "579a2186792e8b3c827d2b15";
 //5834ac6e2ccf84d814e6e1e5
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
