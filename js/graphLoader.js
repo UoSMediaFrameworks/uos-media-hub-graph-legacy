@@ -237,7 +237,7 @@ function loadData() {
                      ALT + B to show/hide Breadcrumbs menu
                      */
                     if (e.altKey && e.keyCode == 86) {
-                        if (location.hostname === "localhost" || location.hostname === "dev-uos-sceneeditor.azurewebsites.net"){
+                        if (location.hostname === "localhost" || location.hostname === "dev-uos-mediahubgraph.azurewebsites.net"){
                             window.open('http://dev-uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
                         }else{
                             window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);

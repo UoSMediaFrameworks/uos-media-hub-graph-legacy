@@ -2,8 +2,6 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d55e386-9404-4c4f-914d-072c131bde34" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphGDC.js" afterPath="$PROJECT_DIR$/js/graphGDC.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphLoader.js" afterPath="$PROJECT_DIR$/js/graphLoader.js" />
     </list>
     <ignored path="uos-media-hub-graph-legacy.iws" />
@@ -62,8 +60,8 @@
       <file leaf-file-name="graphLoader.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.7350649">
-              <caret line="247" column="46" selection-start-line="247" selection-start-column="46" selection-end-line="247" selection-end-column="46" />
+            <state vertical-scroll-proportion="0.38181818">
+              <caret line="239" column="109" selection-start-line="239" selection-start-column="109" selection-end-line="239" selection-end-column="109" />
               <folding />
             </state>
           </provider>
@@ -719,12 +717,12 @@
       <workItem from="1480326338602" duration="11451000" />
       <workItem from="1480344113854" duration="7917000" />
       <workItem from="1480370418457" duration="3845000" />
-      <workItem from="1481153203724" duration="226000" />
+      <workItem from="1481153203724" duration="553000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="119376000" />
+    <option name="totallyTimeSpent" value="119703000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
@@ -1208,8 +1206,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.7350649">
-          <caret line="247" column="46" selection-start-line="247" selection-start-column="46" selection-end-line="247" selection-end-column="46" />
+        <state vertical-scroll-proportion="0.38181818">
+          <caret line="239" column="109" selection-start-line="239" selection-start-column="109" selection-end-line="239" selection-end-column="109" />
           <folding />
         </state>
       </provider>
