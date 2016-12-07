@@ -32,7 +32,7 @@ function initializeGraph(rootData, type) {
         nodes: [],
         links: []
     };
-    //Default value of transitions 0.5 secs, giving it a nice smooth transition time baking it pleasant to the human eye
+    //Default value of transitions 5 secs, giving it a nice smooth transition time baking it pleasant to the human eye
     duration = 5000;
     height = window.innerHeight;
     width = window.innerWidth;
@@ -147,6 +147,8 @@ function initializeGraph(rootData, type) {
     }
 
     initialize(rootData);
+
+    //Properties object contain references to all object data that is needed by the graph types
     var properties = {
         nodeContainer: nodeContainer,
         linkContainer: linkContainer,
@@ -156,11 +158,17 @@ function initializeGraph(rootData, type) {
         width: width,
         height: height,
         margin: margin,
-        zoom:zoom,
-        sceneId:sceneId
+        zoom: zoom,
+        sceneId: sceneId
     };
 
+    /*
+     07/12/2016 Angel Petrov: Based on the type, of graph it will use an object containing
+     the drawing instruction for each individual type and its methods.
+     can be expanded further.
+     */
     if (type == "MEMOIR_SCENE_GRAPH") {
+        //Initializes a new object of the graph type by passing along the properties object.
         var graphMemoir = new MemoirGraph(properties);
         graphMemoir.draw(root);
     } else {
@@ -170,10 +178,15 @@ function initializeGraph(rootData, type) {
 
 
 }
+
+//This function will initialize the graphLoader
 function loadData() {
     //Default graph id to be loaded
-     sceneId = "579a2186792e8b3c827d2b15";
-//5834ac6e2ccf84d814e6e1e5
+    sceneId = "579a2186792e8b3c827d2b15"; //GDC graph
+//5834ac6e2ccf84d814e6e1e5 - memoir graph
+
+    //This function will return the value of a url query for the graph
+    //based on the variable name passed
     function getQueryVariable(variable) {
         var query = window.location.search.substring(1);
         var vars = query.split("&");
@@ -185,66 +198,79 @@ function loadData() {
         }
         return (false);
     };
+
+    //This function will connect to the MediaHub and authenticate via a password/ currently hardcoded
+    //Upon successful authentication it will provide a roomId which will be used for opening a sceneViewer communication line
+
     socket.on("connect", function () {
-        socket.emit('auth', {password: 'kittens'}, function (err, token, roomID) {
-            if (err) {
-                console.log(err)
-            } else {
-                fullRoomId = roomID;
-                roomId = roomID.substr(2);
-            }
-            // this will be where the scene id will
-            // load up to query to hub for a graph but
-            // that will be replaced with a hardcoded one
-            sceneId = getQueryVariable("id") || sceneId;
-            console.log(sceneId)
-            socket.emit('loadSceneGraph', sceneId, function (err, sceneGraph) {
-                //We initialize the graph layout processing and drawing here.
-                console.log("hey")
-                if (err || !sceneGraph) {
-                    console.log(err, sceneGraph)
+            socket.emit('auth', {password: 'kittens'}, function (err, token, roomID) {
+                if (err) {
+                    console.log(err)
                 } else {
-                    console.log(sceneGraph)
-                    initializeGraph(sceneGraph.nodeList, sceneGraph.type);
+                    fullRoomId = roomID;
+                    roomId = roomID.substr(2);
                 }
+                // this will be where the scene id will
+                // load up to query to hub for a graph but
+                // that will be replaced with a hardcoded one
+                sceneId = getQueryVariable("id") || sceneId;
+                socket.emit('loadSceneGraph', sceneId, function (err, sceneGraph) {
+                    if (err || !sceneGraph) {
+                        console.log(err, sceneGraph)
+                    } else {
+                        console.log(sceneGraph)
+                        //We initialize the scene settup and root buildup, combined with passing a type
+                        //for the drawing instruction
+                        initializeGraph(sceneGraph.nodeList, sceneGraph.type);
+                    }
+                });
+                //We use the jqeury QR library to build up a link to the scene viewer for users to be able to scan
+                jQuery('#qrcode').qrcode('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+
+
+                //Key Up event handlers for the different keyboard shortscuts
+                function viewer_keyUp(e) {
+                    /*
+                     Alt + V to open up the scene viewer
+                     Alt + Q to show/hide QR Code
+                     ALT + S to show/hide search input for scene nodes in the graph
+                     ALT + B to show/hide Breadcrumbs menu
+                     */
+                    if (e.altKey && e.keyCode == 86) {
+                        if (location.hostname === "localhost" || location.hostname === "dev-uos-sceneeditor.azurewebsites.net"){
+                            window.open('http://dev-uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+                        }else{
+                            window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+                        }
+
+                    } else if (e.altKey && e.keyCode == 81) {
+                        // call your function to do the thing
+                        var qr = $('#qrcode');
+                        if (qr.is(":visible")) {
+                            qr.hide()
+                        } else {
+                            qr.show()
+                        }
+                    } else if (e.altKey && e.keyCode == 83) {
+                        // call your function to do the thing
+                        var search = $('.xdsoft_autocomplete');
+                        if (search.is(":visible")) {
+                            search.hide()
+                            $('#tags').hide()
+                        } else {
+                            search.show()
+                            $('#tags').show()
+                        }
+                    }
+                }
+
+
+                // register the event listener and comeback
+                document.addEventListener('keyup', viewer_keyUp, false);
             });
-            jQuery('#qrcode').qrcode('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
-
-
-            function viewer_keyUp(e) {
-                console.log("cmon", e.altKey, e.keyCode)
-                // this would test for whichever key is 40 and the ctrl key at the same time
-                if (e.altKey && e.keyCode == 86) {
-                    // call your function to do the thing
-                    window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
-                } else if (e.altKey && e.keyCode == 81) {
-                    // call your function to do the thing
-                    var qr = $('#qrcode');
-                    if (qr.is(":visible")) {
-                        qr.hide()
-                    } else {
-                        qr.show()
-                    }
-                } else if (e.altKey && e.keyCode == 83) {
-                    // call your function to do the thing
-                    var search = $('.xdsoft_autocomplete');
-                    if (search.is(":visible")) {
-                        search.hide()
-                        $('#tags').hide()
-                    } else {
-                        search.show()
-                        $('#tags').show()
-                    }
-                }
-            }
-
-
-        // register the handlers
-        document.addEventListener('keyup', viewer_keyUp, false);
-    });
-}
-)
-;
+        }
+    )
+    ;
 
 }
 loadData();

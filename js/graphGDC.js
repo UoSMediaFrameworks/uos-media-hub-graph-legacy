@@ -1,7 +1,9 @@
 /**
  * Created by Angel.P on 28/11/2016.
  */
-
+/*
+       GDC graph constructor
+ */
 function GlobalDigitalCityGraph(properties) {
 
     this.nodeContainer = properties.nodeContainer;
@@ -14,6 +16,7 @@ function GlobalDigitalCityGraph(properties) {
     this.margin = properties.margin;
     this.zoom = properties.zoom;
     this.graphId = properties.sceneId
+
     this.shortClickTitle = "";
     this.nodeEnter = [];
     this.linkEnter = [];
@@ -21,8 +24,9 @@ function GlobalDigitalCityGraph(properties) {
     this.breadcrumbs = [];
     this.breadcrumbsList = [];
 
+    //Reference to the GDC Graph object's values
     var self = this;
-
+    //Colors for the city nodes RGB-format
     var cityColors = [
         [255, 0, 0],
         [253, 95, 0],
@@ -35,14 +39,21 @@ function GlobalDigitalCityGraph(properties) {
         [143, 196, 31],
         [198, 235, 116]
     ];
-    //console.log(this)
 
+    //This is the function containing all drawing instructions and internal behaviour
+    //
     this.draw = function (processedData) {
+
+        //This is a local value to store the previous time that and event happened
+        //for this instance of the graph.
         var before;
+
+        //This variable will stop the graph from recording the click events done by
+        //The breadcrumbsPlayout
         var replaying = false;
-        //console.log(processedData);
+
+        //
         self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList") || [];
-        console.log(self.breadcrumbsList)
         self.breadcrumbsList.push({breadcrumbs: []});
 
         console.log(self.breadcrumbsList)
