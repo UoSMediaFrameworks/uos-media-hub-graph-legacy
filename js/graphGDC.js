@@ -730,13 +730,13 @@ function GlobalDigitalCityGraph(properties) {
             replaying = true;
             var time = 1000;
             _.forEach(breadcrumbs, function (value, i) {
-                console.log(time, value.difference);
+                //console.log(time, value.difference);
                 time += value.difference
                 setTimeout(function () {
                     var data = _.find(nodeCollection[0], function (obj) {
                         return obj.id == value.node;
                     });
-                    console.log(value, data)
+                    //console.log(value, data)
                     if (value.event == "tap") {
                         tap(data, data.__data__);
                     } else if (value.event == "contextualize") {

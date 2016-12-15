@@ -13,7 +13,7 @@ window.addEventListener("contextmenu", function (e) {
 });
 
 function initializeGraph(rootData, type) {
-    console.log(type)
+    //console.log(type)
 //--------------------Global Variables----------------//
 
     var height, width, svg, root, duration, zoom;
@@ -187,7 +187,7 @@ function initializeGraph(rootData, type) {
                     }
                 })
             });
-            console.log(circularRef)
+            //console.log(circularRef)
             _.each(circularRef, function (o) {
                 var _children = _.reject(o.node.children, function (child) {
                     return child._id == o.duplicate._id;
@@ -289,7 +289,7 @@ function loadData() {
                     if (err || !sceneGraph) {
                         console.log(err, sceneGraph)
                     } else {
-                        console.log(sceneGraph)
+                       // console.log(sceneGraph)
                         //We initialize the scene settup and root buildup, combined with passing a type
                         //for the drawing instruction
                         initializeGraph(sceneGraph.nodeList, sceneGraph.type);
