@@ -2,13 +2,16 @@
  * Created by Angel.P on 28/11/2016.
  */
 
-if (location.hostname === "localhost" || location.hostname === "dev-uos-mediahubgraph.azurewebsites.net"){
+if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
     var socket = io("http://dev-uos-mediahub.azurewebsites.net/", {forceNew: true});
-}else{
+} else {
     var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
 }
-var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
 var sceneId;
+window.addEventListener("contextmenu", function (e) {
+    e.preventDefault();
+});
+
 function initializeGraph(rootData, type) {
     console.log(type)
 //--------------------Global Variables----------------//
@@ -33,6 +36,11 @@ function initializeGraph(rootData, type) {
                 })
         });
     };
+    d3.selection.prototype.moveToFront = function () {
+        return this.each(function () {
+            this.parentNode.appendChild(this);
+        });
+    };
     //This is the structure of the root object containing the nodes and relationships of the graph needed to draw it out.
     root = {
         nodes: [],
@@ -46,6 +54,8 @@ function initializeGraph(rootData, type) {
     var margin = {top: height * 0.2, bot: height * 0.2, left: width * 0.1, right: width * 0.1};
     var innerH = height - margin.top - margin.bot;
     var innerW = width - margin.left - margin.right;
+
+    var circularRef = [];
     //This is a variable containing any zoom and pan behaviour that might be needed for the graph.
     //Currently unused
     zoom = d3.behavior.zoom()
@@ -136,12 +146,15 @@ function initializeGraph(rootData, type) {
                         return obj._id == parent;
                     });
                     //if there is a parent push the edge/relationship
-                    if (parentObj != undefined)
-                        root.links.push({source: parentObj, target: node})
+                    if (node != parentObj) {
+                        if (parentObj != undefined) {
+                            root.links.push({source: parentObj, target: node});
+                        }
+                        // add the references to those object for later usage to the objects themselves.
+                        parentObj.children.push(node);
+                        node.parents.push(parentObj);
+                    }
 
-                    // add the references to those object for later usage to the objects themselves.
-                    parentObj.children.push(node);
-                    node.parents.push(parentObj);
 
                 })
 
@@ -150,11 +163,60 @@ function initializeGraph(rootData, type) {
 
         processNodes(data);
         processsEdges();
+        removeBadRelationships();
+
+
+        /*
+         Angel Petrov: This hack will check for direct circular refs for each node, and based on how the processNodes function
+         build the relationships in the node objects, they are removed preventing the circular refference from being an issue for
+         the individual graph's recursive function for gathering scenes.
+
+         Currently the visual link of the recursive relationship is visible and I have put in the code to clear that off in
+         the function.
+         */
+
+        function removeBadRelationships() {
+            _.each(root.nodes, function (node) {
+                _.each(node.children, function (child) {
+                    var gat = _.include(child.children, node)
+                    if (gat) {
+                        circularRef.push({
+                            duplicate: node,
+                            node: child
+                        })
+                    }
+                })
+            });
+            console.log(circularRef)
+            _.each(circularRef, function (o) {
+                var _children = _.reject(o.node.children, function (child) {
+                    return child._id == o.duplicate._id;
+                });
+                var _parents = _.reject(o.duplicate.parents, function (parent) {
+                    return parent._id == o.node._id;
+                });
+                if(!(o.node.type == "root")){
+                    root.links = _.reject(root.links, function (link) {
+                        return (link.source == o.node && link.target == o.duplicate);
+                    });
+                }
+
+
+
+                o.duplicate.parents = _parents;
+                o.node.children = _children;
+
+
+            });
+        }
+
+
     }
+
 
     initialize(rootData);
 
-    //Properties object contain references to all object data that is needed by the graph types
+//Properties object contain references to all object data that is needed by the graph types
     var properties = {
         nodeContainer: nodeContainer,
         linkContainer: linkContainer,
@@ -182,6 +244,9 @@ function initializeGraph(rootData, type) {
         graphGDC.draw(root)
     }
 
+
+}
+function initializeAutoWalk() {
 
 }
 
@@ -232,9 +297,9 @@ function loadData() {
                 });
 
                 //We use the jqeury QR library to build up a link to the scene viewer for users to be able to scan
-                if (location.hostname === "localhost" || location.hostname === "dev-uos-mediahubgraph.azurewebsites.net"){
+                if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
                     jQuery('#qrcode').qrcode('http://dev-uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
-                }else{
+                } else {
                     jQuery('#qrcode').qrcode('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
                 }
 
@@ -248,11 +313,13 @@ function loadData() {
                      ALT + B to show/hide Breadcrumbs menu
                      */
                     if (e.altKey && e.keyCode == 86) {
-                        if (location.hostname === "localhost" || location.hostname === "dev-uos-mediahubgraph.azurewebsites.net"){
-                            window.open('http://dev-uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
-                        }else{
-                            window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+                        var href;
+                        if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
+                            href = 'http://dev-uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId;
+                        } else {
+                            href = 'http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId;
                         }
+                        window.open(href, "_blank");
 
                     } else if (e.altKey && e.keyCode == 81) {
                         // call your function to do the thing
@@ -274,7 +341,6 @@ function loadData() {
                         }
                     }
                 }
-
 
                 // register the event listener and comeback
                 document.addEventListener('keyup', viewer_keyUp, false);

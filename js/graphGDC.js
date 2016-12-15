@@ -2,7 +2,7 @@
  * Created by Angel.P on 28/11/2016.
  */
 /*
-       GDC graph constructor
+ GDC graph constructor
  */
 function GlobalDigitalCityGraph(properties) {
 
@@ -15,7 +15,7 @@ function GlobalDigitalCityGraph(properties) {
     this.width = properties.width;
     this.margin = properties.margin;
     this.zoom = properties.zoom;
-    this.graphId = properties.sceneId
+    this.graphId = properties.sceneId;
 
     this.shortClickTitle = "";
     this.nodeEnter = [];
@@ -23,6 +23,8 @@ function GlobalDigitalCityGraph(properties) {
     this.availableScenes = [];
     this.breadcrumbs = [];
     this.breadcrumbsList = [];
+    this.autowalk = true;
+    this.waitTime = 300000;
 
     //Reference to the GDC Graph object's values
     var self = this;
@@ -56,7 +58,6 @@ function GlobalDigitalCityGraph(properties) {
         self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList") || [];
         self.breadcrumbsList.push({breadcrumbs: []});
 
-        console.log(self.breadcrumbsList)
         var nodeCollection = self.nodeContainer.selectAll('circle').data(processedData.nodes);
         var linkCollection = self.linkContainer.selectAll('path').data(processedData.links);
         var overlappingElementsCounter = 0;
@@ -248,7 +249,7 @@ function GlobalDigitalCityGraph(properties) {
         }).each(function (d) {
             self.availableScenes.push(d.name);
         });
-       // console.log(self.availableScenes);
+        // console.log(self.availableScenes);
 
 
         $("#tags").autocomplete({
@@ -307,17 +308,14 @@ function GlobalDigitalCityGraph(properties) {
 
         function moveNode(node, positionX, positionY, type) {
             var ratio = 1 - Math.pow(1 / self.duration, 5);
-            //console.log(nodeCollection)
             var data = _.find(nodeCollection[0], function (obj) {
                 return obj.__data__ == node;
             });
-
             d3.select(data).transition()
                 .duration(self.duration)
                 .attr('r', function (d) {
-                    //d.r * 1.5
                     if (type == "cluster") {
-                        return 10
+                        return d.r < 10 ? 10: d.r * 1.5
                     } else {
                         return d.r;
                     }
@@ -406,7 +404,6 @@ function GlobalDigitalCityGraph(properties) {
         // and show the name of the clicked element.
         // the highlighting will fade away in half a second after selection
         function getTimeDifference() {
-           // console.log(before)
             var now, diff;
             now = moment(new Date());
 
@@ -418,8 +415,6 @@ function GlobalDigitalCityGraph(properties) {
                 diff = now.diff(before, 'milliseconds');
                 before = now;
             }
-           // console.log("before", before)
-            // /console.log("diff", diff)
             return diff;
         }
 
@@ -441,11 +436,9 @@ function GlobalDigitalCityGraph(properties) {
                 });
                 var index = (self.breadcrumbsList.length - 1 >= 0) ? self.breadcrumbsList.length - 1 : 0;
                 self.breadcrumbsList[index] = {breadcrumbs: self.breadcrumbs};
-                //console.log(self.breadcrumbsList, self.breadcrumbsList.length);
                 Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
 
             }
-
 
 
             self.longClicked = d3.select('.longHL');
@@ -456,17 +449,17 @@ function GlobalDigitalCityGraph(properties) {
 
             self.shortClickTitle
                 .attr('y', function () {
-                    return d.cy < self.innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
+                    return d.cy < self.innerH / 2 ? d.cy - (d.r * 2+5) : d.cy + (d.r * 2+5)
                 })
                 .attr('x', function () {
-                    return d.cx < self.innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2
+                    return d.cx < self.innerW / 2 ? d.cx - (d.r * 2+5) : d.cx + (d.r * 2+5)
                 })
-                .attr("dy", ".35em")
                 .attr('text-anchor', 'middle')
                 .style("opacity", "1")
                 .text(function () {
                     return d.name
-                });
+                }).moveToFront();
+
             clearTimeout(self.timeout);
             //This timeout will temporarily, remove any long click highlights  and then re-add them after a delay
             self.timeout = setTimeout(function () {
@@ -484,50 +477,24 @@ function GlobalDigitalCityGraph(properties) {
             return title.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').replace('GUIscene', 'scene').replace(/(scene|chicago|beijing)?\s(.*)?/i, '<sup>$1</sup><span class="$1">$2</span>');
         };
         //This is the hover over teaser functionality, it receives an array of nodes and with a set intervall will go through them unless it was changed.
-        function hover(arraySelection) {
-            var i = 0;
-            clearInterval(self.hoverTimeout)
-            self.hoverTimeout = setInterval(function () {
-                if (i == arraySelection.length) {
-                    i = 0;
-                }
-                var d = arraySelection[i];
-                self.longClickTitle.attr('y', function () {
-                        return d.cy < self.innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
-                    })
-                    .attr('x', function (data) {
-                        return d.cx < self.innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2
-                    })
-                    .attr("dy", ".35em")
-                    .attr('text-anchor', 'middle')
-                    .style("opacity", "1")
-                    .text(function () {
-                        return d.name
-                    });
-                i++;
-            }, 2500);
-        }
+
 
         //This is a recursive function used to send the scenes to the scene viwer, it gatheres all scenes that are children of the initially selected node
         function nodes(list, sceneList) {
-
             for (var listIndex in list) {
                 var thisItem = list[listIndex];
-
                 if (thisItem.type !== 'scene') {
                     nodes(thisItem.children, sceneList);
                 } else {
                     sceneList.push(thisItem._id);
                 }
             }
-
             return sceneList;
         }
 
         //Removes duplicates from the list of nodes.
         function dedupeNodeList(list) {
             var dedupeList = [];
-
             for (var listIndex in list) {
                 var item = list[listIndex];
 
@@ -569,7 +536,7 @@ function GlobalDigitalCityGraph(properties) {
             transitionGraphElementsToOrigin();
         }
 
-        function transitionGraphElementsToOrigin() {
+        function transitionGraphElementsToOrigin(node) {
             var ratio = 1 - Math.pow(1 / self.duration, 5);
             self.nodeEnter.transition()
                 .duration(self.duration)
@@ -591,7 +558,10 @@ function GlobalDigitalCityGraph(properties) {
                     return d.cy;
                 })
                 .attr('r', function (d) {
-                    return d.r
+                    if(node!=undefined && d._id == node._id){
+                        return 10;
+                    }
+                    return d.r;
                 });
 
             self.linkEnter.transition()
@@ -619,7 +589,7 @@ function GlobalDigitalCityGraph(properties) {
                 return 10;
             }).each(function (d) {
                 //the related property contains both the children and the parents of the current element
-                d.related = _.union(d.children, d.parents)
+                d.related = _.union(d.children, d.parents);
                 var cx = d.cx;
                 var cy = d.cy;
                 var clusterArray = [];
@@ -654,6 +624,7 @@ function GlobalDigitalCityGraph(properties) {
                         clusterArray.push(node)
                     }
                 }
+
                 //Triggering the hover teaser
                 hover(clusterArray);
                 var total = clusterArray.length;
@@ -672,8 +643,6 @@ function GlobalDigitalCityGraph(properties) {
         function contextualize(el, d) {
             //console.log('long touch')
             //Resets the graph to its initial state before proceeding with the clustering and highlighting.
-
-
             ga('send', 'event', {
                 eventCategory: 'node',
                 eventAction: "contextualize",
@@ -695,8 +664,6 @@ function GlobalDigitalCityGraph(properties) {
 
             }
 
-
-
             var clean_name = cleanTitle(d.name);
             var scale = 1;
             var radius = self.innerH / 5;
@@ -713,7 +680,6 @@ function GlobalDigitalCityGraph(properties) {
                 var children = _.filter(d.children, function (child) {
                     return child.type === "subgraphtheme";
                 });
-
                 list = nodes(children, list);
             } else if (d.type !== "scene") {
                 list = nodes(d.children, list);
@@ -756,37 +722,102 @@ function GlobalDigitalCityGraph(properties) {
                 } else {
                     breadcrumbs();
                     cc.show();
-
                 }
-
             }
         }
 
         function playoutBreadcrumbs(breadcrumbs) {
-            replaying=true;
+            replaying = true;
             var time = 1000;
-            _.forEach(breadcrumbs, function (value,i) {
-                console.log(time,value.difference);
+            _.forEach(breadcrumbs, function (value, i) {
+                console.log(time, value.difference);
                 time += value.difference
                 setTimeout(function () {
                     var data = _.find(nodeCollection[0], function (obj) {
                         return obj.id == value.node;
                     });
-                    console.log(value,data)
+                    console.log(value, data)
                     if (value.event == "tap") {
                         tap(data, data.__data__);
                     } else if (value.event == "contextualize") {
                         contextualize(data, data.__data__);
                     }
-                    if(breadcrumbs.length-1 == i){
+                    if (breadcrumbs.length - 1 == i) {
                         replaying = false;
                     }
                 }, time);
-                //if(value.difference == 0)
-                //    value.difference = 1000;
+
 
             });
         }
+        function hover(arraySelection) {
+            var i = 0;
+            clearInterval(self.hoverTimeout)
+            self.hoverTimeout = setInterval(function () {
+                if (i == arraySelection.length) {
+                    i = 0;
+                }
+                var d = arraySelection[i];
+                self.shortClickTitle
+                    .attr('y', function () {
+                        return d.cy < self.innerH / 2 ? d.cy - (d.r * 2+ 5) : d.cy + (d.r * 2 +5)
+                    })
+                    .attr('x', function () {
+                        return d.cx < self.innerW / 2 ? d.cx - (d.r * 2 + 5) : d.cx + (d.r * 2 +5)
+                    })
+                    .attr('text-anchor', 'middle')
+                    .style("opacity", "1")
+                    .text(function () {
+                        return d.name
+                    }).moveToFront();
+                i++;
+            }, 2500);
+        };
+
+        /*
+            Angel Petrov: This function  is a different take on the hover functionality including a contextualize event.
+            It will trigger changes to the new random node and will provide the scenelist to the Scene Viewer
+         */
+        function randomHover(timeAdjustment) {
+            clearInterval(self.hoverTimeout);
+            self.hoverTimeout = setInterval(function () {
+                var nodes = self.nodeEnter[0];
+                var i = getRandomInt(0, nodes.length);
+                var el = nodes[i];
+                var d = el.__data__;
+                contextualize(el,d);
+                self.longClickTitle
+                    .attr('y', function () {
+                        return d.cy < self.innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2;
+                    })
+                    .attr('x', function () {
+                        return d.cx < self.innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2;
+                    })
+                    .attr('text-anchor', 'middle')
+                    .style("opacity", "1")
+                    .text(function () {
+                        return d.name
+                    }).moveToFront();
+            }, timeAdjustment)
+
+        };
+
+        /*
+        Angel Petrov: this is an inactivity detector, by binding a reset timer to mose move and keypress any motion in regards
+        to the graph will make it reset the timeout. Currently the default value to wait is 5 minutes.
+        Which through an interface will be amendable, and the inactivity time will be toggle-able.
+         */
+        var inactivityTime = function () {
+            window.onload = resetTimer;
+            document.onmousemove = resetTimer;
+            document.onkeypress = resetTimer;
+            function resetTimer() {
+
+                clearTimeout(self.hoverTimeout);
+                self.hoverTimeout = setTimeout(function(){
+                    randomHover(2500)}, self.waitTime)
+            }
+        };
 
         function breadcrumbs() {
 
@@ -836,14 +867,13 @@ function GlobalDigitalCityGraph(properties) {
             });
         };
         document.addEventListener('keyup', showBreadcrumbs, false);
+        inactivityTime();
         transitionGraphElementsToOrigin();
     };
-
 
     function getRandomInt(min, max) {
         return Math.floor(Math.random() * (max - min)) + min;
     };
-
     function pluckArray(array) {
         //console.log('arr size ' + array.length)
         var index = getRandomInt(0, array.length);
@@ -853,4 +883,18 @@ function GlobalDigitalCityGraph(properties) {
         array = array.splice(index, 1);
         return obj;
     };
+
+    this.getWaitTime =  function(){
+        return self.waitTime;
+    };
+    this.setWaitTime = function(waitTime){
+        self.waitTime = waitTime;
+    };
+    this.setAutoWalkState = function(autowalk){
+        self.autowalk = autowalk;
+    };
+    this.getAutoWalkState = function(){
+        return self.autowalk;
+    }
+
 }

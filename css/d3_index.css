@@ -86,13 +86,13 @@ h2:empty {
 
 circle.highlight {
     stroke:#fff !important;
-    stroke-width:5 !important;
+    stroke-width:3 !important;
     stroke-opacity:0.9 !important;
     transition:stroke-width 0.5s;
 }
 circle.longHL {
     stroke:#fff !important;
-    stroke-width:5 !important;
+    stroke-width:3 !important;
     stroke-opacity:0.9 !important;
     transition:stroke-width 0.5s;
 }
