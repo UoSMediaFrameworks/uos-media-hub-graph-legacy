@@ -279,7 +279,7 @@ function loadData() {
                     console.log(err)
                 } else {
                     fullRoomId = roomID;
-                    roomId = roomID.substr(2);
+                    roomId = socket.id;
                 }
                 // this will be where the scene id will
                 // load up to query to hub for a graph but
