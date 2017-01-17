@@ -303,47 +303,60 @@ function loadData() {
                     jQuery('#qrcode').qrcode('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
                 }
 
+                d3.select('#node-searcher').on('click', function () {
+                    var search = $('.xdsoft_autocomplete');
+                    if (search.is(":visible")) {
+                        search.hide()
+                        $('#tags').hide()
+                    } else {
+                        search.show()
+                        $('#tags').show()
+                    }
+                });
+                d3.select('#scene-viewer').on('click', function () {
+                    var href;
+                    if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
+                        href = 'http://dev-uos-sceneeditor.azurewebsites.net/graph-viewer.html?room=' + roomId;
+                    } else {
+                        href = 'http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId;
+                    }
+                    window.open(href, "_blank");
+                });
+                d3.select('#qr').on('click', function () {
+                    var qr = $('#qrcode');
+                    if (qr.is(":visible")) {
+                        qr.hide()
+                    } else {
+                        qr.show()
+                    }
+                });
 
+                d3.select('#autowalk-toggle').on('click', function () {
+                    var walk = $('#autowalk-menu');
+                    if (walk.is(":visible")) {
+                        walk.hide()
+                    } else {
+                        walk.show()
+                    }
+                });
                 //Key Up event handlers for the different keyboard shortscuts
-                function viewer_keyUp(e) {
+                function menu_keyUp(e) {
                     /*
-                     Alt + V to open up the scene viewer
-                     Alt + Q to show/hide QR Code
-                     ALT + S to show/hide search input for scene nodes in the graph
-                     ALT + B to show/hide Breadcrumbs menu
-                     */
-                    if (e.altKey && e.keyCode == 86) {
-                        var href;
-                        if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
-                            href = 'http://dev-uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId;
-                        } else {
-                            href = 'http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId;
-                        }
-                        window.open(href, "_blank");
+                     Alt + O to open the menu
 
-                    } else if (e.altKey && e.keyCode == 81) {
-                        // call your function to do the thing
-                        var qr = $('#qrcode');
-                        if (qr.is(":visible")) {
-                            qr.hide()
+                     */
+                    if (e.altKey && e.keyCode == 79) {
+                        var options = $('#options-menu')
+                        if (options.is(":visible")) {
+                            options.hide()
                         } else {
-                            qr.show()
-                        }
-                    } else if (e.altKey && e.keyCode == 83) {
-                        // call your function to do the thing
-                        var search = $('.xdsoft_autocomplete');
-                        if (search.is(":visible")) {
-                            search.hide()
-                            $('#tags').hide()
-                        } else {
-                            search.show()
-                            $('#tags').show()
+                            options.show()
                         }
                     }
                 }
 
                 // register the event listener and comeback
-                document.addEventListener('keyup', viewer_keyUp, false);
+                document.addEventListener('keyup', menu_keyUp, false);
             });
         }
     )

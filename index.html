@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="robots" content="nofollow">
     <title>Digital City Graph</title>
 
 
@@ -31,10 +32,10 @@
         (function (i, s, o, g, r, a, m) {
             i['GoogleAnalyticsObject'] = r;
             i[r] = i[r] || function () {
-                        (i[r].q = i[r].q || []).push(arguments)
-                    }, i[r].l = 1 * new Date();
+                    (i[r].q = i[r].q || []).push(arguments)
+                }, i[r].l = 1 * new Date();
             a = s.createElement(o),
-                    m = s.getElementsByTagName(o)[0];
+                m = s.getElementsByTagName(o)[0];
             a.async = 1;
             a.src = g;
             m.parentNode.insertBefore(a, m)
@@ -53,11 +54,33 @@
     <button class="btn" id="reset-origin">Home</button>
     <input id="tags">
     <div id="qrcode"></div>
+
 </div>
+
 
 <div id="graph">
 </div>
 <h1></h1>
+<div id="options-menu">
+    <p>Exra options menu</p>
+    <ul>
+        <li id="node-searcher">Scene search toggle</li>
+        <li id="scene-viewer">Scene Viewer</li>
+        <li id="qr">QR code toggle</li>
+        <li id="bc-toggle">Breadcrumbs menu toggle</li>
+        <li id="autowalk-toggle">Autowalk menu toggle</li>
+    </ul>
+</div>
+<div id="autowalk-menu">
+    <div>
+        <label>Autowalk enabled</label><input  type="checkbox" id="autowalk-enabled"/>
+    </div>
+
+    <div>
+        <label>Wait Duration(mins)</label><input type="text" id="autowalk-duration"/>
+    </div>
+
+</div>
 <div id="crumbs-container">
 
 </div>

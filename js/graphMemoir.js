@@ -13,6 +13,7 @@ function MemoirGraph(properties) {
     this.margin = properties.margin;
     this.zoom = properties.zoom;
     this.graphId = properties.sceneId;
+    this.hoverTimeout = null;
     this.shortClickTitle = "";
     this.nodeEnter = [];
     this.linkEnter = [];
@@ -226,6 +227,29 @@ function MemoirGraph(properties) {
             d3.selectAll(links).classed('highlightedLink', true);
 
         };
+        function hover(arraySelection) {
+            var i = 0;
+            clearInterval(self.hoverTimeout)
+            self.hoverTimeout = setInterval(function () {
+                if (i == arraySelection.length) {
+                    i = 0;
+                }
+                var d = arraySelection[i];
+                self.longClickTitle.attr('y', function () {
+                        return d.cy < self.innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2
+                    })
+                    .attr('x', function (data) {
+                        return d.cx < self.innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2
+                    })
+                    .attr("dy", ".35em")
+                    .attr('text-anchor', 'middle')
+                    .style("opacity", "1")
+                    .text(function () {
+                        return d.name
+                    });
+                i++;
+            }, 2500);
+        }
         function nodes(list, sceneList) {
 
             for (var listIndex in list) {
@@ -461,7 +485,17 @@ function MemoirGraph(properties) {
                 });
             });
         };
-        document.addEventListener('keyup', showBreadcrumbs, false);
+        d3.select('#bc-toggle').on('click', function () {
+            if (e.altKey && e.keyCode == 66) {
+                var cc = $('#crumbs-container');
+                if (cc.is(":visible")) {
+                    cc.hide();
+                } else {
+                    breadcrumbs();
+                    cc.show();
+                }
+            }
+        });
 
         //This function initializes the autocomplete input with autocompletion
         transitionGraphElementsToOrigin()

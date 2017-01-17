@@ -25,6 +25,9 @@ function GlobalDigitalCityGraph(properties) {
     this.breadcrumbsList = [];
     this.autowalk = true;
     this.waitTime = 300000;
+    this.inactivityTimer;
+    this.hoverTimeout;
+    this.internalHoverTimeout;
 
     //Reference to the GDC Graph object's values
     var self = this;
@@ -136,10 +139,10 @@ function GlobalDigitalCityGraph(properties) {
         });
 
         rootNodes.attr('x', function (d, i) {
-                d.x = ((self.innerW / rootNodes[0].length) / 2) * i + self.innerW / rootNodes[0].length;
-                d._x = d.x;
-                return d.x
-            })
+            d.x = ((self.innerW / rootNodes[0].length) / 2) * i + self.innerW / rootNodes[0].length;
+            d._x = d.x;
+            return d.x
+        })
             .attr('y', function (d) {
                 d.y = self.innerH - self.innerH / 2;
                 d._y = d.y;
@@ -223,15 +226,15 @@ function GlobalDigitalCityGraph(properties) {
         });
 
         sThemeNodes.style('fill', function (d) {
-                var cityParent = _.find(d.parents, function (item) {
-                    return item.type == 'city';
-                });
-                if (cityParent != undefined) {
-                    return d3.rgb(cityParent.color[0], cityParent.color[1], cityParent.color[2]);
-                } else {
-                    return d3.rgb('white');
-                }
-            })
+            var cityParent = _.find(d.parents, function (item) {
+                return item.type == 'city';
+            });
+            if (cityParent != undefined) {
+                return d3.rgb(cityParent.color[0], cityParent.color[1], cityParent.color[2]);
+            } else {
+                return d3.rgb('white');
+            }
+        })
             .attr('r', function (d) {
                 d.r = getRandomInt(3, 5);
                 d._r = d.r;
@@ -315,7 +318,7 @@ function GlobalDigitalCityGraph(properties) {
                 .duration(self.duration)
                 .attr('r', function (d) {
                     if (type == "cluster") {
-                        return d.r < 10 ? 10: d.r * 1.5
+                        return d.r < 10 ? 10 : d.r * 1.5
                     } else {
                         return d.r;
                     }
@@ -449,10 +452,10 @@ function GlobalDigitalCityGraph(properties) {
 
             self.shortClickTitle
                 .attr('y', function () {
-                    return d.cy < self.innerH / 2 ? d.cy - (d.r * 2+5) : d.cy + (d.r * 2+5)
+                    return d.cy < self.innerH / 2 ? d.cy - (d.r * 2 + 5) : d.cy + (d.r * 2 + 5)
                 })
                 .attr('x', function () {
-                    return d.cx < self.innerW / 2 ? d.cx - (d.r * 2+5) : d.cx + (d.r * 2+5)
+                    return d.cx < self.innerW / 2 ? d.cx - (d.r * 2 + 5) : d.cx + (d.r * 2 + 5)
                 })
                 .attr('text-anchor', 'middle')
                 .style("opacity", "1")
@@ -520,9 +523,6 @@ function GlobalDigitalCityGraph(properties) {
 
         }
 
-        d3.select('#openViewer').on('click', function () {
-            window.open('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
-        });
 
         d3.select('#reset-origin').on('click', function () {
             resetGraphToOrigin();
@@ -558,7 +558,7 @@ function GlobalDigitalCityGraph(properties) {
                     return d.cy;
                 })
                 .attr('r', function (d) {
-                    if(node!=undefined && d._id == node._id){
+                    if (node != undefined && d._id == node._id) {
                         return 10;
                     }
                     return d.r;
@@ -714,17 +714,6 @@ function GlobalDigitalCityGraph(properties) {
             d3.selectAll(edges).classed('longLinkHL', true);
         }
 
-        function showBreadcrumbs(e) {
-            if (e.altKey && e.keyCode == 66) {
-                var cc = $('#crumbs-container');
-                if (cc.is(":visible")) {
-                    cc.hide();
-                } else {
-                    breadcrumbs();
-                    cc.show();
-                }
-            }
-        }
 
         function playoutBreadcrumbs(breadcrumbs) {
             replaying = true;
@@ -750,6 +739,7 @@ function GlobalDigitalCityGraph(properties) {
 
             });
         }
+
         function hover(arraySelection) {
             var i = 0;
             clearInterval(self.hoverTimeout)
@@ -760,10 +750,10 @@ function GlobalDigitalCityGraph(properties) {
                 var d = arraySelection[i];
                 self.shortClickTitle
                     .attr('y', function () {
-                        return d.cy < self.innerH / 2 ? d.cy - (d.r * 2+ 5) : d.cy + (d.r * 2 +5)
+                        return d.cy < self.innerH / 2 ? d.cy - (d.r * 2 + 5) : d.cy + (d.r * 2 + 5)
                     })
                     .attr('x', function () {
-                        return d.cx < self.innerW / 2 ? d.cx - (d.r * 2 + 5) : d.cx + (d.r * 2 +5)
+                        return d.cx < self.innerW / 2 ? d.cx - (d.r * 2 + 5) : d.cx + (d.r * 2 + 5)
                     })
                     .attr('text-anchor', 'middle')
                     .style("opacity", "1")
@@ -775,17 +765,18 @@ function GlobalDigitalCityGraph(properties) {
         };
 
         /*
-            Angel Petrov: This function  is a different take on the hover functionality including a contextualize event.
-            It will trigger changes to the new random node and will provide the scenelist to the Scene Viewer
+         Angel Petrov: This function  is a different take on the hover functionality including a contextualize event.
+         It will trigger changes to the new random node and will provide the scenelist to the Scene Viewer
          */
         function randomHover(timeAdjustment) {
-            clearInterval(self.hoverTimeout);
-            self.hoverTimeout = setInterval(function () {
+            console.log("hover")
+            clearInterval(self.internalHoverTimeout);
+            self.internalHoverTimeout = setInterval(function () {
                 var nodes = self.nodeEnter[0];
                 var i = getRandomInt(0, nodes.length);
                 var el = nodes[i];
                 var d = el.__data__;
-                contextualize(el,d);
+                contextualize(el, d);
                 self.longClickTitle
                     .attr('y', function () {
                         return d.cy < self.innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2;
@@ -803,21 +794,50 @@ function GlobalDigitalCityGraph(properties) {
         };
 
         /*
-        Angel Petrov: this is an inactivity detector, by binding a reset timer to mose move and keypress any motion in regards
-        to the graph will make it reset the timeout. Currently the default value to wait is 5 minutes.
-        Which through an interface will be amendable, and the inactivity time will be toggle-able.
+         Angel Petrov: this is an inactivity detector, by binding a reset timer to mose move and keypress any motion in regards
+         to the graph will make it reset the timeout. Currently the default value to wait is 5 minutes.
+         Which through an interface will be amendable, and the inactivity time will be toggle-able.
          */
-        var inactivityTime = function () {
-            window.onload = resetTimer;
-            document.onmousemove = resetTimer;
-            document.onkeypress = resetTimer;
-            function resetTimer() {
+        var initInactivityTime = function () {
+            var insideSelf = this;
+            insideSelf.inactivityTime = function () {
+                window.onload = insideSelf.resetTimer;
+                document.onmousemove = insideSelf.resetTimer;
+                document.onkeypress = insideSelf.resetTimer;
+            };
+
+            insideSelf.resetTimer = function () {
 
                 clearTimeout(self.hoverTimeout);
-                self.hoverTimeout = setTimeout(function(){
-                    randomHover(2500)}, self.waitTime)
-            }
+                self.hoverTimeout = setTimeout(function () {
+                    randomHover(2500)
+                }, self.waitTime)
+            };
+
         };
+
+        var initiateAutowalk = function () {
+            $('#autowalk-enabled').attr('checked', true);
+            $('#autowalk-duration').val(self.waitTime / 10000);
+            $('#autowalk-enabled').on("change", function (e) {
+
+                var value;
+                if (e.target.checked) {
+                    value = true;
+                    self.inactivityTimer.inactivityTime();
+                } else {
+                    value = false
+                    clearTimeout(self.hoverTimeout);
+                    clearTimeout(self.internalHoverTimeout);
+                    resetGraphToOrigin()
+                }
+                $('#autowalk-enabled').attr('checked', value)
+            });
+            $('#autowalk-duration').on("change", function () {
+                self.waitTime = this.value * 10000;
+                self.inactivityTimer.resetTimer();
+            });
+        }
 
         function breadcrumbs() {
 
@@ -866,8 +886,20 @@ function GlobalDigitalCityGraph(properties) {
                 });
             });
         };
-        document.addEventListener('keyup', showBreadcrumbs, false);
-        inactivityTime();
+        d3.select('#bc-toggle').on('click', function () {
+
+            var cc = $('#crumbs-container');
+            if (cc.is(":visible")) {
+                cc.hide();
+            } else {
+                breadcrumbs();
+                cc.show();
+            }
+
+        });
+        initiateAutowalk();
+        self.inactivityTimer = new initInactivityTime();
+        self.inactivityTimer.inactivityTime();
         transitionGraphElementsToOrigin();
     };
 
@@ -884,17 +916,18 @@ function GlobalDigitalCityGraph(properties) {
         return obj;
     };
 
-    this.getWaitTime =  function(){
+    this.getWaitTime = function () {
         return self.waitTime;
     };
-    this.setWaitTime = function(waitTime){
+    this.setWaitTime = function (waitTime) {
         self.waitTime = waitTime;
     };
-    this.setAutoWalkState = function(autowalk){
+    this.setAutoWalkState = function (autowalk) {
         self.autowalk = autowalk;
     };
-    this.getAutoWalkState = function(){
+    this.getAutoWalkState = function () {
         return self.autowalk;
     }
+
 
 }
