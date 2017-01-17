@@ -316,7 +316,7 @@ function loadData() {
                 d3.select('#scene-viewer').on('click', function () {
                     var href;
                     if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
-                        href = 'http://dev-uos-sceneeditor.azurewebsites.net/graph-viewer.html?room=' + roomId;
+                        href = 'http://dev-uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + roomId;
                     } else {
                         href = 'http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId;
                     }
