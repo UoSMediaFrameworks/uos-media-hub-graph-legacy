@@ -28,6 +28,7 @@ function GlobalDigitalCityGraph(properties) {
     this.inactivityTimer;
     this.hoverTimeout;
     this.internalHoverTimeout;
+    this.switchTime = 7000;
 
     //Reference to the GDC Graph object's values
     var self = this;
@@ -769,7 +770,6 @@ function GlobalDigitalCityGraph(properties) {
          It will trigger changes to the new random node and will provide the scenelist to the Scene Viewer
          */
         function randomHover(timeAdjustment) {
-            console.log("hover")
             clearInterval(self.internalHoverTimeout);
             self.internalHoverTimeout = setInterval(function () {
                 var nodes = self.nodeEnter[0];
@@ -807,10 +807,9 @@ function GlobalDigitalCityGraph(properties) {
             };
 
             insideSelf.resetTimer = function () {
-
                 clearTimeout(self.hoverTimeout);
                 self.hoverTimeout = setTimeout(function () {
-                    randomHover(2500)
+                    randomHover(self.switchTime)
                 }, self.waitTime)
             };
 
@@ -818,24 +817,32 @@ function GlobalDigitalCityGraph(properties) {
 
         var initiateAutowalk = function () {
             $('#autowalk-enabled').attr('checked', true);
+
+            $('#autowalk-node-switch').val(self.switchTime);
+
             $('#autowalk-duration').val(self.waitTime / 10000);
-            $('#autowalk-enabled').on("change", function (e) {
+
+            $('#set-settings').on("click", function () {
+
+                var duration = $('#autowalk-duration');
+                var enabled = $('#autowalk-enabled');
+                var node_switch = $('#autowalk-node-switch');
+                self.switchTime = node_switch.val();
+                self.waitTime = duration.val();
+
 
                 var value;
-                if (e.target.checked) {
+                if (enabled[0].checked) {
                     value = true;
                     self.inactivityTimer.inactivityTime();
                 } else {
-                    value = false
+                    value = false;
                     clearTimeout(self.hoverTimeout);
                     clearTimeout(self.internalHoverTimeout);
                     resetGraphToOrigin()
-                }
-                $('#autowalk-enabled').attr('checked', value)
-            });
-            $('#autowalk-duration').on("change", function () {
-                self.waitTime = this.value * 10000;
-                self.inactivityTimer.resetTimer();
+                };
+                console.log( self.switchTime,self.waitTime,enabled[0].checked,value )
+                enabled[0].checked = value;
             });
         }
 
@@ -915,19 +922,6 @@ function GlobalDigitalCityGraph(properties) {
         array = array.splice(index, 1);
         return obj;
     };
-
-    this.getWaitTime = function () {
-        return self.waitTime;
-    };
-    this.setWaitTime = function (waitTime) {
-        self.waitTime = waitTime;
-    };
-    this.setAutoWalkState = function (autowalk) {
-        self.autowalk = autowalk;
-    };
-    this.getAutoWalkState = function () {
-        return self.autowalk;
-    }
 
 
 }
