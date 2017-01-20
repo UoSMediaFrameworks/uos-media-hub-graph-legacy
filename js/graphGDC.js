@@ -660,8 +660,7 @@ function GlobalDigitalCityGraph(properties) {
 
         }
 
-        function contextualize(el, d) {
-                //Resets the graph to its initial state before proceeding with the clustering and highlighting.
+        function createSceneListList(d) {
             var list = [];
             if (d.type === "root") {
                 //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
@@ -677,7 +676,18 @@ function GlobalDigitalCityGraph(properties) {
 
             list = dedupeNodeList(list);
             //To finalize this method it sends the list of scenes to the graph viewer
+            console.log(list.length);
             socket.emit('sendCommand', fullRoomId, 'showScenes', list);
+        }
+
+        function contextualize(el, d) {
+            //Resets the graph to its initial state before proceeding with the clustering and highlighting.
+            try {
+                createSceneListList(d);
+            } catch (e) {
+                console.log("createSceneListList", e)
+            }
+            try {
                 ga('send', 'event', {
                     eventCategory: 'node',
                     eventAction: "contextualize",
@@ -709,6 +719,10 @@ function GlobalDigitalCityGraph(properties) {
                 clusterHighlight(el, d);
                 //Sets the name at the top of the screen to the clustered node.
                 d3.select('h1').html(clean_name);
+
+            } catch (e) {
+                console.log("contextualize draw", e)
+            }
 
 
         }
