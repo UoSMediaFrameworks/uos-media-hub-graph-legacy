@@ -712,11 +712,11 @@ function GlobalDigitalCityGraph(properties) {
                 var clean_name = cleanTitle(d.name);
                 var scale = 1;
                 var radius = self.innerH / 5;
-                transitionGraphElementsToOrigin(d);
-                //Triggers the position clustering
-                cluster(el, radius);
-                //Triggers the highlighting based on the clicked element.
-                clusterHighlight(el, d);
+                // transitionGraphElementsToOrigin(d);
+                // //Triggers the position clustering
+                // cluster(el, radius);
+                // //Triggers the highlighting based on the clicked element.
+                // clusterHighlight(el, d);
                 //Sets the name at the top of the screen to the clustered node.
                 d3.select('h1').html(clean_name);
 
