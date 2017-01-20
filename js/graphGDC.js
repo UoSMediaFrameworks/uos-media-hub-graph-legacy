@@ -29,6 +29,7 @@ function GlobalDigitalCityGraph(properties) {
     this.hoverTimeout;
     this.internalHoverTimeout;
     this.switchTime = 7000;
+    this.transitioning = false;
 
     //Reference to the GDC Graph object's values
     var self = this;
@@ -315,7 +316,7 @@ function GlobalDigitalCityGraph(properties) {
             var data = _.find(nodeCollection[0], function (obj) {
                 return obj.__data__ == node;
             });
-            d3.select(data).transition()
+            d3.select(data).attr("pointer-events", "none").transition()
                 .duration(self.duration)
                 .attr('r', function (d) {
                     if (type == "cluster") {
@@ -351,14 +352,18 @@ function GlobalDigitalCityGraph(properties) {
                         d._y = d.cy
                     }
                     return d.cy;
+                })
+                .each("end", function () {
+                    d3.select(this).attr("pointer-events", null);
                 });
+            ;
 
             //Find all relationships/edges/paths based on the current node be it source or target.
             var links = linkCollection.filter(function (item) {
                 return item.source == node || item.target == node;
             });
             //Updating the position and arc of the line's
-            links.transition()
+            links.attr("pointer-events", "none").transition()
                 .duration(self.duration)
                 .attr('d', function (d) {
                     //This functions builds up an arc based on some values.
@@ -367,7 +372,11 @@ function GlobalDigitalCityGraph(properties) {
                         "A", self.innerH, self.innerH, 0, 0, 1, d.target.cx, d.target.cy
                     ].join(" ");
                     return diagonal;
+                })
+                .each("end", function () {
+                    d3.select(this).attr("pointer-events", null);
                 });
+            ;
         }
 
         //This function applies a highlighting class to edges leading to related nodes based on the behaviour requirements
@@ -431,7 +440,7 @@ function GlobalDigitalCityGraph(properties) {
                 eventValue: null,
                 fieldsObject: {name: d.name, type: d.type}
             });
-            if (false) {
+            if (!replaying) {
                 var diff = getTimeDifference();
                 self.breadcrumbs.push({
                     node: d._id,
@@ -539,7 +548,7 @@ function GlobalDigitalCityGraph(properties) {
 
         function transitionGraphElementsToOrigin(node) {
             var ratio = 1 - Math.pow(1 / self.duration, 5);
-            self.nodeEnter.transition()
+            self.nodeEnter.attr("pointer-events", "none").transition()
                 .duration(self.duration)
                 .attr('cx', function (d) {
                     if (ratio >= 1) {
@@ -563,9 +572,13 @@ function GlobalDigitalCityGraph(properties) {
                         return 10;
                     }
                     return d.r;
+                })
+                .each("end", function () {
+                    d3.select(this).attr("pointer-events", null);
                 });
+            ;
 
-            self.linkEnter.transition()
+            self.linkEnter.attr("pointer-events", "none").transition()
                 .duration(self.duration)
                 .attr('d', function (d) {
                     var diagonal = [
@@ -581,7 +594,11 @@ function GlobalDigitalCityGraph(properties) {
                     d3.select(this).classed(source, true);
                     d3.select(this).classed(target, true);
                     d3.select(this).classed('opaque', false);
+                })
+                .each("end", function () {
+                    d3.select(this).attr("pointer-events", null);
                 });
+            ;
             clearOverlap();
         }
 
@@ -627,7 +644,7 @@ function GlobalDigitalCityGraph(properties) {
                 }
 
                 //Triggering the hover teaser
-               // hover(clusterArray);
+                // hover(clusterArray);
                 var total = clusterArray.length;
                 //This part of the funcion defines the related  x and y positions for each node based on some geometrically calculated values
 
@@ -638,59 +655,69 @@ function GlobalDigitalCityGraph(properties) {
                     var y = (Math.sin(radian) * radius) + cy;
                     moveNode(child, x, y, "cluster");
                 });
+
+
             })
+
         }
 
         function contextualize(el, d) {
-            //console.log('long touch')
-            //Resets the graph to its initial state before proceeding with the clustering and highlighting.
-            ga('send', 'event', {
-                eventCategory: 'node',
-                eventAction: "contextualize",
-                eventLabel: 'Type: ' + d.type + ', Name: ' + d.name,
-                eventValue: null,
-                fieldsObject: {name: d.name, type: d.type}
-            });
-            if (false) {
-                var diff = getTimeDifference();
-                self.breadcrumbs.push({
-                    node: d._id,
-                    event: "contextualize",
-                    difference: diff
+            if (!self.transitioning) {
+                console.log("not transitioning", self.transitioning)
+                //console.log('long touch')
+                self.transitioning = true;
+                //Resets the graph to its initial state before proceeding with the clustering and highlighting.
+                ga('send', 'event', {
+                    eventCategory: 'node',
+                    eventAction: "contextualize",
+                    eventLabel: 'Type: ' + d.type + ', Name: ' + d.name,
+                    eventValue: null,
+                    fieldsObject: {name: d.name, type: d.type}
                 });
-                var index = (self.breadcrumbsList.length - 1 >= 0) ? self.breadcrumbsList.length - 1 : 0;
-                self.breadcrumbsList[index] = {breadcrumbs: self.breadcrumbs};
-                //  console.log(self.breadcrumbsList, self.breadcrumbsList.length);
-                Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
+                if (!replaying) {
+                    var diff = getTimeDifference();
+                    self.breadcrumbs.push({
+                        node: d._id,
+                        event: "contextualize",
+                        difference: diff
+                    });
+                    var index = (self.breadcrumbsList.length - 1 >= 0) ? self.breadcrumbsList.length - 1 : 0;
+                    self.breadcrumbsList[index] = {breadcrumbs: self.breadcrumbs};
+                    //  console.log(self.breadcrumbsList, self.breadcrumbsList.length);
+                    Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
 
-            }
+                }
 
-            var clean_name = cleanTitle(d.name);
-            var scale = 1;
-            var radius = self.innerH / 5;
-            transitionGraphElementsToOrigin(d);
-            //Triggers the position clustering
-            cluster(el, radius);
-            //Triggers the highlighting based on the clicked element.
-            clusterHighlight(el, d);
-            //Sets the name at the top of the screen to the clustered node.
-            d3.select('h1').html(clean_name);
-            var list = [];
-            if (d.type === "root") {
-                //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
-                var children = _.filter(d.children, function (child) {
-                    return child.type === "subgraphtheme";
-                });
-                list = nodes(children, list);
-            } else if (d.type !== "scene") {
-                list = nodes(d.children, list);
+                var clean_name = cleanTitle(d.name);
+                var scale = 1;
+                var radius = self.innerH / 5;
+                transitionGraphElementsToOrigin(d);
+                //Triggers the position clustering
+                cluster(el, radius);
+                //Triggers the highlighting based on the clicked element.
+                clusterHighlight(el, d);
+                //Sets the name at the top of the screen to the clustered node.
+                d3.select('h1').html(clean_name);
+                var list = [];
+                if (d.type === "root") {
+                    //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
+                    var children = _.filter(d.children, function (child) {
+                        return child.type === "subgraphtheme";
+                    });
+                    list = nodes(children, list);
+                } else if (d.type !== "scene") {
+                    list = nodes(d.children, list);
+                } else {
+                    list.push(d._id);
+                }
+
+                list = dedupeNodeList(list);
+                //To finalize this method it sends the list of scenes to the graph viewer
+                socket.emit('sendCommand', fullRoomId, 'showScenes', list);
             } else {
-                list.push(d._id);
+                console.log("transitioning")
             }
 
-            list = dedupeNodeList(list);
-            //To finalize this method it sends the list of scenes to the graph viewer
-            socket.emit('sendCommand', fullRoomId, 'showScenes', list);
         }
 
         function clusterHighlight(el, d) {
