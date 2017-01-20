@@ -430,13 +430,6 @@ function GlobalDigitalCityGraph(properties) {
             return diff;
         }
 
-        function isFloat(n) {
-            if(!(Number(n) === n && n % 1 !== 0){
-                alert("not a float",n);
-            }
-            return Number(n) === n && n % 1 !== 0;
-        }
-
         function tap(el, d) {
 
             ga('send', 'event', {
@@ -562,8 +555,7 @@ function GlobalDigitalCityGraph(properties) {
                     } else {
                         d.cx = ratio * (d._x - d.cx) + cx;
                     }
-
-                    return isFloat(d.cx) ? d.cx : 0;
+                    return d.cx;
                 })
                 .attr('cy', function (d) {
                     if (ratio >= 1) {
@@ -572,13 +564,13 @@ function GlobalDigitalCityGraph(properties) {
                     } else {
                         d.cy = ratio * (d._y - d.cy) + cy;
                     }
-                    return isFloat(d.cy) ? d.cy : 0
+                    return d.cy;
                 })
                 .attr('r', function (d) {
                     if (node != undefined && d._id == node._id) {
                         return 10;
                     }
-                    return isFloat(d.r) ? d.r : 0;
+                    return d.r;
                 })
                 .each("end", function () {
                     d3.select(this).attr("pointer-events", null);
@@ -589,8 +581,8 @@ function GlobalDigitalCityGraph(properties) {
                 .duration(self.duration)
                 .attr('d', function (d) {
                     var diagonal = [
-                        "M", isFloat(d.source.cx) ? d.source.cx : 0, isFloat(d.source.cy) ? d.source.cy : 0,
-                        "A", isFloat(self.innerH) ? self.innerH : 0, isFloat(self.innerH) ? self.innerH : 0, 0, 0, 1, isFloat(d.source.cx) ? d.source.cx : 0, isFloat(d.source.cy) ? d.source.cy : 0
+                        "M", d.source.cx, d.source.cy,
+                        "A", self.innerH, self.innerH, 0, 0, 1, d.target.cx, d.target.cy
                     ].join(" ");
                     return diagonal;
                 })
@@ -606,7 +598,8 @@ function GlobalDigitalCityGraph(properties) {
                     d3.select(this).attr("pointer-events", null);
                 });
             ;
-            clearOverlap();
+
+
         }
 
         function cluster(el, radius) {
@@ -615,8 +608,8 @@ function GlobalDigitalCityGraph(properties) {
             }).each(function (d) {
                 //the related property contains both the children and the parents of the current element
                 d.related = _.union(d.children, d.parents);
-                var cx = isFloat(  d.cx ) ? d.cx : 0;
-                var cy =isFloat(  d.cy ) ? d.cy : 0;
+                var cx = d.cx;
+                var cy = d.cy;
                 var clusterArray = [];
                 var filteredEdges = [];
                 //Based on the rules identified as current behaviour requirements which is defined by these if else statements
@@ -690,47 +683,43 @@ function GlobalDigitalCityGraph(properties) {
 
         function contextualize(el, d) {
             //Resets the graph to its initial state before proceeding with the clustering and highlighting.
-            try {
+            try{
                 createSceneListList(d);
-            } catch (e) {
-                console.log("createSceneListList", e)
+            }catch(e){
+                console.log("createSceneListList",e)
             }
-            try {
-                ga('send', 'event', {
-                    eventCategory: 'node',
-                    eventAction: "contextualize",
-                    eventLabel: 'Type: ' + d.type + ', Name: ' + d.name,
-                    eventValue: null,
-                    fieldsObject: {name: d.name, type: d.type}
+
+            ga('send', 'event', {
+                eventCategory: 'node',
+                eventAction: "contextualize",
+                eventLabel: 'Type: ' + d.type + ', Name: ' + d.name,
+                eventValue: null,
+                fieldsObject: {name: d.name, type: d.type}
+            });
+            if (!replaying) {
+                var diff = getTimeDifference();
+                self.breadcrumbs.push({
+                    node: d._id,
+                    event: "contextualize",
+                    difference: diff
                 });
-                if (!replaying) {
-                    var diff = getTimeDifference();
-                    self.breadcrumbs.push({
-                        node: d._id,
-                        event: "contextualize",
-                        difference: diff
-                    });
-                    var index = (self.breadcrumbsList.length - 1 >= 0) ? self.breadcrumbsList.length - 1 : 0;
-                    self.breadcrumbsList[index] = {breadcrumbs: self.breadcrumbs};
-                    //  console.log(self.breadcrumbsList, self.breadcrumbsList.length);
-                    Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
+                var index = (self.breadcrumbsList.length - 1 >= 0) ? self.breadcrumbsList.length - 1 : 0;
+                self.breadcrumbsList[index] = {breadcrumbs: self.breadcrumbs};
+                //  console.log(self.breadcrumbsList, self.breadcrumbsList.length);
+                Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
 
-                }
-
-                var clean_name = cleanTitle(d.name);
-                var scale = 1;
-                var radius = self.innerH / 5;
-                transitionGraphElementsToOrigin(d);
-                //Triggers the position clustering
-                cluster(el, radius);
-                //Triggers the highlighting based on the clicked element.
-                clusterHighlight(el, d);
-                //Sets the name at the top of the screen to the clustered node.
-                d3.select('h1').html(clean_name);
-
-            } catch (e) {
-                console.log("contextualize draw", e)
             }
+
+            var clean_name = cleanTitle(d.name);
+            var scale = 1;
+            var radius = self.innerH / 5;
+            transitionGraphElementsToOrigin(d);
+            //Triggers the position clustering
+            cluster(el, radius);
+            //Triggers the highlighting based on the clicked element.
+            clusterHighlight(el, d);
+            //Sets the name at the top of the screen to the clustered node.
+            d3.select('h1').html(clean_name);
 
 
         }
@@ -960,6 +949,7 @@ function GlobalDigitalCityGraph(properties) {
         // self.inactivityTimer = new initInactivityTime();
         // self.inactivityTimer.inactivityTime();
         transitionGraphElementsToOrigin();
+        clearOverlap();
     };
 
     function getRandomInt(min, max) {
