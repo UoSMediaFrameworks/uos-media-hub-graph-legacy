@@ -29,7 +29,6 @@ function GlobalDigitalCityGraph(properties) {
     this.hoverTimeout;
     this.internalHoverTimeout;
     this.switchTime = 7000;
-    this.transitioning = false;
 
     //Reference to the GDC Graph object's values
     var self = this;
@@ -662,10 +661,6 @@ function GlobalDigitalCityGraph(properties) {
         }
 
         function contextualize(el, d) {
-            if (!self.transitioning) {
-                console.log("not transitioning", self.transitioning)
-                //console.log('long touch')
-                self.transitioning = true;
                 //Resets the graph to its initial state before proceeding with the clustering and highlighting.
                 ga('send', 'event', {
                     eventCategory: 'node',
@@ -714,9 +709,6 @@ function GlobalDigitalCityGraph(properties) {
                 list = dedupeNodeList(list);
                 //To finalize this method it sends the list of scenes to the graph viewer
                 socket.emit('sendCommand', fullRoomId, 'showScenes', list);
-            } else {
-                console.log("transitioning")
-            }
 
         }
 
