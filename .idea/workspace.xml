@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d55e386-9404-4c4f-914d-072c131bde34" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphGDC.js" afterPath="$PROJECT_DIR$/js/graphGDC.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphLoader.js" afterPath="$PROJECT_DIR$/js/graphLoader.js" />
     </list>
     <ignored path="uos-media-hub-graph-legacy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -53,7 +52,7 @@
       <file leaf-file-name="index_legacy.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/index_legacy.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
+            <state relative-caret-position="22899">
               <caret line="1347" column="0" lean-forward="false" selection-start-line="1347" selection-start-column="0" selection-end-line="1347" selection-end-column="0" />
               <folding />
             </state>
@@ -63,7 +62,7 @@
       <file leaf-file-name="graphMemoir.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/graphMemoir.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
+            <state relative-caret-position="914">
               <caret line="497" column="11" lean-forward="false" selection-start-line="497" selection-start-column="11" selection-end-line="497" selection-end-column="11" />
               <folding>
                 <element signature="n#!!doc;n#MemoirGraph#0" expanded="false" />
@@ -77,19 +76,16 @@
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <marker date="1484748192745" expanded="true" signature="73195:73212" ph="..." />
-                <marker date="1484748192745" expanded="true" signature="73195:73243" ph="..." />
-              </folding>
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="graphLoader.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="graphLoader.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="10" column="31" lean-forward="false" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
+            <state relative-caret-position="480">
+              <caret line="330" column="79" lean-forward="false" selection-start-line="330" selection-start-column="79" selection-end-line="330" selection-end-column="79" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
               </folding>
@@ -97,14 +93,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="graphGDC.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="graphGDC.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/graphGDC.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="195">
-              <caret line="834" column="41" lean-forward="true" selection-start-line="834" selection-start-column="41" selection-end-line="834" selection-end-column="41" />
+            <state relative-caret-position="471">
+              <caret line="876" column="12" lean-forward="true" selection-start-line="876" selection-start-column="12" selection-end-line="876" selection-end-column="12" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1484748079145" expanded="true" signature="30284:30629" ph="/*...*/" />
+                <marker date="1484748471708" expanded="true" signature="30284:30629" ph="/*...*/" />
               </folding>
             </state>
           </provider>
@@ -123,8 +119,8 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="81" column="36" lean-forward="false" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
+            <state relative-caret-position="364">
+              <caret line="55" column="19" lean-forward="false" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="19" />
               <folding>
                 <element signature="n#style#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#button#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -171,6 +167,8 @@
       <find>exra</find>
       <find>switchTime</find>
       <find>autowalk</find>
+      <find>sceneId</find>
+      <find>qrcode</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -192,9 +190,9 @@
         <option value="$PROJECT_DIR$/css/breadcrumbs.css" />
         <option value="$PROJECT_DIR$/js/graphMemoir.js" />
         <option value="$PROJECT_DIR$/css/d3_index.css" />
-        <option value="$PROJECT_DIR$/js/graphLoader.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/js/graphGDC.js" />
+        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/js/graphLoader.js" />
       </list>
     </option>
   </component>
@@ -208,9 +206,9 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-8" />
+    <option name="x" value="-7" />
     <option name="width" value="1378" />
-    <option name="height" value="744" />
+    <option name="height" value="735" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -227,9 +225,9 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="PackagesPane" />
       <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -783,16 +781,17 @@
       <workItem from="1483808960475" duration="16377000" />
       <workItem from="1484665727947" duration="231000" />
       <workItem from="1484666450922" duration="1228000" />
-      <workItem from="1484743530690" duration="4660000" />
+      <workItem from="1484743530690" duration="5259000" />
+      <workItem from="1484913162071" duration="2052000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="199479000" />
+    <option name="totallyTimeSpent" value="202130000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-8" y="0" width="1378" height="744" extended-state="0" />
-    <editor active="false" />
+    <frame x="-7" y="0" width="1378" height="735" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -803,13 +802,13 @@
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3371522" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Sequence" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32242227" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.2602428" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26403642" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
@@ -884,7 +883,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="javascript">
           <url>file://$PROJECT_DIR$/js/graphLoader.js</url>
-          <line>247</line>
+          <line>246</line>
           <option name="timeStamp" value="10" />
         </line-breakpoint>
       </breakpoints>
@@ -1248,19 +1247,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="10" column="31" lean-forward="false" selection-start-line="10" selection-start-column="31" selection-end-line="10" selection-end-column="31" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/index_legacy.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
+        <state relative-caret-position="22899">
           <caret line="1347" column="0" lean-forward="false" selection-start-line="1347" selection-start-column="0" selection-end-line="1347" selection-end-column="0" />
           <folding />
         </state>
@@ -1270,16 +1259,13 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <marker date="1484748192745" expanded="true" signature="73195:73212" ph="..." />
-            <marker date="1484748192745" expanded="true" signature="73195:73243" ph="..." />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/js/graphMemoir.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
+        <state relative-caret-position="914">
           <caret line="497" column="11" lean-forward="false" selection-start-line="497" selection-start-column="11" selection-end-line="497" selection-end-column="11" />
           <folding>
             <element signature="n#!!doc;n#MemoirGraph#0" expanded="false" />
@@ -1287,10 +1273,21 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/js/graphGDC.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="471">
+          <caret line="876" column="12" lean-forward="true" selection-start-line="876" selection-start-column="12" selection-end-line="876" selection-end-column="12" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <marker date="1484748471708" expanded="true" signature="30284:30629" ph="/*...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="81" column="36" lean-forward="false" selection-start-line="81" selection-start-column="36" selection-end-line="81" selection-end-column="36" />
+        <state relative-caret-position="364">
+          <caret line="55" column="19" lean-forward="false" selection-start-line="55" selection-start-column="13" selection-end-line="55" selection-end-column="19" />
           <folding>
             <element signature="n#style#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#button#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1298,13 +1295,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/graphGDC.js">
+    <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="195">
-          <caret line="834" column="41" lean-forward="true" selection-start-line="834" selection-start-column="41" selection-end-line="834" selection-end-column="41" />
+        <state relative-caret-position="480">
+          <caret line="330" column="79" lean-forward="false" selection-start-line="330" selection-start-column="79" selection-end-line="330" selection-end-column="79" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1484748079145" expanded="true" signature="30284:30629" ph="/*...*/" />
           </folding>
         </state>
       </provider>

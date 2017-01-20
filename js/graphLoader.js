@@ -195,12 +195,11 @@ function initializeGraph(rootData, type) {
                 var _parents = _.reject(o.duplicate.parents, function (parent) {
                     return parent._id == o.node._id;
                 });
-                if(!(o.node.type == "root")){
+                if (!(o.node.type == "root")) {
                     root.links = _.reject(root.links, function (link) {
                         return (link.source == o.node && link.target == o.duplicate);
                     });
                 }
-
 
 
                 o.duplicate.parents = _parents;
@@ -246,9 +245,6 @@ function initializeGraph(rootData, type) {
 
 
 }
-function initializeAutoWalk() {
-
-}
 
 //This function will initialize the graphLoader
 function loadData() {
@@ -289,7 +285,7 @@ function loadData() {
                     if (err || !sceneGraph) {
                         console.log(err, sceneGraph)
                     } else {
-                       // console.log(sceneGraph)
+                        // console.log(sceneGraph)
                         //We initialize the scene settup and root buildup, combined with passing a type
                         //for the drawing instruction
                         initializeGraph(sceneGraph.nodeList, sceneGraph.type);
@@ -298,9 +294,23 @@ function loadData() {
 
                 //We use the jqeury QR library to build up a link to the scene viewer for users to be able to scan
                 if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
-                    jQuery('#qrcode').qrcode('http://dev-uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+                    var qrcode = new QRCode("qrcode", {
+                        text: 'http://dev-uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + roomId,
+                        width: 128,
+                        height: 128,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
                 } else {
-                    jQuery('#qrcode').qrcode('http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId);
+                    var qrcode = new QRCode("qrcode", {
+                        text: 'http://uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + roomId,
+                        width: 128,
+                        height: 128,
+                        colorDark : "#000000",
+                        colorLight : "#ffffff",
+                        correctLevel : QRCode.CorrectLevel.H
+                    });
                 }
 
                 d3.select('#node-searcher').on('click', function () {
@@ -318,7 +328,7 @@ function loadData() {
                     if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
                         href = 'http://dev-uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + roomId;
                     } else {
-                        href = 'http://uos-sceneeditor.azurewebsites.net/manifest2015.html?room=' + roomId;
+                        href = 'http://uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + roomId;
                     }
                     window.open(href, "_blank");
                 });
