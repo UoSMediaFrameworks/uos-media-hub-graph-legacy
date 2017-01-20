@@ -255,21 +255,21 @@ function GlobalDigitalCityGraph(properties) {
         });
         // console.log(self.availableScenes);
 
-
-        $("#tags").autocomplete({
-            source: [self.availableScenes],
-            limit: 5
-        });
-        $("#tags").keyup(function (key) {
-            if (key.which === 13) {
-                var element = _.find(self.nodeEnter[0], function (obj) {
-
-                    return obj.__data__.name == $("#tags").val();
-                });
-                //console.log(element)
-                element.dispatchEvent(new Event('dblclick'));
-            }
-        });
+        //
+        // $("#tags").autocomplete({
+        //     source: [self.availableScenes],
+        //     limit: 5
+        // });
+        // $("#tags").keyup(function (key) {
+        //     if (key.which === 13) {
+        //         var element = _.find(self.nodeEnter[0], function (obj) {
+        //
+        //             return obj.__data__.name == $("#tags").val();
+        //         });
+        //         //console.log(element)
+        //         element.dispatchEvent(new Event('dblclick'));
+        //     }
+        // });
         //This function will check the distance between both nodes
         function distance(a, b) {
             var dx, dy;
@@ -627,7 +627,7 @@ function GlobalDigitalCityGraph(properties) {
                 }
 
                 //Triggering the hover teaser
-                hover(clusterArray);
+               // hover(clusterArray);
                 var total = clusterArray.length;
                 //This part of the funcion defines the related  x and y positions for each node based on some geometrically calculated values
 
@@ -840,8 +840,9 @@ function GlobalDigitalCityGraph(properties) {
                     clearTimeout(self.hoverTimeout);
                     clearTimeout(self.internalHoverTimeout);
                     resetGraphToOrigin()
-                };
-                console.log( self.switchTime,self.waitTime,enabled[0].checked,value )
+                }
+                ;
+                console.log(self.switchTime, self.waitTime, enabled[0].checked, value)
                 enabled[0].checked = value;
             });
         }
@@ -850,49 +851,58 @@ function GlobalDigitalCityGraph(properties) {
 
             // call your function to do the thing
             var crumbs = Lockr.get(self.graphId + " breadcrumbsList");
+
             d3.select('#crumbs-container').selectAll("*").remove();
+            d3.select('#crumbs-container').append("button").attr("id", "crmbs-clear-all").classed("btn btn-default", true).text("Remove All");
+            d3.select('#crmbs-clear-all').on('click', function () {
+                console.log(self.graphId + " breadcrumbsList");
+                Lockr.rm(self.graphId + " breadcrumbsList");
 
-            var container = d3.select('#crumbs-container')
-                .selectAll("div")
-                .data(crumbs).enter().append("div").classed("crumbs", true);
-
-            var infoContainer = container.append("div").classed("controls col-sm-2", true);
-
-            infoContainer.append("p").text(function (d, i) {
-                return "breadcrumbs " + i;
             });
+            if (crumbs) {
+                var container = d3.select('#crumbs-container')
+                    .selectAll("div")
+                    .data(crumbs).enter().append("div").classed("crumbs", true);
 
-            var buttonsContainer = infoContainer.append("div").classed("buttons col-sm-12", true);
+                var infoContainer = container.append("div").classed("controls col-sm-2", true);
 
-            buttonsContainer.append("div").classed("col-sm-6", true)
-                .append("i").classed("fa fa-play", true)
-                .on("click", function (d, i) {
-                    playoutBreadcrumbs(crumbs[i].breadcrumbs)
+                infoContainer.append("p").text(function (d, i) {
+                    return "breadcrumbs " + i;
                 });
-            buttonsContainer.append("div").classed("col-sm-6", true)
-                .append("i").classed("fa fa-times", true)
-                .on("click", function (d, i) {
-                    crumbs.splice(i, 1);
-                    Lockr.set(self.graphId + " breadcrumbsList", crumbs);
-                    breadcrumbs();
-                });
-            var ul = container.append("ul").classed("col-sm-10", true);
 
-            ul.each(function (crumb, index) {
-                var br = d3.select(this).selectAll("li").data(crumb.breadcrumbs).enter()
-                    .append("li");
+                var buttonsContainer = infoContainer.append("div").classed("buttons col-sm-12", true);
 
-                br.append("a")
-                    .text(function (d) {
-                        return d.node + "." + d.event
-                    })
-                    .append("i").classed("fa fa-times", true).on("click", function (d, i) {
-                    crumbs[index].breadcrumbs.splice(i, 1);
-                    Lockr.set(self.graphId + " breadcrumbsList", crumbs);
-                    breadcrumbs();
+                buttonsContainer.append("div").classed("col-sm-6", true)
+                    .append("i").classed("fa fa-play", true)
+                    .on("click", function (d, i) {
+                        playoutBreadcrumbs(crumbs[i].breadcrumbs)
+                    });
+                buttonsContainer.append("div").classed("col-sm-6", true)
+                    .append("i").classed("fa fa-times", true)
+                    .on("click", function (d, i) {
+                        crumbs.splice(i, 1);
+                        Lockr.set(self.graphId + " breadcrumbsList", crumbs);
+                        breadcrumbs();
+                    });
+                var ul = container.append("ul").classed("col-sm-10", true);
+
+                ul.each(function (crumb, index) {
+                    var br = d3.select(this).selectAll("li").data(crumb.breadcrumbs).enter()
+                        .append("li");
+
+                    br.append("a")
+                        .text(function (d) {
+                            return d.node + "." + d.event
+                        })
+                        .append("i").classed("fa fa-times", true).on("click", function (d, i) {
+                        crumbs[index].breadcrumbs.splice(i, 1);
+                        Lockr.set(self.graphId + " breadcrumbsList", crumbs);
+                        breadcrumbs();
+                    });
                 });
-            });
+            }
         };
+
         d3.select('#bc-toggle').on('click', function () {
 
             var cc = $('#crumbs-container');
@@ -904,9 +914,9 @@ function GlobalDigitalCityGraph(properties) {
             }
 
         });
-        initiateAutowalk();
-        self.inactivityTimer = new initInactivityTime();
-        self.inactivityTimer.inactivityTime();
+        // initiateAutowalk();
+        // self.inactivityTimer = new initInactivityTime();
+        // self.inactivityTimer.inactivityTime();
         transitionGraphElementsToOrigin();
     };
 
