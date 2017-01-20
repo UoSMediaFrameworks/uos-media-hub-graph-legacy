@@ -431,7 +431,7 @@ function GlobalDigitalCityGraph(properties) {
                 eventValue: null,
                 fieldsObject: {name: d.name, type: d.type}
             });
-            if (!replaying) {
+            if (false) {
                 var diff = getTimeDifference();
                 self.breadcrumbs.push({
                     node: d._id,
@@ -651,7 +651,7 @@ function GlobalDigitalCityGraph(properties) {
                 eventValue: null,
                 fieldsObject: {name: d.name, type: d.type}
             });
-            if (!replaying) {
+            if (false) {
                 var diff = getTimeDifference();
                 self.breadcrumbs.push({
                     node: d._id,
