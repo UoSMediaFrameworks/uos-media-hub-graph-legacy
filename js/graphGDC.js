@@ -430,6 +430,13 @@ function GlobalDigitalCityGraph(properties) {
             return diff;
         }
 
+        function isFloat(n) {
+            if(!(Number(n) === n && n % 1 !== 0){
+                alert("not a float",n);
+            }
+            return Number(n) === n && n % 1 !== 0;
+        }
+
         function tap(el, d) {
 
             ga('send', 'event', {
@@ -555,7 +562,8 @@ function GlobalDigitalCityGraph(properties) {
                     } else {
                         d.cx = ratio * (d._x - d.cx) + cx;
                     }
-                    return d.cx;
+
+                    return isFloat(d.cx) ? d.cx : 0;
                 })
                 .attr('cy', function (d) {
                     if (ratio >= 1) {
@@ -564,13 +572,13 @@ function GlobalDigitalCityGraph(properties) {
                     } else {
                         d.cy = ratio * (d._y - d.cy) + cy;
                     }
-                    return d.cy;
+                    return isFloat(d.cy) ? d.cy : 0
                 })
                 .attr('r', function (d) {
                     if (node != undefined && d._id == node._id) {
                         return 10;
                     }
-                    return d.r;
+                    return isFloat(d.r) ? d.r : 0;
                 })
                 .each("end", function () {
                     d3.select(this).attr("pointer-events", null);
@@ -581,8 +589,8 @@ function GlobalDigitalCityGraph(properties) {
                 .duration(self.duration)
                 .attr('d', function (d) {
                     var diagonal = [
-                        "M", d.source.cx, d.source.cy,
-                        "A", self.innerH, self.innerH, 0, 0, 1, d.target.cx, d.target.cy
+                        "M", isFloat(d.source.cx) ? d.source.cx : 0, isFloat(d.source.cy) ? d.source.cy : 0,
+                        "A", isFloat(self.innerH) ? self.innerH : 0, isFloat(self.innerH) ? self.innerH : 0, 0, 0, 1, isFloat(d.source.cx) ? d.source.cx : 0, isFloat(d.source.cy) ? d.source.cy : 0
                     ].join(" ");
                     return diagonal;
                 })
@@ -607,8 +615,8 @@ function GlobalDigitalCityGraph(properties) {
             }).each(function (d) {
                 //the related property contains both the children and the parents of the current element
                 d.related = _.union(d.children, d.parents);
-                var cx = d.cx;
-                var cy = d.cy;
+                var cx = isFloat(  d.cx ) ? d.cx : 0;
+                var cy =isFloat(  d.cy ) ? d.cy : 0;
                 var clusterArray = [];
                 var filteredEdges = [];
                 //Based on the rules identified as current behaviour requirements which is defined by these if else statements
@@ -712,11 +720,11 @@ function GlobalDigitalCityGraph(properties) {
                 var clean_name = cleanTitle(d.name);
                 var scale = 1;
                 var radius = self.innerH / 5;
-                // transitionGraphElementsToOrigin(d);
-                // //Triggers the position clustering
-                // cluster(el, radius);
-                // //Triggers the highlighting based on the clicked element.
-                // clusterHighlight(el, d);
+                transitionGraphElementsToOrigin(d);
+                //Triggers the position clustering
+                cluster(el, radius);
+                //Triggers the highlighting based on the clicked element.
+                clusterHighlight(el, d);
                 //Sets the name at the top of the screen to the clustered node.
                 d3.select('h1').html(clean_name);
 
