@@ -36,6 +36,10 @@
 .crumbs ul li {
     display: inline;
 }
+#qrcode{
+    padding: 10px;
+    background-color: white;
+}
 
 .crumbs ul li a {
     display: block;

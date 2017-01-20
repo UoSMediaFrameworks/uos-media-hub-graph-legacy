@@ -307,8 +307,8 @@ function loadData() {
                         text: 'http://uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + roomId,
                         width: 128,
                         height: 128,
-                        colorDark : "#000000",
-                        colorLight : "#ffffff",
+                        colorDark : "black",
+                        colorLight : "white",
                         correctLevel : QRCode.CorrectLevel.H
                     });
                 }
