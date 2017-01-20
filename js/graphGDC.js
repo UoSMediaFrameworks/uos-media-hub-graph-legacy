@@ -662,6 +662,22 @@ function GlobalDigitalCityGraph(properties) {
 
         function contextualize(el, d) {
                 //Resets the graph to its initial state before proceeding with the clustering and highlighting.
+            var list = [];
+            if (d.type === "root") {
+                //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
+                var children = _.filter(d.children, function (child) {
+                    return child.type === "subgraphtheme";
+                });
+                list = nodes(children, list);
+            } else if (d.type !== "scene") {
+                list = nodes(d.children, list);
+            } else {
+                list.push(d._id);
+            }
+
+            list = dedupeNodeList(list);
+            //To finalize this method it sends the list of scenes to the graph viewer
+            socket.emit('sendCommand', fullRoomId, 'showScenes', list);
                 ga('send', 'event', {
                     eventCategory: 'node',
                     eventAction: "contextualize",
@@ -693,22 +709,7 @@ function GlobalDigitalCityGraph(properties) {
                 clusterHighlight(el, d);
                 //Sets the name at the top of the screen to the clustered node.
                 d3.select('h1').html(clean_name);
-                var list = [];
-                if (d.type === "root") {
-                    //FOR ROOT NODES ONLY SEARCH GTHEMES FOR STHEME + SCENES
-                    var children = _.filter(d.children, function (child) {
-                        return child.type === "subgraphtheme";
-                    });
-                    list = nodes(children, list);
-                } else if (d.type !== "scene") {
-                    list = nodes(d.children, list);
-                } else {
-                    list.push(d._id);
-                }
 
-                list = dedupeNodeList(list);
-                //To finalize this method it sends the list of scenes to the graph viewer
-                socket.emit('sendCommand', fullRoomId, 'showScenes', list);
 
         }
 
