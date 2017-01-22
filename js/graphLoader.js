@@ -274,13 +274,18 @@ function loadData() {
                 if (err) {
                     console.log(err)
                 } else {
-                    fullRoomId = roomID; //global javascript id stored for other graph scripts
+                    //APEP: global javascript id stored for other graph scripts
+                    // We allow an optional query variable to provide the roomId that will be used for:
+                    // 1. Emitting websocket commands
+                    // 2. Opening viewer url connected to same namespace
+                    fullRoomId = getQueryVariable("roomId") || roomID;
                     roomId = socket.id;
                 }
                 // this will be where the scene id will
                 // load up to query to hub for a graph but
                 // that will be replaced with a hardcoded one
                 sceneId = getQueryVariable("id") || sceneId;
+
                 socket.emit('loadSceneGraph', sceneId, function (err, sceneGraph) {
                     if (err || !sceneGraph) {
                         console.log(err, sceneGraph)
