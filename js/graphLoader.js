@@ -274,7 +274,7 @@ function loadData() {
                 if (err) {
                     console.log(err)
                 } else {
-                    fullRoomId = roomID;
+                    fullRoomId = roomID; //global javascript id stored for other graph scripts
                     roomId = socket.id;
                 }
                 // this will be where the scene id will
@@ -295,7 +295,7 @@ function loadData() {
                 //We use the jqeury QR library to build up a link to the scene viewer for users to be able to scan
                 if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
                     var qrcode = new QRCode("qrcode", {
-                        text: 'http://dev-uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + roomId,
+                        text: 'http://dev-uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + fullRoomId,
                         width: 128,
                         height: 128,
                         colorDark : "#000000",
@@ -304,7 +304,7 @@ function loadData() {
                     });
                 } else {
                     var qrcode = new QRCode("qrcode", {
-                        text: 'http://uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + roomId,
+                        text: 'http://uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + fullRoomId,
                         width: 128,
                         height: 128,
                         colorDark : "black",
@@ -326,9 +326,9 @@ function loadData() {
                 d3.select('#scene-viewer').on('click', function () {
                     var href;
                     if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
-                        href = 'http://dev-uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + roomId;
+                        href = 'http://dev-uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + fullRoomId;
                     } else {
-                        href = 'http://uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + roomId;
+                        href = 'http://uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + fullRoomId;
                     }
                     window.open(href, "_blank");
                 });
