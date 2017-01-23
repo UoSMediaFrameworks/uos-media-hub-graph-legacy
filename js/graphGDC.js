@@ -962,9 +962,9 @@ function GlobalDigitalCityGraph(properties) {
             }
 
         });
-        initiateAutowalk();
-        self.inactivityTimer = new initInactivityTime();
-        self.inactivityTimer.inactivityTime();
+        // initiateAutowalk();
+        // self.inactivityTimer = new initInactivityTime();
+        // self.inactivityTimer.inactivityTime();
         transitionGraphElementsToOrigin();
         clearOverlap();
     };
