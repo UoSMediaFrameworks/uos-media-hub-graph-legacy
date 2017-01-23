@@ -255,21 +255,21 @@ function GlobalDigitalCityGraph(properties) {
         });
         // console.log(self.availableScenes);
 
-        //
-        // $("#tags").autocomplete({
-        //     source: [self.availableScenes],
-        //     limit: 5
-        // });
-        // $("#tags").keyup(function (key) {
-        //     if (key.which === 13) {
-        //         var element = _.find(self.nodeEnter[0], function (obj) {
-        //
-        //             return obj.__data__.name == $("#tags").val();
-        //         });
-        //         //console.log(element)
-        //         element.dispatchEvent(new Event('dblclick'));
-        //     }
-        // });
+
+        $("#tags").autocomplete({
+            source: [self.availableScenes],
+            limit: 5
+        });
+        $("#tags").keyup(function (key) {
+            if (key.which === 13) {
+                var element = _.find(self.nodeEnter[0], function (obj) {
+
+                    return obj.__data__.name == $("#tags").val();
+                });
+                //console.log(element)
+                element.dispatchEvent(new Event('dblclick'));
+            }
+        });
         //This function will check the distance between both nodes
         function distance(a, b) {
             var dx, dy;
@@ -877,18 +877,35 @@ function GlobalDigitalCityGraph(properties) {
                 enabled[0].checked = value;
             });
         }
+        function exportBreadcrumbs(){
+            console.log("exporting crumbs")
+            var element = document.createElement('a');
+            var content = self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList");
 
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+            element.setAttribute('download', "gdc-graph-id-" + self.graphId+"-crumbs");
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
         function breadcrumbs() {
-
             // call your function to do the thing
             var crumbs = Lockr.get(self.graphId + " breadcrumbsList");
 
             d3.select('#crumbs-container').selectAll("*").remove();
             d3.select('#crumbs-container').append("button").attr("id", "crmbs-clear-all").classed("btn btn-default", true).text("Remove All");
+            d3.select('#crumbs-container').append("button").attr("id", "crmbs-export").classed("btn btn-default", true).text("Export");
             d3.select('#crmbs-clear-all').on('click', function () {
                 console.log(self.graphId + " breadcrumbsList");
                 Lockr.rm(self.graphId + " breadcrumbsList");
 
+            });
+            d3.select('#crmbs-export').on('click',function(){
+                exportBreadcrumbs();
             });
             if (crumbs) {
                 var container = d3.select('#crumbs-container')
@@ -945,9 +962,9 @@ function GlobalDigitalCityGraph(properties) {
             }
 
         });
-        // initiateAutowalk();
-        // self.inactivityTimer = new initInactivityTime();
-        // self.inactivityTimer.inactivityTime();
+        initiateAutowalk();
+        self.inactivityTimer = new initInactivityTime();
+        self.inactivityTimer.inactivityTime();
         transitionGraphElementsToOrigin();
         clearOverlap();
     };
