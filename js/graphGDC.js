@@ -855,17 +855,17 @@ function GlobalDigitalCityGraph(properties) {
         var initiateAutowalk = function () {
             $('#autowalk-enabled').attr('checked', false);
 
-            $('#autowalk-node-switch').val(self.switchTime);
+            $('#autowalk-node-switch').val(self.switchTime/1000);
 
-            $('#autowalk-duration').val(self.waitTime);
+            $('#autowalk-duration').val(self.waitTime/1000);
 
             $('#set-settings').on("click", function () {
 
                 var duration = $('#autowalk-duration');
                 var enabled = $('#autowalk-enabled');
                 var node_switch = $('#autowalk-node-switch');
-                self.switchTime = node_switch.val();
-                self.waitTime = duration.val();
+                self.switchTime = node_switch.val()*1000;
+                self.waitTime = duration.val()*1000;
 
 
                 var value;

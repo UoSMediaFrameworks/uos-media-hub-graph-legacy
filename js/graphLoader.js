@@ -362,8 +362,17 @@ function loadData() {
                      */
                     if (e.altKey && e.keyCode == 79) {
                         var options = $('#options-menu')
+                        var qr = $('#qrcode');
+                        var walk = $('#autowalk-menu');
+                        var search = $('.xdsoft_autocomplete');
+                        var breadcrumbs = $('#crumbs-container');;
+
                         if (options.is(":visible")) {
                             options.hide()
+                            qr.hide();
+                            walk.hide();
+                            search.hide();
+                            breadcrumbs.hide();
                         } else {
                             options.show()
                         }

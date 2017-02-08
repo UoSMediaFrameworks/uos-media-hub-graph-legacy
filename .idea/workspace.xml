@@ -6,6 +6,7 @@
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/d3_index.css" afterPath="$PROJECT_DIR$/css/d3_index.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphGDC.js" afterPath="$PROJECT_DIR$/js/graphGDC.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphLoader.js" afterPath="$PROJECT_DIR$/js/graphLoader.js" />
     </list>
     <ignored path="uos-media-hub-graph-legacy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -21,107 +22,53 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
+  <component name="DatabaseView">
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+  </component>
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FavoritesManager">
     <favorites_list name="uos-media-hub-graph-legacy" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="d3_index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/d3_index.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="343">
-              <caret line="997" column="19" lean-forward="false" selection-start-line="997" selection-start-column="19" selection-end-line="997" selection-end-column="19" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="autocomplete.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/autocomplete.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="374">
-              <caret line="24" column="18" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
-              <folding>
-                <element signature="n#!!doc" expanded="true" />
-                <marker date="1476100590002" expanded="true" signature="25380:25437" ph="..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index_legacy.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/index_legacy.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="22899">
-              <caret line="1347" column="0" lean-forward="false" selection-start-line="1347" selection-start-column="0" selection-end-line="1347" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="graphMemoir.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/graphMemoir.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="193">
-              <caret line="287" column="25" lean-forward="true" selection-start-line="287" selection-start-column="25" selection-end-line="287" selection-end-column="25" />
-              <folding>
-                <element signature="n#!!doc;n#MemoirGraph#0" expanded="false" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
       <file leaf-file-name="workspace.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="0">
               <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="graphLoader.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="378">
-              <caret line="309" column="42" lean-forward="false" selection-start-line="309" selection-start-column="42" selection-end-line="309" selection-end-column="42" />
               <folding>
-                <element signature="n#!!doc" expanded="true" />
+                <marker date="1486553757318" expanded="true" signature="59:71904" ph="..." />
+                <marker date="1486553757318" expanded="true" signature="71806:71847" ph="..." />
+                <marker date="1486553757318" expanded="true" signature="71806:71878" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="graphGDC.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="graphGDC.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/graphGDC.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="116">
-              <caret line="768" column="47" lean-forward="false" selection-start-line="768" selection-start-column="43" selection-end-line="768" selection-end-column="47" />
+            <state relative-caret-position="153">
+              <caret line="964" column="44" lean-forward="true" selection-start-line="964" selection-start-column="21" selection-end-line="964" selection-end-column="44" />
               <folding>
                 <element signature="n#!!doc" expanded="true" />
-                <marker date="1484927129946" expanded="true" signature="30335:30680" ph="/*...*/" />
+                <element signature="e#34208#36966#0" expanded="false" />
+                <marker date="1486553645472" expanded="true" signature="31236:31581" ph="/*...*/" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="d3_index.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/d3_index.css">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="361">
-              <caret line="293" column="0" lean-forward="false" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="252">
-              <caret line="27" column="78" lean-forward="false" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="78" />
+            <state relative-caret-position="153">
+              <caret line="78" column="32" lean-forward="false" selection-start-line="78" selection-start-column="32" selection-end-line="78" selection-end-column="32" />
               <folding>
                 <element signature="n#style#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#button#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -130,12 +77,14 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="breadcrumbs.css" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/css/breadcrumbs.css">
+      <file leaf-file-name="graphLoader.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="272">
-              <caret line="41" column="1" lean-forward="false" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
-              <folding />
+            <state relative-caret-position="253">
+              <caret line="374" column="47" lean-forward="false" selection-start-line="374" selection-start-column="47" selection-end-line="374" selection-end-column="47" />
+              <folding>
+                <element signature="n#!!doc" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -152,32 +101,36 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>&lt;li&gt;&lt;/li&gt;</find>
-      <find>bread</find>
-      <find>randomHover</find>
-      <find>click</find>
-      <find>waitTime</find>
-      <find>c;ocl</find>
-      <find>inactivityTime</find>
-      <find>value</find>
-      <find>inactivityTimer</find>
-      <find>hoverTImeout</find>
-      <find>exra</find>
-      <find>switchTime</find>
-      <find>autowalk</find>
-      <find>sceneId</find>
-      <find>qrcode</find>
-      <find>breadcrumbs</find>
-      <find>on</find>
-      <find>crumbs</find>
-      <find>crms</find>
-      <find>all</find>
       <find>interval</find>
       <find>clearInterval</find>
       <find>initInactivityTime</find>
       <find>hover</find>
       <find>autocomplete</find>
+      <find>false</find>
       <find>diff</find>
+      <find>contextu</find>
+      <find>contexti</find>
+      <find>transition</find>
+      <find>pointer</find>
+      <find>transi</find>
+      <find>transitionGraphElementsTo</find>
+      <find>transitionGraphElements</find>
+      <find>isFloat</find>
+      <find>isfloat</find>
+      <find>isFLoat</find>
+      <find>qrcode</find>
+      <find>transitionGraphElementsToOrigin</find>
+      <find>auto</find>
+      <find>autocomple</find>
+      <find>crumbs</find>
+      <find>self</find>
+      <find>&lt;script src=&quot;https://use.fontawesome.com/60dcd56b42.js&quot;&gt;&lt;/script&gt;</find>
+      <find>timeAdjustment</find>
+      <find>Autowalk</find>
+      <find>initiateAutowalk</find>
+      <find>randomHover</find>
+      <find>contextualize</find>
+      <find>autowalk</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -197,11 +150,11 @@
         <option value="$PROJECT_DIR$/js/index_legacy.js" />
         <option value="$PROJECT_DIR$/.idea/workspace.xml" />
         <option value="$PROJECT_DIR$/js/graphMemoir.js" />
-        <option value="$PROJECT_DIR$/js/graphLoader.js" />
-        <option value="$PROJECT_DIR$/css/d3_index.css" />
         <option value="$PROJECT_DIR$/css/breadcrumbs.css" />
-        <option value="$PROJECT_DIR$/index.html" />
+        <option value="$PROJECT_DIR$/css/d3_index.css" />
         <option value="$PROJECT_DIR$/js/graphGDC.js" />
+        <option value="$PROJECT_DIR$/js/graphLoader.js" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -215,9 +168,10 @@
     <handled-path value="$PROJECT_DIR$/node_modules" />
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="-7" />
-    <option name="width" value="1378" />
-    <option name="height" value="735" />
+    <option name="x" value="-8" />
+    <option name="y" value="-8" />
+    <option name="width" value="1382" />
+    <option name="height" value="744" />
   </component>
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1">
@@ -791,15 +745,18 @@
       <workItem from="1484665727947" duration="231000" />
       <workItem from="1484666450922" duration="1228000" />
       <workItem from="1484743530690" duration="5259000" />
-      <workItem from="1484913162071" duration="7514000" />
+      <workItem from="1484913162071" duration="18542000" />
+      <workItem from="1485179403665" duration="64000" />
+      <workItem from="1485179480850" duration="995000" />
+      <workItem from="1486507151123" duration="6793000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="207592000" />
+    <option name="totallyTimeSpent" value="226472000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="0" width="1378" height="735" extended-state="0" />
+    <frame x="-8" y="-8" width="1382" height="744" extended-state="6" />
     <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
@@ -810,22 +767,22 @@
       <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32733223" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Sequence" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32242227" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26403642" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32724252" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19364598" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32980332" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3289689" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.0" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -860,6 +817,24 @@
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="processedProjectFiles" value="true" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="RECENTLY_FILTERED_USER_GROUPS">
+                <collection />
+              </option>
+              <option name="RECENTLY_FILTERED_BRANCH_GROUPS">
+                <collection />
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="Vcs.Log.UiProperties">
     <option name="RECENTLY_FILTERED_USER_GROUPS">
@@ -905,13 +880,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/memoir.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="31" column="16" lean-forward="false" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="16" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/d3_index.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -1226,7 +1194,7 @@
         <state relative-caret-position="374">
           <caret line="24" column="18" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
           <folding>
-            <element signature="n#!!doc" expanded="true" />
+            <element signature="n#!!doc" expanded="false" />
             <marker date="1476100590002" expanded="true" signature="25380:25437" ph="..." />
           </folding>
         </state>
@@ -1240,76 +1208,91 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="378">
-          <caret line="309" column="42" lean-forward="false" selection-start-line="309" selection-start-column="42" selection-end-line="309" selection-end-column="42" />
-          <folding>
-            <element signature="n#!!doc" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/breadcrumbs.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="41" column="1" lean-forward="false" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/css/d3_index.css">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="361">
-          <caret line="293" column="0" lean-forward="false" selection-start-line="293" selection-start-column="0" selection-end-line="293" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/d3_index.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="343">
+        <state relative-caret-position="16949">
           <caret line="997" column="19" lean-forward="false" selection-start-line="997" selection-start-column="19" selection-end-line="997" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="252">
-          <caret line="27" column="78" lean-forward="false" selection-start-line="27" selection-start-column="78" selection-end-line="27" selection-end-column="78" />
-          <folding>
-            <element signature="n#style#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#button#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/js/graphMemoir.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="193">
-          <caret line="287" column="25" lean-forward="true" selection-start-line="287" selection-start-column="25" selection-end-line="287" selection-end-column="25" />
+        <state relative-caret-position="4845">
+          <caret line="287" column="25" lean-forward="false" selection-start-line="287" selection-start-column="25" selection-end-line="287" selection-end-column="25" />
           <folding>
             <element signature="n#!!doc;n#MemoirGraph#0" expanded="false" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/graphGDC.js">
+    <entry file="file://$PROJECT_DIR$/css/breadcrumbs.css">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="116">
-          <caret line="768" column="47" lean-forward="false" selection-start-line="768" selection-start-column="43" selection-end-line="768" selection-end-column="47" />
+        <state relative-caret-position="697">
+          <caret line="41" column="1" lean-forward="false" selection-start-line="41" selection-start-column="1" selection-end-line="41" selection-end-column="1" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/socket.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1989">
+          <caret line="119" column="28" lean-forward="false" selection-start-line="119" selection-start-column="28" selection-end-line="119" selection-end-column="28" />
           <folding>
             <element signature="n#!!doc" expanded="true" />
-            <marker date="1484927129946" expanded="true" signature="30335:30680" ph="/*...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/css/d3_index.css">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="387">
+          <caret line="261" column="17" lean-forward="false" selection-start-line="261" selection-start-column="17" selection-end-line="261" selection-end-column="17" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/.idea/workspace.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <marker date="1486553757318" expanded="true" signature="59:71904" ph="..." />
+            <marker date="1486553757318" expanded="true" signature="71806:71847" ph="..." />
+            <marker date="1486553757318" expanded="true" signature="71806:71878" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="253">
+          <caret line="374" column="47" lean-forward="false" selection-start-line="374" selection-start-column="47" selection-end-line="374" selection-end-column="47" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/js/graphGDC.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="964" column="44" lean-forward="true" selection-start-line="964" selection-start-column="21" selection-end-line="964" selection-end-column="44" />
+          <folding>
+            <element signature="n#!!doc" expanded="true" />
+            <element signature="e#34208#36966#0" expanded="false" />
+            <marker date="1486553645472" expanded="true" signature="31236:31581" ph="/*...*/" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="153">
+          <caret line="78" column="32" lean-forward="false" selection-start-line="78" selection-start-column="32" selection-end-line="78" selection-end-column="32" />
+          <folding>
+            <element signature="n#style#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#button#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>
