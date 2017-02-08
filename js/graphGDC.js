@@ -677,16 +677,15 @@ function GlobalDigitalCityGraph(properties) {
 
             list = dedupeNodeList(list);
             //To finalize this method it sends the list of scenes to the graph viewer
-            console.log(list.length);
             socket.emit('sendCommand', fullRoomId, 'showScenes', list);
         }
 
         function contextualize(el, d) {
             //Resets the graph to its initial state before proceeding with the clustering and highlighting.
-            try{
+            try {
                 createSceneListList(d);
-            }catch(e){
-                console.log("createSceneListList",e)
+            } catch (e) {
+                console.log("createSceneListList", e)
             }
 
             ga('send', 'event', {
@@ -801,7 +800,9 @@ function GlobalDigitalCityGraph(properties) {
          It will trigger changes to the new random node and will provide the scenelist to the Scene Viewer
          */
         function randomHover(timeAdjustment) {
+            console.log("1", self.internalHoverTimeout)
             clearInterval(self.internalHoverTimeout);
+            console.log("2", self.internalHoverTimeout)
             self.internalHoverTimeout = setInterval(function () {
                 var nodes = self.nodeEnter[0];
                 var i = getRandomInt(0, nodes.length);
@@ -839,19 +840,24 @@ function GlobalDigitalCityGraph(properties) {
 
             insideSelf.resetTimer = function () {
                 clearTimeout(self.hoverTimeout);
-                self.hoverTimeout = setTimeout(function () {
-                    randomHover(self.switchTime)
-                }, self.waitTime)
+                clearTimeout(self.internalHoverTimeout);
+                var enabled = $('#autowalk-enabled');
+                if (enabled[0].checked) {
+                    self.hoverTimeout = setTimeout(function () {
+                        randomHover(self.switchTime)
+                    }, self.waitTime)
+                }
+
             };
 
         };
 
         var initiateAutowalk = function () {
-            $('#autowalk-enabled').attr('checked', true);
+            $('#autowalk-enabled').attr('checked', false);
 
             $('#autowalk-node-switch').val(self.switchTime);
 
-            $('#autowalk-duration').val(self.waitTime / 10000);
+            $('#autowalk-duration').val(self.waitTime);
 
             $('#set-settings').on("click", function () {
 
@@ -863,6 +869,7 @@ function GlobalDigitalCityGraph(properties) {
 
 
                 var value;
+                console.log(enabled[0].checked)
                 if (enabled[0].checked) {
                     value = true;
                     self.inactivityTimer.inactivityTime();
@@ -877,13 +884,14 @@ function GlobalDigitalCityGraph(properties) {
                 enabled[0].checked = value;
             });
         }
-        function exportBreadcrumbs(){
+
+        function exportBreadcrumbs() {
             console.log("exporting crumbs")
             var element = document.createElement('a');
             var content = self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList");
 
             element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
-            element.setAttribute('download', "gdc-graph-id-" + self.graphId+"-crumbs");
+            element.setAttribute('download', "gdc-graph-id-" + self.graphId + "-crumbs");
 
             element.style.display = 'none';
             document.body.appendChild(element);
@@ -892,6 +900,7 @@ function GlobalDigitalCityGraph(properties) {
 
             document.body.removeChild(element);
         }
+
         function breadcrumbs() {
             // call your function to do the thing
             var crumbs = Lockr.get(self.graphId + " breadcrumbsList");
@@ -904,7 +913,7 @@ function GlobalDigitalCityGraph(properties) {
                 Lockr.rm(self.graphId + " breadcrumbsList");
 
             });
-            d3.select('#crmbs-export').on('click',function(){
+            d3.select('#crmbs-export').on('click', function () {
                 exportBreadcrumbs();
             });
             if (crumbs) {
@@ -962,9 +971,12 @@ function GlobalDigitalCityGraph(properties) {
             }
 
         });
-        // initiateAutowalk();
-        // self.inactivityTimer = new initInactivityTime();
-        // self.inactivityTimer.inactivityTime();
+        console.log("initiateAutowalk")
+        initiateAutowalk();
+        self.inactivityTimer = new initInactivityTime();
+        console.log(self.inactivityTimer)
+        self.inactivityTimer.inactivityTime();
+
         transitionGraphElementsToOrigin();
         clearOverlap();
     };
