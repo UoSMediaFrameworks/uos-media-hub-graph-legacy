@@ -21,6 +21,11 @@ function MemoirGraph(properties) {
     this.breadcrumbs = [];
     this.breadcrumbsList = [];
 
+    this.waitTime = 300000;
+    this.inactivityTimer;
+    this.hoverTimeout;
+    this.internalHoverTimeout;
+    this.switchTime = 7000;
     var self = this;
    // console.log(this)
     d3.select('#reset-new2').on('click', function (e) {
@@ -401,7 +406,109 @@ function MemoirGraph(properties) {
         }
 
         self.nodeEnter.order();
+        function randomHover(timeAdjustment) {
+            console.log("1", self.internalHoverTimeout)
+            clearInterval(self.internalHoverTimeout);
+            console.log("2", self.internalHoverTimeout)
+            toastr.info("Autowalk has started")
+            self.internalHoverTimeout = setInterval(function () {
 
+                var nodes = self.nodeEnter[0];
+                var i = getRandomInt(0, nodes.length);
+                var el = nodes[i];
+                var d = el.__data__;
+                tap(el, d);
+                self.shortClickTitle
+                    .attr('y', function () {
+                        return d.cy < self.innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2;
+                    })
+                    .attr('x', function () {
+                        return d.cx < self.innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2;
+                    })
+                    .attr('text-anchor', 'middle')
+                    .style("opacity", "1")
+                    .text(function () {
+                        return d.name
+                    }).moveToFront();
+            }, timeAdjustment)
+
+        };
+
+        /*
+         Angel Petrov: this is an inactivity detector, by binding a reset timer to mose move and keypress any motion in regards
+         to the graph will make it reset the timeout. Currently the default value to wait is 5 minutes.
+         Which through an interface will be amendable, and the inactivity time will be toggle-able.
+         */
+        var initInactivityTime = function () {
+            var insideSelf = this;
+            insideSelf.inactivityTime = function () {
+                window.onload = insideSelf.resetTimer;
+                document.onmousemove = insideSelf.resetTimer;
+                document.onkeypress = insideSelf.resetTimer;
+            };
+
+            insideSelf.resetTimer = function () {
+                clearTimeout(self.hoverTimeout);
+                clearTimeout(self.internalHoverTimeout);
+                var enabled = $('#autowalk-enabled');
+                if (enabled[0].checked) {
+                    self.hoverTimeout = setTimeout(function () {
+                        randomHover(self.switchTime)
+                    }, self.waitTime)
+                }
+
+            };
+
+        };
+
+        var initiateAutowalk = function () {
+            $('#autowalk-enabled').attr('checked', false);
+
+            $('#autowalk-node-switch').val(self.switchTime/1000);
+
+            $('#autowalk-duration').val(self.waitTime/1000);
+
+            $('#set-settings').on("click", function () {
+
+                var duration = $('#autowalk-duration');
+                var enabled = $('#autowalk-enabled');
+                var node_switch = $('#autowalk-node-switch');
+                self.switchTime = node_switch.val()*1000;
+                self.waitTime = duration.val()*1000;
+
+
+                var value;
+                console.log(enabled[0].checked)
+                if (enabled[0].checked) {
+                    value = true;
+                    self.inactivityTimer.inactivityTime();
+                } else {
+                    value = false;
+                    clearTimeout(self.hoverTimeout);
+                    clearTimeout(self.internalHoverTimeout);
+                    resetGraphToOrigin()
+                }
+                ;
+                console.log(self.switchTime, self.waitTime, enabled[0].checked, value)
+                enabled[0].checked = value;
+            });
+        };
+
+        function exportBreadcrumbs() {
+            console.log("exporting crumbs")
+            var element = document.createElement('a');
+            var content = self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList");
+
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+            element.setAttribute('download', "gdc-graph-id-" + self.graphId + "-crumbs");
+
+            element.style.display = 'none';
+            document.body.appendChild(element);
+
+            element.click();
+
+            document.body.removeChild(element);
+        }
 
         function showBreadcrumbs(e) {
             if (e.altKey && e.keyCode == 66) {
@@ -444,62 +551,90 @@ function MemoirGraph(properties) {
             var crumbs = Lockr.get(self.graphId + " breadcrumbsList");
             d3.select('#crumbs-container').selectAll("*").remove();
 
-            var container = d3.select('#crumbs-container')
-                .selectAll("div")
-                .data(crumbs).enter().append("div").classed("crumbs", true);
 
-            var infoContainer = container.append("div").classed("controls col-sm-2", true);
+            d3.select('#crumbs-container').append("button").attr("id", "crmbs-clear-all").classed("btn btn-default", true).text("Remove All");
+            d3.select('#crumbs-container').append("button").attr("id", "crmbs-export").classed("btn btn-default", true).text("Export");
+            d3.select('#crmbs-clear-all').on('click', function () {
+                console.log(self.graphId + " breadcrumbsList");
+                Lockr.rm(self.graphId + " breadcrumbsList");
 
-            infoContainer.append("p").text(function (d, i) {
-                return "breadcrumbs " + i;
             });
-
-            var buttonsContainer = infoContainer.append("div").classed("buttons col-sm-12", true);
-
-            buttonsContainer.append("div").classed("col-sm-6", true)
-                .append("i").classed("fa fa-play", true)
-                .on("click", function (d, i) {
-                    playoutBreadcrumbs(crumbs[i].breadcrumbs)
-                });
-            buttonsContainer.append("div").classed("col-sm-6", true)
-                .append("i").classed("fa fa-times", true)
-                .on("click", function (d, i) {
-                    crumbs.splice(i, 1);
-                    Lockr.set(self.graphId + " breadcrumbsList", crumbs);
-                    breadcrumbs();
-                });
-            var ul = container.append("ul").classed("col-sm-10", true);
-
-            ul.each(function (crumb, index) {
-                var br = d3.select(this).selectAll("li").data(crumb.breadcrumbs).enter()
-                    .append("li");
-
-                br.append("a")
-                    .text(function (d) {
-                        return d.node + "." + d.event
-                    })
-                    .append("i").classed("fa fa-times", true).on("click", function (d, i) {
-                    crumbs[index].breadcrumbs.splice(i, 1);
-                    Lockr.set(self.graphId + " breadcrumbsList", crumbs);
-                    breadcrumbs();
-                });
+            d3.select('#crmbs-export').on('click', function () {
+                exportBreadcrumbs();
             });
+            if (crumbs) {
+                var container = d3.select('#crumbs-container')
+                    .selectAll("div")
+                    .data(crumbs).enter().append("div").classed("crumbs", true);
+
+                var infoContainer = container.append("div").classed("controls col-sm-2", true);
+
+                infoContainer.append("p").text(function (d, i) {
+                    return "breadcrumbs " + i;
+                });
+
+                var buttonsContainer = infoContainer.append("div").classed("buttons col-sm-12", true);
+
+                buttonsContainer.append("div").classed("col-sm-6", true)
+                    .append("i").classed("fa fa-play", true)
+                    .on("click", function (d, i) {
+                        playoutBreadcrumbs(crumbs[i].breadcrumbs)
+                    });
+                buttonsContainer.append("div").classed("col-sm-6", true)
+                    .append("i").classed("fa fa-times", true)
+                    .on("click", function (d, i) {
+                        crumbs.splice(i, 1);
+                        Lockr.set(self.graphId + " breadcrumbsList", crumbs);
+                        breadcrumbs();
+                    });
+                var ul = container.append("ul").classed("col-sm-10", true);
+
+                ul.each(function (crumb, index) {
+                    var br = d3.select(this).selectAll("li").data(crumb.breadcrumbs).enter()
+                        .append("li");
+
+                    br.append("a")
+                        .text(function (d) {
+                            return d.node + "." + d.event
+                        })
+                        .append("i").classed("fa fa-times", true).on("click", function (d, i) {
+                        crumbs[index].breadcrumbs.splice(i, 1);
+                        Lockr.set(self.graphId + " breadcrumbsList", crumbs);
+                        breadcrumbs();
+                    });
+                });
+
+            }
+
         };
         d3.select('#bc-toggle').on('click', function () {
-            if (e.altKey && e.keyCode == 66) {
-                var cc = $('#crumbs-container');
-                if (cc.is(":visible")) {
-                    cc.hide();
-                } else {
-                    breadcrumbs();
-                    cc.show();
-                }
-            }
-        });
 
+            var cc = $('#crumbs-container');
+            if (cc.is(":visible")) {
+                cc.hide();
+            } else {
+                breadcrumbs();
+                cc.show();
+            }
+
+        });
+        initiateAutowalk();
+        self.inactivityTimer = new initInactivityTime();
+        self.inactivityTimer.inactivityTime();
         //This function initializes the autocomplete input with autocompletion
         transitionGraphElementsToOrigin()
 
     };
-
+    function getRandomInt(min, max) {
+        return Math.floor(Math.random() * (max - min)) + min;
+    };
+    function pluckArray(array) {
+        //console.log('arr size ' + array.length)
+        var index = getRandomInt(0, array.length);
+        //console.log('Rand index ' + index)
+        var obj = array[index];
+        //console.log(obj)
+        array = array.splice(index, 1);
+        return obj;
+    };
 };

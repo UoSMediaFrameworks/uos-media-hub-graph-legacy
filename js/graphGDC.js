@@ -458,13 +458,12 @@ function GlobalDigitalCityGraph(properties) {
 
             self.longClicked.classed('longHL', false);
             self.longClickedLink.classed('longLinkHL', false);
-
             self.shortClickTitle
                 .attr('y', function () {
-                    return d.cy < self.innerH / 2 ? d.cy - (d.r * 2 + 5) : d.cy + (d.r * 2 + 5)
+                    return d.cy < self.innerH / 2 ? d.cy - (el.r.animVal.value * 2 + 5) : d.cy + (el.r.animVal.value * 2 + 5)
                 })
                 .attr('x', function () {
-                    return d.cx < self.innerW / 2 ? d.cx - (d.r * 2 + 5) : d.cx + (d.r * 2 + 5)
+                    return d.cx < self.innerW / 2 ? d.cx - (el.r.animVal.value* 2 + 5) : d.cx + (el.r.animVal.value * 2 + 5)
                 })
                 .attr('text-anchor', 'middle')
                 .style("opacity", "1")
@@ -803,7 +802,9 @@ function GlobalDigitalCityGraph(properties) {
             console.log("1", self.internalHoverTimeout)
             clearInterval(self.internalHoverTimeout);
             console.log("2", self.internalHoverTimeout)
+            toastr.info("Autowalk has started")
             self.internalHoverTimeout = setInterval(function () {
+
                 var nodes = self.nodeEnter[0];
                 var i = getRandomInt(0, nodes.length);
                 var el = nodes[i];
@@ -811,10 +812,10 @@ function GlobalDigitalCityGraph(properties) {
                 contextualize(el, d);
                 self.longClickTitle
                     .attr('y', function () {
-                        return d.cy < self.innerH / 2 ? d.cy - d.r * 2 : d.cy + d.r * 2;
+                        return d.cy < self.innerH / 2 ? d.cy - el.r.animVal.value * 2 : d.cy + el.r.animVal.value* 2;
                     })
                     .attr('x', function () {
-                        return d.cx < self.innerW / 2 ? d.cx - d.r * 2 : d.cx + d.r * 2;
+                        return d.cx < self.innerW / 2 ? d.cx - el.r.animVal.value * 2 : d.cx + el.r.animVal.value * 2;
                     })
                     .attr('text-anchor', 'middle')
                     .style("opacity", "1")
@@ -883,7 +884,7 @@ function GlobalDigitalCityGraph(properties) {
                 console.log(self.switchTime, self.waitTime, enabled[0].checked, value)
                 enabled[0].checked = value;
             });
-        }
+        };
 
         function exportBreadcrumbs() {
             console.log("exporting crumbs")
@@ -971,12 +972,9 @@ function GlobalDigitalCityGraph(properties) {
             }
 
         });
-        console.log("initiateAutowalk")
         initiateAutowalk();
         self.inactivityTimer = new initInactivityTime();
-        console.log(self.inactivityTimer)
         self.inactivityTimer.inactivityTime();
-
         transitionGraphElementsToOrigin();
         clearOverlap();
     };
