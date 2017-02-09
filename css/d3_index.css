@@ -35,22 +35,34 @@ svg {
     left: 0;
     z-index: 1;
 }
-
-circle {
+.shown-circle{
     stroke: #333;
+    transition: opacity 1s;
     stroke-opacity: 0.5;
+    opacity:1;
     cursor: pointer;
-
 }
-
-line, path {
+.hidden-circle{
+    stroke: #333;
+    transition: opacity 1s;
+    stroke-opacity: 0.5;
+    opacity:0;
+    cursor: pointer;
+}
+.hidden-path{
     stroke-width: 0.25;
     transition: opacity 1s, stroke-width 5s;
-    opacity: 0.125;
     stroke: #fff;
+    opacity: 0;
     fill: none;
 }
-
+.visible-path{
+    stroke-width: 0.25;
+    transition: opacity 1s, stroke-width 5s;
+    stroke: #fff;
+    opacity: 0.125;
+    fill: none;
+}
 .opaque {
     opacity: 1 !important;
     stroke-width: 0.25 !important;
@@ -291,6 +303,9 @@ button:hover {
     width: 50%;
     text-align: right;
 }​
+.Entertainment{
+    fill: #800559;
+ }
 
 
 

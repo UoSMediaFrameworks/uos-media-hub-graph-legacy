@@ -452,6 +452,7 @@ function MemoirGraph(properties) {
                 clearTimeout(self.internalHoverTimeout);
                 var enabled = $('#autowalk-enabled');
                 if (enabled[0].checked) {
+                    randomHover(self.switchTime);
                     self.hoverTimeout = setTimeout(function () {
                         randomHover(self.switchTime)
                     }, self.waitTime)
@@ -478,7 +479,6 @@ function MemoirGraph(properties) {
 
 
                 var value;
-                console.log(enabled[0].checked)
                 if (enabled[0].checked) {
                     value = true;
                     self.inactivityTimer.inactivityTime();
@@ -510,19 +510,6 @@ function MemoirGraph(properties) {
             document.body.removeChild(element);
         }
 
-        function showBreadcrumbs(e) {
-            if (e.altKey && e.keyCode == 66) {
-                var cc = $('#crumbs-container');
-                if (cc.is(":visible")) {
-                    cc.hide();
-                } else {
-                    breadcrumbs();
-                    cc.show();
-
-                }
-
-            }
-        }
 
         function playoutBreadcrumbs(breadcrumbs) {
             replaying=true;

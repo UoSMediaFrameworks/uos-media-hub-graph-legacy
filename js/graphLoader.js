@@ -12,7 +12,7 @@ window.addEventListener("contextmenu", function (e) {
     e.preventDefault();
 });
 
-function initializeGraph(rootData, type) {
+function initializeGraph(rootData, type,exploration) {
     //console.log(type)
 //--------------------Global Variables----------------//
 
@@ -239,7 +239,12 @@ function initializeGraph(rootData, type) {
         var graphMemoir = new MemoirGraph(properties);
         graphMemoir.draw(root);
     } else {
-        var graphGDC = new GlobalDigitalCityGraph(properties);
+        if (exploration) {
+            var graphGDC = new GlobalDigitalCityGraphExploration(properties);
+        } else {
+            var graphGDC = new GlobalDigitalCityGraph(properties);
+        }
+
         graphGDC.draw(root)
     }
 
@@ -285,7 +290,7 @@ function loadData() {
                 // load up to query to hub for a graph but
                 // that will be replaced with a hardcoded one
                 sceneId = getQueryVariable("id") || sceneId;
-
+                var exploration = getQueryVariable("isExploration") || false;
                 socket.emit('loadSceneGraph', sceneId, function (err, sceneGraph) {
                     if (err || !sceneGraph) {
                         console.log(err, sceneGraph)
@@ -293,7 +298,7 @@ function loadData() {
                         // console.log(sceneGraph)
                         //We initialize the scene settup and root buildup, combined with passing a type
                         //for the drawing instruction
-                        initializeGraph(sceneGraph.nodeList, sceneGraph.type);
+                        initializeGraph(sceneGraph.nodeList, sceneGraph.type, exploration);
                     }
                 });
 
@@ -303,18 +308,18 @@ function loadData() {
                         text: 'http://dev-uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + fullRoomId,
                         width: 128,
                         height: 128,
-                        colorDark : "#000000",
-                        colorLight : "#ffffff",
-                        correctLevel : QRCode.CorrectLevel.H
+                        colorDark: "#000000",
+                        colorLight: "#ffffff",
+                        correctLevel: QRCode.CorrectLevel.H
                     });
                 } else {
                     var qrcode = new QRCode("qrcode", {
                         text: 'http://uos-sceneeditor.azurewebsites.net/graph-viewer.html#/?room=' + fullRoomId,
                         width: 128,
                         height: 128,
-                        colorDark : "black",
-                        colorLight : "white",
-                        correctLevel : QRCode.CorrectLevel.H
+                        colorDark: "black",
+                        colorLight: "white",
+                        correctLevel: QRCode.CorrectLevel.H
                     });
                 }
 
@@ -365,7 +370,8 @@ function loadData() {
                         var qr = $('#qrcode');
                         var walk = $('#autowalk-menu');
                         var search = $('.xdsoft_autocomplete');
-                        var breadcrumbs = $('#crumbs-container');;
+                        var breadcrumbs = $('#crumbs-container');
+                        ;
 
                         if (options.is(":visible")) {
                             options.hide()

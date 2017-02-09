@@ -4,7 +4,7 @@
 /*
  GDC graph constructor
  */
-function GlobalDigitalCityGraph(properties) {
+function GlobalDigitalCityGraphExploration(properties) {
 
     this.nodeContainer = properties.nodeContainer;
     this.linkContainer = properties.linkContainer;
@@ -89,7 +89,6 @@ function GlobalDigitalCityGraph(properties) {
                     return d.name;
                 }
             })
-
             .call(circle)
             .touchHandler(function (el, d, type) {
                 if (type == 'tap') {
@@ -101,7 +100,7 @@ function GlobalDigitalCityGraph(properties) {
                 return tap(this, d);
             }).on('dblclick', function (d) {
                 return contextualize(this, d);
-            }).classed("shown-circle",true);
+            });
 
 
         self.linkEnter = linkCollection.enter().append('path')
@@ -112,10 +111,7 @@ function GlobalDigitalCityGraph(properties) {
                 ].join(" ");
                 return diagonal;
             })
-            .attr('class', function (d) {
-                return 'opaque';
-            })
-            .classed("visible-path",true);
+            .classed("hidden-path", true);
 
 
         function circle(nodeArr) {
@@ -211,7 +207,7 @@ function GlobalDigitalCityGraph(properties) {
             d.y = d.y - self.margin.top;
             d._y = d.y;
             return d.y;
-        });
+        }).classed('hidden-circle', true);
 
 
         var gThemeNodes = self.nodeEnter.filter(function (d) {
@@ -411,6 +407,7 @@ function GlobalDigitalCityGraph(properties) {
             });
 
             d3.selectAll(links).classed('highlightedLink', true);
+            d3.selectAll(links).classed('visible-path', true);
         }
 
         //This function is the single click / tap  behaviour
@@ -453,9 +450,37 @@ function GlobalDigitalCityGraph(properties) {
                 Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
 
             }
+            var filteredNodes = [];
+            d.related = _.union(d.children, d.parents);
+            if (d.type == 'root') {
+                //console.log('root')
+                filteredNodes = _.filter(d.related, function (item) {
+                    return item.type == 'subgraphtheme';
+                })
+            } else if (d.type == 'city') {
+                //console.log('city')
+                filteredNodes = _.filter(d.related, function (item) {
+                    return item.type != 'root' && item.type != 'city';
+                })
+            } else {
+                //console.log('Type: ' + d.type)
+                filteredNodes = _.filter(d.related, function (item) {
+                    return item.type != 'root' && item.type != 'city';
+                })
+            }
 
+            filteredNodes.forEach(function(node){
+                var element = _.find(self.nodeEnter[0], function (obj) {
+                    return obj.__data__ == node;
+                })
+                console.log(element)
+                d3.select(element).classed("hidden-circle", false);
+                d3.select(element).classed("shown-circle", true);
+            });
+            // d3.selectAll(filteredNodes).classed("hidden-circles", false);
+            // d3.selectAll(filteredNodes).classed("shown-circles", true);
 
-            self.longClicked = d3.select('.longHL');
+           self.longClicked = d3.select('.longHL');
             self.longClickedLink = d3.selectAll('.longLinkHL');
 
             self.longClicked.classed('longHL', false);
@@ -465,7 +490,7 @@ function GlobalDigitalCityGraph(properties) {
                     return d.cy < self.innerH / 2 ? d.cy - (el.r.animVal.value * 2 + 5) : d.cy + (el.r.animVal.value * 2 + 5)
                 })
                 .attr('x', function () {
-                    return d.cx < self.innerW / 2 ? d.cx - (el.r.animVal.value* 2 + 5) : d.cx + (el.r.animVal.value * 2 + 5)
+                    return d.cx < self.innerW / 2 ? d.cx - (el.r.animVal.value * 2 + 5) : d.cx + (el.r.animVal.value * 2 + 5)
                 })
                 .attr('text-anchor', 'middle')
                 .style("opacity", "1")
@@ -539,7 +564,7 @@ function GlobalDigitalCityGraph(properties) {
         });
 
         function resetGraphToOrigin() {
-            d3.select('h1').html = '';
+            d3.select('h1').html = 'Shadow';
             self.zoom.scale(1);
             self.zoom.translate([self.margin.left, self.margin.top]);
             self.nodeContainer.attr("transform", "translate(" + self.zoom.translate() + ")scale(" + self.zoom.scale() + ")");
@@ -587,6 +612,7 @@ function GlobalDigitalCityGraph(properties) {
                     ].join(" ");
                     return diagonal;
                 })
+                .attr("opacity", 0)
                 .each(function (d) {
                     var source, target;
                     source = d.source._id;
@@ -609,6 +635,7 @@ function GlobalDigitalCityGraph(properties) {
             }).each(function (d) {
                 //the related property contains both the children and the parents of the current element
                 d.related = _.union(d.children, d.parents);
+
                 var cx = d.cx;
                 var cy = d.cy;
                 var clusterArray = [];
@@ -738,6 +765,7 @@ function GlobalDigitalCityGraph(properties) {
                 })
             } else {
                 filteredEdges = linkCollection[0]
+
             }
             d3.select(el).classed('longHL', true);
             var edges = _.filter(filteredEdges, function (item) {
@@ -811,7 +839,7 @@ function GlobalDigitalCityGraph(properties) {
                 contextualize(el, d);
                 self.longClickTitle
                     .attr('y', function () {
-                        return d.cy < self.innerH / 2 ? d.cy - el.r.animVal.value * 2 : d.cy + el.r.animVal.value* 2;
+                        return d.cy < self.innerH / 2 ? d.cy - el.r.animVal.value * 2 : d.cy + el.r.animVal.value * 2;
                     })
                     .attr('x', function () {
                         return d.cx < self.innerW / 2 ? d.cx - el.r.animVal.value * 2 : d.cx + el.r.animVal.value * 2;
@@ -854,17 +882,17 @@ function GlobalDigitalCityGraph(properties) {
         var initiateAutowalk = function () {
             $('#autowalk-enabled').attr('checked', false);
 
-            $('#autowalk-node-switch').val(self.switchTime/1000);
+            $('#autowalk-node-switch').val(self.switchTime / 1000);
 
-            $('#autowalk-duration').val(self.waitTime/1000);
+            $('#autowalk-duration').val(self.waitTime / 1000);
 
             $('#set-settings').on("click", function () {
 
                 var duration = $('#autowalk-duration');
                 var enabled = $('#autowalk-enabled');
                 var node_switch = $('#autowalk-node-switch');
-                self.switchTime = node_switch.val()*1000;
-                self.waitTime = duration.val()*1000;
+                self.switchTime = node_switch.val() * 1000;
+                self.waitTime = duration.val() * 1000;
 
 
                 var value;
