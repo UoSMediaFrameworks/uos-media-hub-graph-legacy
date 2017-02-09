@@ -239,7 +239,7 @@ function initializeGraph(rootData, type,exploration) {
         var graphMemoir = new MemoirGraph(properties);
         graphMemoir.draw(root);
     } else {
-        if (exploration) {
+        if (exploration == "true") {
             var graphGDC = new GlobalDigitalCityGraphExploration(properties);
         } else {
             var graphGDC = new GlobalDigitalCityGraph(properties);
