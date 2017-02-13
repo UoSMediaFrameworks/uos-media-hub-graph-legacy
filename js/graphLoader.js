@@ -8,9 +8,9 @@ if (location.hostname === "dev-uos-mediahubgraph.azurewebsites.net") {
     var socket = io("http://uos-mediahub.azurewebsites.net/", {forceNew: true});
 }
 var sceneId;
-window.addEventListener("contextmenu", function (e) {
-    e.preventDefault();
-});
+// window.addEventListener("contextmenu", function (e) {
+//     e.preventDefault();
+// });
 
 function initializeGraph(rootData, type,exploration) {
     //console.log(type)

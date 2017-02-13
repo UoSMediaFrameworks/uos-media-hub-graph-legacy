@@ -30,6 +30,9 @@ function GlobalDigitalCityGraph(properties) {
     this.internalHoverTimeout;
     this.switchTime = 7000;
 
+    this.recording = false;
+    this.pause_start = null;
+    this.pause_finished = null;
     //Reference to the GDC Graph object's values
     var self = this;
     //Colors for the city nodes RGB-format
@@ -54,13 +57,6 @@ function GlobalDigitalCityGraph(properties) {
         //for this instance of the graph.
         var before;
 
-        //This variable will stop the graph from recording the click events done by
-        //The breadcrumbsPlayout
-        var replaying = false;
-
-        //
-        self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList") || [];
-        self.breadcrumbsList.push({breadcrumbs: []});
 
         var nodeCollection = self.nodeContainer.selectAll('circle').data(processedData.nodes);
         var linkCollection = self.linkContainer.selectAll('path').data(processedData.links);
@@ -101,7 +97,7 @@ function GlobalDigitalCityGraph(properties) {
                 return tap(this, d);
             }).on('dblclick', function (d) {
                 return contextualize(this, d);
-            }).classed("shown-circle",true);
+            }).classed("shown-circle", true);
 
 
         self.linkEnter = linkCollection.enter().append('path')
@@ -115,7 +111,7 @@ function GlobalDigitalCityGraph(properties) {
             .attr('class', function (d) {
                 return 'opaque';
             })
-            .classed("visible-path",true);
+            .classed("visible-path", true);
 
 
         function circle(nodeArr) {
@@ -426,10 +422,29 @@ function GlobalDigitalCityGraph(properties) {
                 diff = 0;
             }
             if (before != now) {
+                console.log("time", self.pause_start, self.pause_finished)
+                if (self.pause_start != null && self.pause_finished != null) {
+                    var test = now.diff(before, 'milliseconds');
+                    var test2 = self.pause_finished.diff(self.pause_start, 'milliseconds');
+
+                    console.log(test, test2)
+                    before = before + self.pause_finished.diff(self.pause_start, 'milliseconds');
+                    self.pause_finished = self.pause_start = null;
+                }
                 diff = now.diff(before, 'milliseconds');
+
                 before = now;
             }
             return diff;
+        }
+
+        function record_crumbs(node, type) {
+            var diff = getTimeDifference();
+            self.breadcrumbs.push({
+                node: node._id,
+                event: type,
+                difference: diff
+            });
         }
 
         function tap(el, d) {
@@ -441,17 +456,8 @@ function GlobalDigitalCityGraph(properties) {
                 eventValue: null,
                 fieldsObject: {name: d.name, type: d.type}
             });
-            if (!replaying) {
-                var diff = getTimeDifference();
-                self.breadcrumbs.push({
-                    node: d._id,
-                    event: "tap",
-                    difference: diff
-                });
-                var index = (self.breadcrumbsList.length - 1 >= 0) ? self.breadcrumbsList.length - 1 : 0;
-                self.breadcrumbsList[index] = {breadcrumbs: self.breadcrumbs};
-                Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
-
+            if (self.recording) {
+                record_crumbs(d, 'tap')
             }
 
 
@@ -465,7 +471,7 @@ function GlobalDigitalCityGraph(properties) {
                     return d.cy < self.innerH / 2 ? d.cy - (el.r.animVal.value * 2 + 5) : d.cy + (el.r.animVal.value * 2 + 5)
                 })
                 .attr('x', function () {
-                    return d.cx < self.innerW / 2 ? d.cx - (el.r.animVal.value* 2 + 5) : d.cx + (el.r.animVal.value * 2 + 5)
+                    return d.cx < self.innerW / 2 ? d.cx - (el.r.animVal.value * 2 + 5) : d.cx + (el.r.animVal.value * 2 + 5)
                 })
                 .attr('text-anchor', 'middle')
                 .style("opacity", "1")
@@ -696,18 +702,8 @@ function GlobalDigitalCityGraph(properties) {
                 eventValue: null,
                 fieldsObject: {name: d.name, type: d.type}
             });
-            if (!replaying) {
-                var diff = getTimeDifference();
-                self.breadcrumbs.push({
-                    node: d._id,
-                    event: "contextualize",
-                    difference: diff
-                });
-                var index = (self.breadcrumbsList.length - 1 >= 0) ? self.breadcrumbsList.length - 1 : 0;
-                self.breadcrumbsList[index] = {breadcrumbs: self.breadcrumbs};
-                //  console.log(self.breadcrumbsList, self.breadcrumbsList.length);
-                Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
-
+            if (self.recording) {
+                record_crumbs(d, 'contextualize')
             }
 
             var clean_name = cleanTitle(d.name);
@@ -748,7 +744,6 @@ function GlobalDigitalCityGraph(properties) {
 
 
         function playoutBreadcrumbs(breadcrumbs) {
-            replaying = true;
             var time = 1000;
             _.forEach(breadcrumbs, function (value, i) {
                 //console.log(time, value.difference);
@@ -762,9 +757,6 @@ function GlobalDigitalCityGraph(properties) {
                         tap(data, data.__data__);
                     } else if (value.event == "contextualize") {
                         contextualize(data, data.__data__);
-                    }
-                    if (breadcrumbs.length - 1 == i) {
-                        replaying = false;
                     }
                 }, time);
 
@@ -811,7 +803,7 @@ function GlobalDigitalCityGraph(properties) {
                 contextualize(el, d);
                 self.longClickTitle
                     .attr('y', function () {
-                        return d.cy < self.innerH / 2 ? d.cy - el.r.animVal.value * 2 : d.cy + el.r.animVal.value* 2;
+                        return d.cy < self.innerH / 2 ? d.cy - el.r.animVal.value * 2 : d.cy + el.r.animVal.value * 2;
                     })
                     .attr('x', function () {
                         return d.cx < self.innerW / 2 ? d.cx - el.r.animVal.value * 2 : d.cx + el.r.animVal.value * 2;
@@ -854,17 +846,17 @@ function GlobalDigitalCityGraph(properties) {
         var initiateAutowalk = function () {
             $('#autowalk-enabled').attr('checked', false);
 
-            $('#autowalk-node-switch').val(self.switchTime/1000);
+            $('#autowalk-node-switch').val(self.switchTime / 1000);
 
-            $('#autowalk-duration').val(self.waitTime/1000);
+            $('#autowalk-duration').val(self.waitTime / 1000);
 
             $('#set-settings').on("click", function () {
 
                 var duration = $('#autowalk-duration');
                 var enabled = $('#autowalk-enabled');
                 var node_switch = $('#autowalk-node-switch');
-                self.switchTime = node_switch.val()*1000;
-                self.waitTime = duration.val()*1000;
+                self.switchTime = node_switch.val() * 1000;
+                self.waitTime = duration.val() * 1000;
 
 
                 var value;
@@ -885,11 +877,11 @@ function GlobalDigitalCityGraph(properties) {
         };
 
         function exportBreadcrumbs() {
-            console.log("exporting crumbs")
+
             var element = document.createElement('a');
             var content = self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList");
-
-            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(content));
+            console.log("exporting crumbs", JSON.stringify(content))
+            element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(JSON.stringify(content)));
             element.setAttribute('download', "gdc-graph-id-" + self.graphId + "-crumbs");
 
             element.style.display = 'none';
@@ -900,63 +892,175 @@ function GlobalDigitalCityGraph(properties) {
             document.body.removeChild(element);
         }
 
+        function importBreadcrumbs() {
+
+            var element = document.getElementById("crmbs-import");
+            var file = element.files[0];
+            console.log("importBreadcrumbs", file)
+            if (file) {
+                var reader = new FileReader();
+                reader.readAsText(file, "UTF-8");
+                reader.onload = function (evt) {
+                    var graphId = file.name.match("gdc-graph-id-(.*)-crumbs");
+                    Lockr.set(graphId[1] + " breadcrumbsList", JSON.parse(evt.target.result));
+                    breacrumbsBody(JSON.parse(evt.target.result))
+                };
+
+                reader.onerror = function (evt) {
+                    console.log("error reading file");
+                };
+            }
+        }
+
+        function breacrumbsBody(crumbs) {
+            console.log(crumbs)
+
+            d3.select('#breadcrumbs-list-container').selectAll("*").remove();
+
+            var container = d3.select('#breadcrumbs-list-container')
+                .selectAll("div")
+                .data(crumbs).enter().append("div").classed("crumbs", true);
+
+            var infoContainer = container.append("div").classed("controls col-sm-2", true);
+
+            infoContainer.append("p").classed("col-sm-2",true).text(function (d, i) {
+                return crumbs[i].name || "breadcrumbs " + i;
+            });
+
+            var buttonsContainer = infoContainer.append("div").classed("btn-group btn-group-sm col-sm-10", true).attr("role","group");
+
+            buttonsContainer.append("button").attr("type","button").classed("btn btn-default", true)
+                .on("click", function (d, i) {
+                    playoutBreadcrumbs(crumbs[i].breadcrumbs)
+                })
+                .append("i").classed("fa fa-play", true);
+
+
+            buttonsContainer.append("button").attr("type","button").classed("btn btn-default", true)
+                .on("click", function (d, i) {
+                    crumbs.splice(i, 1);
+                    Lockr.set(self.graphId + " breadcrumbsList", crumbs);
+                    breadcrumbs();
+                })
+                .append("i").classed("fa fa-times", true);
+
+            buttonsContainer.append("button").attr("type","button").classed("btn btn-default", true)
+                .on("click", function (d, i) {
+
+                })
+                .append("i").classed("fa fa-ban", true);
+            var ul = container.append("ul").classed("col-sm-10", true);
+
+            ul.each(function (crumb, index) {
+                var br = d3.select(this).selectAll("li").data(crumb.breadcrumbs).enter()
+                    .append("li");
+
+                br.append("a")
+                    .text(function (d) {
+                        return d.node + "." + d.event
+                    })
+                    .append("i").classed("fa fa-times", true).on("click", function (d, i) {
+                    crumbs[index].breadcrumbs.splice(i, 1);
+                    Lockr.set(self.graphId + " breadcrumbsList", crumbs);
+                    breadcrumbs();
+                });
+            });
+
+        }
+
         function breadcrumbs() {
             // call your function to do the thing
-            var crumbs = Lockr.get(self.graphId + " breadcrumbsList");
 
-            d3.select('#crumbs-container').selectAll("*").remove();
-            d3.select('#crumbs-container').append("button").attr("id", "crmbs-clear-all").classed("btn btn-default", true).text("Remove All");
-            d3.select('#crumbs-container').append("button").attr("id", "crmbs-export").classed("btn btn-default", true).text("Export");
+            var container = d3.select('#crumbs-container');
+            container.selectAll("*").remove();
+            var global_controls = container.append("div").attr("id", "global-controls");
+            container.append("div").attr("id", "breadcrumbs-list-container");
+            global_controls.append("button").attr("id", "crmbs-clear-all").classed("btn btn-default", true).text("Remove All");
+            global_controls.append("button").attr("id", "crmbs-export").classed("btn btn-default", true).text("Export");
+            var record_btn = global_controls.append("button").attr("id", "record-button").classed("btn btn-default", true);
+            record_btn.append("i").classed("fa fa-circle", true).text(" Record");
+            var finish_btn = global_controls.append("button").attr("id", "finish-button").classed("btn btn-default hidden", true);
+            finish_btn.append("i").classed("fa fa-stop", true).text(" Finish");
+            var pause_btn = global_controls.append("button").attr("id", "pause-button").classed("btn btn-default", true).attr("pointer-events","none");
+            pause_btn.append("i").classed("fa fa-pause", true).text(" Pause");
+            var continue_btn = global_controls.append("button").attr("id", "continue-button").classed("btn btn-default hidden", true);
+            continue_btn.append("i").classed("fa fa-play", true).text(" Continue");
+            var breadcrumbs_name_input = global_controls.append("input").attr("id", "breadcrumbs_name_input").attr("placeholder", "Please enter name").classed("form-control hidden", true);
+
+            record_btn.on("click", function (d, i) {
+                //TODO: Start a new breadcrumbs array tracking clicks. Switch to button finish
+
+                self.recording = true;
+                self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList") || [];
+                self.breadcrumbs = [];
+                self.breadcrumbsList.push({breadcrumbs: []});
+                pause_btn.attr("pointer-events",null);
+                finish_btn.classed("hidden", false);
+                record_btn.classed("hidden", true);
+            });
+
+            finish_btn.on("click", function (d, i) {
+                //TODO: Finalize recording and start a new session, ask the user to name it with a dialog box. Finish with switching back to record button
+                self.recording = false;
+                breadcrumbs_name_input.classed("hidden", false);
+
+                record_btn.classed("hidden", false);
+                finish_btn.classed("hidden", true);
+            });
+
+            pause_btn.on("click", function (d, i) {
+                //TODO: Pause recording, stop tracking, but save time between the last click and clicking the pause button, and remove it upon resuming.
+                self.recording = false;
+                finish_btn.attr("pointer-events","none");
+                self.pause_start = moment(new Date());
+                continue_btn.classed("hidden", false);
+                pause_btn.classed("hidden", true);
+            });
+
+            continue_btn.on("click", function (d, i) {
+                self.recording = true;
+                self.pause_finished = moment(new Date());
+                finish_btn.attr("pointer-events",null);
+                //TODO: Continue current recording session
+                pause_btn.classed("hidden", false);
+                continue_btn.classed("hidden", true);
+            });
+
+            $('#breadcrumbs_name_input').keyup(function (key, i, s) {
+                //On Enter key
+                if (key.which === 13) {
+                    var index = self.breadcrumbsList.length - 1;
+                    console.log(self.breadcrumbs, self.breadcrumbsList, index)
+                    self.breadcrumbsList[index] = {
+                        name: $('#breadcrumbs_name_input').val(),
+                        breadcrumbs: self.breadcrumbs
+                    };
+
+
+                    Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
+                    breadcrumbs_name_input.classed("hidden", true);
+                    breadcrumbs();
+                }
+            });
+
+            var import_input = global_controls.append("label").attr("id", "import-input-label").classed('custom-file-upload', true);
+            import_input.append("input").attr("type", "file").attr("id", "crmbs-import");
+            import_input.append("i").classed("fa fa-cloud-upload", true).text("  Import");
+            // import_input.text("Import breadcrumbs");
+            // d3.select('#global-controls').append("input").attr("type", "file").attr("id", "crmbs-import").classed("btn btn-default", true).text("Import");
             d3.select('#crmbs-clear-all').on('click', function () {
-                console.log(self.graphId + " breadcrumbsList");
                 Lockr.rm(self.graphId + " breadcrumbsList");
-
+                breacrumbsBody([]);
             });
             d3.select('#crmbs-export').on('click', function () {
                 exportBreadcrumbs();
             });
-            if (crumbs) {
-                var container = d3.select('#crumbs-container')
-                    .selectAll("div")
-                    .data(crumbs).enter().append("div").classed("crumbs", true);
+            d3.select('#crmbs-import').on('change', importBreadcrumbs);
 
-                var infoContainer = container.append("div").classed("controls col-sm-2", true);
-
-                infoContainer.append("p").text(function (d, i) {
-                    return "breadcrumbs " + i;
-                });
-
-                var buttonsContainer = infoContainer.append("div").classed("buttons col-sm-12", true);
-
-                buttonsContainer.append("div").classed("col-sm-6", true)
-                    .append("i").classed("fa fa-play", true)
-                    .on("click", function (d, i) {
-                        playoutBreadcrumbs(crumbs[i].breadcrumbs)
-                    });
-                buttonsContainer.append("div").classed("col-sm-6", true)
-                    .append("i").classed("fa fa-times", true)
-                    .on("click", function (d, i) {
-                        crumbs.splice(i, 1);
-                        Lockr.set(self.graphId + " breadcrumbsList", crumbs);
-                        breadcrumbs();
-                    });
-                var ul = container.append("ul").classed("col-sm-10", true);
-
-                ul.each(function (crumb, index) {
-                    var br = d3.select(this).selectAll("li").data(crumb.breadcrumbs).enter()
-                        .append("li");
-
-                    br.append("a")
-                        .text(function (d) {
-                            return d.node + "." + d.event
-                        })
-                        .append("i").classed("fa fa-times", true).on("click", function (d, i) {
-                        crumbs[index].breadcrumbs.splice(i, 1);
-                        Lockr.set(self.graphId + " breadcrumbsList", crumbs);
-                        breadcrumbs();
-                    });
-                });
+            if (Lockr.get(self.graphId + " breadcrumbsList")) {
+                breacrumbsBody(Lockr.get(self.graphId + " breadcrumbsList"))
             }
+            $("#crmbs-import").val("");
         };
 
         d3.select('#bc-toggle').on('click', function () {

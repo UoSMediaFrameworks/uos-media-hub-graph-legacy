@@ -29,40 +29,80 @@ input[type=password], label {
     color: #444;
 }
 
+.hidden {
+    display: none;
+}
+
 svg {
     position: absolute;
     top: 0;
     left: 0;
     z-index: 1;
 }
-.shown-circle{
+
+input[type="file"] {
+    display: none;
+}
+
+.custom-file-upload {
+    display: inline-block;
+    cursor: pointer;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    color: #333;
+    background-color: #fff;
+    opacity: 0.25;
+    width: auto;
+}
+
+.controls {
+    display: flex;
+}
+
+.controls p {
+    align-self: center;
+}
+
+.custom-file-upload:hover {
+    opacity: 1;
+}
+
+.shown-circle {
     stroke: #333;
     transition: opacity 1s;
     stroke-opacity: 0.5;
-    opacity:1;
+    opacity: 1;
     cursor: pointer;
 }
-.hidden-circle{
+
+.hidden-circle {
     stroke: #333;
     transition: opacity 1s;
     stroke-opacity: 0.5;
-    opacity:0;
+    opacity: 0;
     cursor: pointer;
 }
-.hidden-path{
+
+.hidden-path {
     stroke-width: 0.25;
     transition: opacity 1s, stroke-width 5s;
     stroke: #fff;
     opacity: 0;
     fill: none;
 }
-.visible-path{
+
+.visible-path {
     stroke-width: 0.25;
     transition: opacity 1s, stroke-width 5s;
     stroke: #fff;
     opacity: 0.125;
     fill: none;
 }
+
 .opaque {
     opacity: 1 !important;
     stroke-width: 0.25 !important;
@@ -139,9 +179,7 @@ circle.longHL {
 }
 
 button {
-
     margin: 0;
-    margin-right: 1em;
     padding: 1em;
     font-size: 2.5em;
 
@@ -289,23 +327,23 @@ button:hover {
     display: none;
     bottom: 0;
     text-align: left;
-    position:fixed;
+    position: fixed;
     background-color: rgba(255, 255, 255, 0.7);
     border-radius: 5px;
 }
 
-
-
 #autowalk-menu label {
-    font-size:1em;
+    font-size: 1em;
     padding: 0 10px 10px 40px;
     display: inline-block;
     width: 50%;
     text-align: right;
-}​
-.Entertainment{
+}
+
+​
+.Entertainment {
     fill: #800559;
- }
+}
 
 
 
