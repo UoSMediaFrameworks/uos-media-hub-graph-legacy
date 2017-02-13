@@ -921,13 +921,14 @@ function GlobalDigitalCityGraph(properties) {
                 .selectAll("div")
                 .data(crumbs).enter().append("div").classed("crumbs", true);
 
-            var infoContainer = container.append("div").classed("controls col-sm-2", true);
 
-            infoContainer.append("p").classed("col-sm-2",true).text(function (d, i) {
+            var infoContainer = container.append("div").classed("controls btn-toolbar col-sm-3", true);
+
+            infoContainer.append("p").classed("btn-group btn-group-sm",true).text(function (d, i) {
                 return crumbs[i].name || "breadcrumbs " + i;
             });
 
-            var buttonsContainer = infoContainer.append("div").classed("btn-group btn-group-sm col-sm-10", true).attr("role","group");
+            var buttonsContainer = infoContainer.append("div").classed("btn-group btn-group-sm", true).attr("role","group");
 
             buttonsContainer.append("button").attr("type","button").classed("btn btn-default", true)
                 .on("click", function (d, i) {
@@ -949,8 +950,8 @@ function GlobalDigitalCityGraph(properties) {
 
                 })
                 .append("i").classed("fa fa-ban", true);
-            var ul = container.append("ul").classed("col-sm-10", true);
 
+            var ul = container.append("ul").classed("col-sm-9", true);
             ul.each(function (crumb, index) {
                 var br = d3.select(this).selectAll("li").data(crumb.breadcrumbs).enter()
                     .append("li");
