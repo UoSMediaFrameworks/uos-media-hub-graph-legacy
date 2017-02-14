@@ -381,6 +381,38 @@ function GlobalDigitalCityGraph(properties) {
 
 
         //This function highlights elements based on a normal click or single tap of a node.
+        function highlightPath(index) {
+            console.log(index,self.breadcrumbsList)
+            var list =  Lockr.get(self.graphId + " breadcrumbsList")
+            var crumbs =list[index].breadcrumbs;
+            console.log(crumbs);
+            var linksArray = [];
+            d3.select('.highlight').classed('highlight', false);
+
+            d3.selectAll('.highlightedLink').classed('highlightedLink', false);
+            for (var i = 0; i < (crumbs.length-1); i++) {
+                console.log(crumbs[i])
+                var link = _.filter(linkCollection[0], function (item) {
+                    var test = item.__data__.source._id == crumbs[i].node && item.__data__.target._id == crumbs[i + 1].node
+                    var test2 = item.__data__.source._id == crumbs[i+1].node && item.__data__.target._id == crumbs[i].node
+                    // if(test){
+                    //     console.log(test);
+                    // }
+                    // if(test2){
+                    //     console.log("reverse",test2)
+                    // }
+                    return test || test2 ;
+                });
+                if(link[0] != undefined){
+                    linksArray.push(link[0]);
+                }
+
+            }
+            console.log(linksArray)
+            d3.selectAll(linksArray).classed('highlightedLink', true);
+
+        }
+
 
         function highlight(el, d) {
 
@@ -405,14 +437,13 @@ function GlobalDigitalCityGraph(properties) {
             var links = _.filter(filteredEdges, function (item) {
                 return item.__data__.source == d || item.__data__.target == d;
             });
-
             d3.selectAll(links).classed('highlightedLink', true);
         }
 
-        //This function is the single click / tap  behaviour
-        // It is meant to: highlight the current node, and its relationships
-        // and show the name of the clicked element.
-        // the highlighting will fade away in half a second after selection
+//This function is the single click / tap  behaviour
+// It is meant to: highlight the current node, and its relationships
+// and show the name of the clicked element.
+// the highlighting will fade away in half a second after selection
         function getTimeDifference() {
             var now, diff;
             now = moment(new Date());
@@ -495,10 +526,10 @@ function GlobalDigitalCityGraph(properties) {
         var cleanTitle = function (title) {
             return title.replace(/([a-z])([A-Z0-9])(?=[a-z])/g, '$1 $2').replace('GUIscene', 'scene').replace(/(scene|chicago|beijing)?\s(.*)?/i, '<sup>$1</sup><span class="$1">$2</span>');
         };
-        //This is the hover over teaser functionality, it receives an array of nodes and with a set intervall will go through them unless it was changed.
+//This is the hover over teaser functionality, it receives an array of nodes and with a set intervall will go through them unless it was changed.
 
 
-        //This is a recursive function used to send the scenes to the scene viwer, it gatheres all scenes that are children of the initially selected node
+//This is a recursive function used to send the scenes to the scene viwer, it gatheres all scenes that are children of the initially selected node
         function nodes(list, sceneList) {
             for (var listIndex in list) {
                 var thisItem = list[listIndex];
@@ -511,7 +542,7 @@ function GlobalDigitalCityGraph(properties) {
             return sceneList;
         }
 
-        //Removes duplicates from the list of nodes.
+//Removes duplicates from the list of nodes.
         function dedupeNodeList(list) {
             var dedupeList = [];
             for (var listIndex in list) {
@@ -524,7 +555,7 @@ function GlobalDigitalCityGraph(properties) {
             return dedupeList;
         }
 
-        //Merge sort function
+//Merge sort function
         function compareElements(array) {
             overlappingElementsCounter = 0;
             for (var i = 0; i < array.length; i++) {
@@ -924,20 +955,20 @@ function GlobalDigitalCityGraph(properties) {
 
             var infoContainer = container.append("div").classed("controls btn-toolbar col-sm-3", true);
 
-            infoContainer.append("p").classed("btn-group btn-group-sm",true).text(function (d, i) {
+            infoContainer.append("p").classed("btn-group btn-group-sm", true).text(function (d, i) {
                 return crumbs[i].name || "breadcrumbs " + i;
             });
 
-            var buttonsContainer = infoContainer.append("div").classed("btn-group btn-group-sm", true).attr("role","group");
+            var buttonsContainer = infoContainer.append("div").classed("btn-group btn-group-sm", true).attr("role", "group");
 
-            buttonsContainer.append("button").attr("type","button").classed("btn btn-default", true)
+            buttonsContainer.append("button").attr("type", "button").classed("btn btn-default", true)
                 .on("click", function (d, i) {
                     playoutBreadcrumbs(crumbs[i].breadcrumbs)
                 })
                 .append("i").classed("fa fa-play", true);
 
 
-            buttonsContainer.append("button").attr("type","button").classed("btn btn-default", true)
+            buttonsContainer.append("button").attr("type", "button").classed("btn btn-default", true)
                 .on("click", function (d, i) {
                     crumbs.splice(i, 1);
                     Lockr.set(self.graphId + " breadcrumbsList", crumbs);
@@ -945,9 +976,10 @@ function GlobalDigitalCityGraph(properties) {
                 })
                 .append("i").classed("fa fa-times", true);
 
-            buttonsContainer.append("button").attr("type","button").classed("btn btn-default", true)
+            buttonsContainer.append("button").attr("type", "button").classed("btn btn-default", true)
                 .on("click", function (d, i) {
-
+                    console.log(d,i)
+                    highlightPath(i);
                 })
                 .append("i").classed("fa fa-ban", true);
 
@@ -982,7 +1014,7 @@ function GlobalDigitalCityGraph(properties) {
             record_btn.append("i").classed("fa fa-circle", true).text(" Record");
             var finish_btn = global_controls.append("button").attr("id", "finish-button").classed("btn btn-default hidden", true);
             finish_btn.append("i").classed("fa fa-stop", true).text(" Finish");
-            var pause_btn = global_controls.append("button").attr("id", "pause-button").classed("btn btn-default", true).attr("pointer-events","none");
+            var pause_btn = global_controls.append("button").attr("id", "pause-button").classed("btn btn-default", true).attr("disabled", "true");
             pause_btn.append("i").classed("fa fa-pause", true).text(" Pause");
             var continue_btn = global_controls.append("button").attr("id", "continue-button").classed("btn btn-default hidden", true);
             continue_btn.append("i").classed("fa fa-play", true).text(" Continue");
@@ -995,7 +1027,7 @@ function GlobalDigitalCityGraph(properties) {
                 self.breadcrumbsList = Lockr.get(self.graphId + " breadcrumbsList") || [];
                 self.breadcrumbs = [];
                 self.breadcrumbsList.push({breadcrumbs: []});
-                pause_btn.attr("pointer-events",null);
+                pause_btn.attr("disabled", null);
                 finish_btn.classed("hidden", false);
                 record_btn.classed("hidden", true);
             });
@@ -1004,7 +1036,8 @@ function GlobalDigitalCityGraph(properties) {
                 //TODO: Finalize recording and start a new session, ask the user to name it with a dialog box. Finish with switching back to record button
                 self.recording = false;
                 breadcrumbs_name_input.classed("hidden", false);
-
+                record_btn.attr("disabled", "true");
+                pause_btn.attr("disabled", "true");
                 record_btn.classed("hidden", false);
                 finish_btn.classed("hidden", true);
             });
@@ -1012,7 +1045,7 @@ function GlobalDigitalCityGraph(properties) {
             pause_btn.on("click", function (d, i) {
                 //TODO: Pause recording, stop tracking, but save time between the last click and clicking the pause button, and remove it upon resuming.
                 self.recording = false;
-                finish_btn.attr("pointer-events","none");
+                finish_btn.attr("disabled", "true");
                 self.pause_start = moment(new Date());
                 continue_btn.classed("hidden", false);
                 pause_btn.classed("hidden", true);
@@ -1021,13 +1054,13 @@ function GlobalDigitalCityGraph(properties) {
             continue_btn.on("click", function (d, i) {
                 self.recording = true;
                 self.pause_finished = moment(new Date());
-                finish_btn.attr("pointer-events",null);
+                finish_btn.attr("disabled", null);
                 //TODO: Continue current recording session
                 pause_btn.classed("hidden", false);
                 continue_btn.classed("hidden", true);
             });
 
-            $('#breadcrumbs_name_input').keyup(function (key, i, s) {
+            $('#breadcrumbs_name_input').keyup(function (key) {
                 //On Enter key
                 if (key.which === 13) {
                     var index = self.breadcrumbsList.length - 1;
@@ -1040,6 +1073,8 @@ function GlobalDigitalCityGraph(properties) {
 
                     Lockr.set(self.graphId + " breadcrumbsList", self.breadcrumbsList);
                     breadcrumbs_name_input.classed("hidden", true);
+                    record_btn.attr("disabled", null);
+                    pause_btn.attr("disabled", null);
                     breadcrumbs();
                 }
             });
