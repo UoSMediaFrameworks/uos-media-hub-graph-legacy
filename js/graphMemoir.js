@@ -72,7 +72,7 @@ function MemoirGraph(properties) {
                 }
             }).on('click', function (d) {
                 return tap(this, d);
-            });
+            }).classed("shown-circle", true);
 
 
         this.linkEnter = linkCollection.enter().append('path')
@@ -86,7 +86,7 @@ function MemoirGraph(properties) {
             })
             .attr('class', function (d) {
                 return 'opaque';
-            });
+            }).classed("visible-path", true);;
 
         function circle(nodeArr) {
             nodeArr
@@ -153,7 +153,7 @@ function MemoirGraph(properties) {
         sceneNodes.each(function (d) {
             self.availableScenes.push(d.name);
         });
-
+        sceneNodes.attr("opacity","0");
         var otherNodes = this.nodeEnter.filter(function (d) {
             return d.type != "chapter" && d.type != "root";
         });
