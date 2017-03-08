@@ -64,6 +64,10 @@ function GlobalDigitalCityGraph(properties) {
         self.longClickTitle = self.nodeContainer.append('text').attr('fill', 'white');
         self.shortClickTitle = self.nodeContainer.append('text').attr('fill', 'white');
 
+        d3.select('#reset-origin').on('click', function () {
+            resetGraphToOrigin();
+        });
+
         self.nodeEnter = nodeCollection.enter().append('circle')
             .attr('cy', function (d) {
                 return d.cy
@@ -353,7 +357,6 @@ function GlobalDigitalCityGraph(properties) {
                 .each("end", function () {
                     d3.select(this).attr("pointer-events", null);
                 });
-            ;
 
             //Find all relationships/edges/paths based on the current node be it source or target.
             var links = linkCollection.filter(function (item) {
@@ -391,16 +394,9 @@ function GlobalDigitalCityGraph(properties) {
 
             d3.selectAll('.highlightedLink').classed('highlightedLink', false);
             for (var i = 0; i < (crumbs.length-1); i++) {
-                console.log(crumbs[i])
                 var link = _.filter(linkCollection[0], function (item) {
                     var test = item.__data__.source._id == crumbs[i].node && item.__data__.target._id == crumbs[i + 1].node
                     var test2 = item.__data__.source._id == crumbs[i+1].node && item.__data__.target._id == crumbs[i].node
-                    // if(test){
-                    //     console.log(test);
-                    // }
-                    // if(test2){
-                    //     console.log("reverse",test2)
-                    // }
                     return test || test2 ;
                 });
                 if(link[0] != undefined){
@@ -567,13 +563,7 @@ function GlobalDigitalCityGraph(properties) {
                     }
                 }
             }
-
         }
-
-
-        d3.select('#reset-origin').on('click', function () {
-            resetGraphToOrigin();
-        });
 
         function resetGraphToOrigin() {
             d3.select('h1').html = '';
@@ -613,7 +603,6 @@ function GlobalDigitalCityGraph(properties) {
                 .each("end", function () {
                     d3.select(this).attr("pointer-events", null);
                 });
-            ;
 
             self.linkEnter.attr("pointer-events", "none").transition()
                 .duration(self.duration)
@@ -715,7 +704,21 @@ function GlobalDigitalCityGraph(properties) {
 
             list = dedupeNodeList(list);
             //To finalize this method it sends the list of scenes to the graph viewer
-            socket.emit('sendCommand', fullRoomId, 'showScenes', list);
+            console.log(d.type)
+            if(d.type != "theme"){
+                socket.emit('sendCommand', roomId, 'showScenes', list);
+            }else{
+                var scoreList = {"play":{
+                    "themes":[],
+                    "scenes":[]
+                }};
+                scoreList.play.themes.push(d.name.toString());
+                _.each(list,function(scene){
+                    scoreList.play.scenes.push(scene.toString());
+                });
+                console.log(scoreList);
+                socket.emit('sendCommand', roomId, 'showScenesAndThemes', list);
+            }
         }
 
         function contextualize(el, d) {
@@ -778,7 +781,7 @@ function GlobalDigitalCityGraph(properties) {
             var time = 1000;
             _.forEach(breadcrumbs, function (value, i) {
                 //console.log(time, value.difference);
-                time += value.difference
+                time += value.difference;
                 setTimeout(function () {
                     var data = _.find(nodeCollection[0], function (obj) {
                         return obj.id == value.node;
@@ -797,7 +800,7 @@ function GlobalDigitalCityGraph(properties) {
 
         function hover(arraySelection) {
             var i = 0;
-            clearInterval(self.hoverTimeout)
+            clearInterval(self.hoverTimeout);
             self.hoverTimeout = setInterval(function () {
                 if (i == arraySelection.length) {
                     i = 0;
