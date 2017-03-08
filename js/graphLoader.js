@@ -226,7 +226,8 @@ function initializeGraph(rootData, type,exploration) {
         height: height,
         margin: margin,
         zoom: zoom,
-        sceneId: sceneId
+        sceneId: sceneId,
+        roomId:fullRoomId
     };
 
     /*
@@ -389,8 +390,7 @@ function loadData() {
                 document.addEventListener('keyup', menu_keyUp, false);
             });
         }
-    )
-    ;
+    );
 
 }
 loadData();

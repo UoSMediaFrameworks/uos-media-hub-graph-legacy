@@ -16,14 +16,13 @@ function GlobalDigitalCityGraphExploration(properties) {
     this.margin = properties.margin;
     this.zoom = properties.zoom;
     this.graphId = properties.sceneId;
-
+    this.roomId = properties.roomId;
     this.shortClickTitle = "";
     this.nodeEnter = [];
     this.linkEnter = [];
     this.availableScenes = [];
     this.breadcrumbs = [];
     this.breadcrumbsList = [];
-    this.autowalk = true;
     this.waitTime = 300000;
     this.inactivityTimer;
     this.hoverTimeout;
@@ -469,18 +468,17 @@ function GlobalDigitalCityGraphExploration(properties) {
                 })
             }
 
-            filteredNodes.forEach(function(node){
+            filteredNodes.forEach(function (node) {
                 var element = _.find(self.nodeEnter[0], function (obj) {
                     return obj.__data__ == node;
-                })
-                console.log(element)
+                });
                 d3.select(element).classed("hidden-circle", false);
                 d3.select(element).classed("shown-circle", true);
             });
             // d3.selectAll(filteredNodes).classed("hidden-circles", false);
             // d3.selectAll(filteredNodes).classed("shown-circles", true);
 
-           self.longClicked = d3.select('.longHL');
+            self.longClicked = d3.select('.longHL');
             self.longClickedLink = d3.selectAll('.longLinkHL');
 
             self.longClicked.classed('longHL', false);
@@ -705,7 +703,19 @@ function GlobalDigitalCityGraphExploration(properties) {
 
             list = dedupeNodeList(list);
             //To finalize this method it sends the list of scenes to the graph viewer
-            socket.emit('sendCommand', fullRoomId, 'showScenes', list);
+            if(d.type != "theme"){
+                socket.emit('sendCommand', self.roomId, 'showScenes', list);
+            }else{
+                var scoreList = {"play":{
+                    "themes":[],
+                    "scenes":[]
+                }};
+                scoreList.play.themes.push(d.name.toString());
+                _.each(list,function(scene){
+                    scoreList.play.scenes.push(scene.toString());
+                });
+                socket.emit('sendCommand', self.roomId, 'showScenesAndThemes', scoreList);
+            }
         }
 
         function contextualize(el, d) {
@@ -905,8 +915,7 @@ function GlobalDigitalCityGraphExploration(properties) {
                     clearTimeout(self.hoverTimeout);
                     clearTimeout(self.internalHoverTimeout);
                     resetGraphToOrigin()
-                }
-                ;
+                };
                 console.log(self.switchTime, self.waitTime, enabled[0].checked, value)
                 enabled[0].checked = value;
             });

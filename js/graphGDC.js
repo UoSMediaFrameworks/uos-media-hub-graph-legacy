@@ -16,6 +16,7 @@ function GlobalDigitalCityGraph(properties) {
     this.margin = properties.margin;
     this.zoom = properties.zoom;
     this.graphId = properties.sceneId;
+    this.roomId = properties.roomId
 
     this.shortClickTitle = "";
     this.nodeEnter = [];
@@ -706,7 +707,7 @@ function GlobalDigitalCityGraph(properties) {
             //To finalize this method it sends the list of scenes to the graph viewer
             console.log(d.type)
             if(d.type != "theme"){
-                socket.emit('sendCommand', roomId, 'showScenes', list);
+                socket.emit('sendCommand', self.roomId, 'showScenes', list);
             }else{
                 var scoreList = {"play":{
                     "themes":[],
@@ -716,8 +717,7 @@ function GlobalDigitalCityGraph(properties) {
                 _.each(list,function(scene){
                     scoreList.play.scenes.push(scene.toString());
                 });
-                console.log(scoreList);
-                socket.emit('sendCommand', roomId, 'showScenesAndThemes', list);
+                socket.emit('sendCommand', self.roomId, 'showScenesAndThemes', scoreList);
             }
         }
 

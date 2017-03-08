@@ -13,6 +13,7 @@ function MemoirGraph(properties) {
     this.margin = properties.margin;
     this.zoom = properties.zoom;
     this.graphId = properties.sceneId;
+    this.roomId = properties.roomId;
     this.hoverTimeout = null;
     this.shortClickTitle = "";
     this.nodeEnter = [];
@@ -86,7 +87,7 @@ function MemoirGraph(properties) {
             })
             .attr('class', function (d) {
                 return 'opaque';
-            }).classed("visible-path", true);;
+            }).classed("visible-path", true);
 
         function circle(nodeArr) {
             nodeArr
@@ -353,7 +354,19 @@ function MemoirGraph(properties) {
 
             list = dedupeNodeList(list);
             //To finalize this method it sends the list of scenes to the graph viewer
-            socket.emit('sendCommand', fullRoomId, 'showScenes', list);
+            if(d.type != "theme"){
+                socket.emit('sendCommand', self.roomId, 'showScenes', list);
+            }else{
+                var scoreList = {"play":{
+                    "themes":[],
+                    "scenes":[]
+                }};
+                scoreList.play.themes.push(d.name.toString());
+                _.each(list,function(scene){
+                    scoreList.play.scenes.push(scene.toString());
+                });
+                socket.emit('sendCommand', self.roomId, 'showScenesAndThemes', scoreList);
+            }
 
         }
 
