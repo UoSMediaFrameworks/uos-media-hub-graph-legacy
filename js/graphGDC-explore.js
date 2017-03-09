@@ -406,7 +406,9 @@ function GlobalDigitalCityGraphExploration(properties) {
             });
 
             d3.selectAll(links).classed('highlightedLink', true);
-            d3.selectAll(links).classed('visible-path', true);
+           var t1 = d3.selectAll(links).transition().style("opacity","0.25");
+
+            t1.transition().delay(30000).duration(self.duration).style("opacity","0");
         }
 
         //This function is the single click / tap  behaviour
@@ -472,8 +474,10 @@ function GlobalDigitalCityGraphExploration(properties) {
                 var element = _.find(self.nodeEnter[0], function (obj) {
                     return obj.__data__ == node;
                 });
-                d3.select(element).classed("hidden-circle", false);
-                d3.select(element).classed("shown-circle", true);
+              var t1=  d3.select(element).transition().style("opacity","1");
+
+                    t1.transition().delay(30000).duration(self.duration).style("opacity","0");
+               // d3.select(element).classed("shown-circle", true);
             });
             // d3.selectAll(filteredNodes).classed("hidden-circles", false);
             // d3.selectAll(filteredNodes).classed("shown-circles", true);
