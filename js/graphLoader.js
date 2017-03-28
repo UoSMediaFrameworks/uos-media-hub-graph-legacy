@@ -11,7 +11,127 @@ var sceneId;
 // window.addEventListener("contextmenu", function (e) {
 //     e.preventDefault();
 // });
-
+var nodeListNARM = [
+    {
+        "_id" : "root",
+        "name" : "root",
+        "type" : "root",
+        "parentRelationshipIds" : [],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "586f95a7b8678acc10b15980",
+        "name" : "dalian-apep",
+        "type" : "scene",
+        "parentRelationshipIds" : [
+            "Programming",
+            "CG Cameras"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "Programming",
+        "name" : "Programming",
+        "type" : "theme",
+        "parentRelationshipIds" : [
+            "root"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "CG Cameras",
+        "name" : "CG Cameras",
+        "type" : "theme",
+        "parentRelationshipIds" : [
+            "root"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "57fd49f532cc1ca00b58180a",
+        "name" : "chicago-test",
+        "type" : "scene",
+        "parentRelationshipIds" : [
+            "theme",
+            "theme2",
+            "theme3"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "theme",
+        "name" : "theme",
+        "type" : "theme",
+        "parentRelationshipIds" : [
+            "root"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "theme2",
+        "name" : "theme2",
+        "type" : "theme",
+        "parentRelationshipIds" : [
+            "root"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "theme3",
+        "name" : "theme3",
+        "type" : "theme",
+        "parentRelationshipIds" : [
+            "root"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "587eb363809e4614a9930b78",
+        "name" : "apep-2",
+        "type" : "scene",
+        "parentRelationshipIds" : [
+            "oneaudio"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "oneaudio",
+        "name" : "oneaudio",
+        "type" : "theme",
+        "parentRelationshipIds" : [
+            "root"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "57963aeaea09c8f426aaa924",
+        "name" : "dalian-wave",
+        "type" : "scene",
+        "parentRelationshipIds" : [
+            "natural environment",
+            "extensive"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "natural environment",
+        "name" : "natural environment",
+        "type" : "theme",
+        "parentRelationshipIds" : [
+            "root"
+        ],
+        "childrenRelationshipIds" : []
+    },
+    {
+        "_id" : "extensive",
+        "name" : "extensive",
+        "type" : "theme",
+        "parentRelationshipIds" : [
+            "root"
+        ],
+        "childrenRelationshipIds" : []
+    }
+];
 function initializeGraph(rootData, type,exploration) {
     //console.log(type)
 //--------------------Global Variables----------------//
@@ -67,6 +187,7 @@ function initializeGraph(rootData, type,exploration) {
         .attr("viewBox", "0 0 " + width + " " + height)
         .attr("preserveAspectRatio", "xMinYMin")
         .append('g')
+        .attr("id","background-container")
         .attr("fill", "#333");
     //This function is called if a zoom or pan occurs moving or scaling the svg based on the events initial coordinates
     function zoomed() {
@@ -126,6 +247,8 @@ function initializeGraph(rootData, type,exploration) {
                 obj.x = obj.y = 0;
                 obj.cx = innerW / 2;
                 obj.cy = innerH / 2;
+                obj.height = innerH * 0.05;
+                obj.weight =  innerW * 0.05;
                 obj.r = 2;
                 obj.children = [];
                 obj.parents = [];
@@ -208,8 +331,6 @@ function initializeGraph(rootData, type,exploration) {
 
             });
         }
-
-
     }
 
 
@@ -227,7 +348,9 @@ function initializeGraph(rootData, type,exploration) {
         margin: margin,
         zoom: zoom,
         sceneId: sceneId,
-        roomId:fullRoomId
+        roomId:fullRoomId,
+        defs:defs,
+        svgContainer:svg
     };
 
     /*
@@ -235,21 +358,25 @@ function initializeGraph(rootData, type,exploration) {
      the drawing instruction for each individual type and its methods.
      can be expanded further.
      */
-    if (type == "MEMOIR_SCENE_GRAPH") {
-        //Initializes a new object of the graph type by passing along the properties object.
-        var graphMemoir = new MemoirGraph(properties);
-        graphMemoir.draw(root);
-    } else {
-        if (exploration == "true") {
-            var graphGDC = new GlobalDigitalCityGraphExploration(properties);
-        } else {
-            var graphGDC = new GlobalDigitalCityGraph(properties);
-        }
+    switch(type){
+        case "MEMOIR_SCENE_GRAPH":
+            var graphMemoir = new MemoirGraph(properties);
+            graphMemoir.draw(root);
+            break;
 
-        graphGDC.draw(root)
+        case "GDC_SCENE_GRAPH":
+            if (exploration == "true") {
+                var graphGDC = new GlobalDigitalCityGraphExploration(properties);
+            } else {
+                var graphGDC = new GlobalDigitalCityGraph(properties);
+            }
+            graphGDC.draw(root);
+            break;
+        case "NARM_SCENE_GRAPH":
+            var graphNARM = new NARMGraph(properties);
+            graphNARM.draw(root);
+            break;
     }
-
-
 }
 
 //This function will initialize the graphLoader
