@@ -42,7 +42,11 @@ function NARMGraph(properties) {
     this.draw = function (processedData) {
 
         console.log(self.svgContainer);
+
         d3.select("svg").style("background-image", "url(http://salfordmediafestival.co.uk/wp-content/themes/simf_modified/images/stripes.png)");
+
+        d3.select("title").text("NARM 2017 Graph");
+
         var before;
         var replaying = false;
         //console.log(processedData);
@@ -771,7 +775,7 @@ function NARMGraph(properties) {
         self.inactivityTimer = new initInactivityTime();
         self.inactivityTimer.inactivityTime();
         //This function initializes the autocomplete input with autocompletion
-        debugger;
+
         transitionGraphElementsToOrigin()
 
     };

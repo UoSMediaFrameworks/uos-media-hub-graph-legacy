@@ -2,12 +2,16 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d55e386-9404-4c4f-914d-072c131bde34" name="Default" comment="">
+<<<<<<< Updated upstream
       <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/graphNARM.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/d3_index.css" afterPath="$PROJECT_DIR$/css/d3_index.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/d3_indexGA.js" afterPath="$PROJECT_DIR$/js/d3_indexGA.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphLoader.js" afterPath="$PROJECT_DIR$/js/graphLoader.js" />
+=======
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphNARM.js" afterPath="$PROJECT_DIR$/js/graphNARM.js" />
+>>>>>>> Stashed changes
     </list>
     <ignored path="uos-media-hub-graph-legacy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -71,11 +75,19 @@
       <file leaf-file-name="graphNARM.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/js/graphNARM.js">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
             <state relative-caret-position="2345">
               <caret line="203" column="27" lean-forward="true" selection-start-line="203" selection-start-column="27" selection-end-line="203" selection-end-column="27" />
               <folding>
                 <element signature="n#!!doc;n#NARMGraph#0" expanded="false" />
                 <marker date="1490739168862" expanded="true" signature="11441:11571" ph="..." />
+=======
+            <state relative-caret-position="84">
+              <caret line="45" column="51" lean-forward="false" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
+              <folding>
+                <element signature="n#!!doc;n#NARMGraph#0" expanded="false" />
+                <marker date="1490740993152" expanded="true" signature="11427:11557" ph="..." />
+>>>>>>> Stashed changes
               </folding>
             </state>
           </provider>
@@ -84,8 +96,13 @@
       <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
             <state relative-caret-position="186">
               <caret line="67" column="55" lean-forward="false" selection-start-line="67" selection-start-column="50" selection-end-line="67" selection-end-column="55" />
+=======
+            <state relative-caret-position="85">
+              <caret line="5" column="10" lean-forward="false" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="10" />
+>>>>>>> Stashed changes
               <folding>
                 <element signature="n#style#0;n#input#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#div#2;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -139,11 +156,14 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
+<<<<<<< Updated upstream
       <find>find</find>
       <find>positionY</find>
       <find>cluster</find>
       <find>cx</find>
       <find>filter</find>
+=======
+>>>>>>> Stashed changes
       <find>defs</find>
       <find>nodeCont</find>
       <find>radial-gradient</find>
@@ -169,6 +189,15 @@
       <find>tran</find>
       <find>transitionGraphElementsToOrigin</find>
       <find>text</find>
+<<<<<<< Updated upstream
+=======
+      <find>transit</find>
+      <find>Digital</find>
+      <find>&quot;http://salfordmediafestival.co.uk/wp-content/themes/simf_modified/images/stripes.png&quot;</find>
+      <find>http://localhost:63342/uos-media-hub-graph-legacy/css/bootstrap.min.css.map?_ijt=oicmvhjpm7nqtcog33q46ceokj</find>
+      <find>d</find>
+      <find>debugger</find>
+>>>>>>> Stashed changes
     </findStrings>
     <replaceStrings>
       <replace>tap</replace>
@@ -198,6 +227,10 @@
         <option value="$PROJECT_DIR$/js/graphLoader.js" />
         <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/d3_index.css" />
+<<<<<<< Updated upstream
+=======
+        <option value="$PROJECT_DIR$/index.html" />
+>>>>>>> Stashed changes
         <option value="$PROJECT_DIR$/js/graphNARM.js" />
       </list>
     </option>
@@ -802,12 +835,20 @@
       <workItem from="1488296640256" duration="2904000" />
       <workItem from="1488985057347" duration="10765000" />
       <workItem from="1490707356675" duration="218000" />
+<<<<<<< Updated upstream
       <workItem from="1490708067314" duration="22880000" />
+=======
+      <workItem from="1490708067314" duration="24626000" />
+>>>>>>> Stashed changes
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
+<<<<<<< Updated upstream
     <option name="totallyTimeSpent" value="351598000" />
+=======
+    <option name="totallyTimeSpent" value="353344000" />
+>>>>>>> Stashed changes
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1357,8 +1398,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="186">
           <caret line="67" column="55" lean-forward="false" selection-start-line="67" selection-start-column="50" selection-end-line="67" selection-end-column="55" />
+=======
+        <state relative-caret-position="85">
+          <caret line="5" column="10" lean-forward="false" selection-start-line="5" selection-start-column="5" selection-end-line="5" selection-end-column="10" />
+>>>>>>> Stashed changes
           <folding>
             <element signature="n#style#0;n#input#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
             <element signature="n#style#0;n#input#0;n#div#2;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -1369,11 +1415,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/js/graphNARM.js">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< Updated upstream
         <state relative-caret-position="2345">
           <caret line="203" column="27" lean-forward="true" selection-start-line="203" selection-start-column="27" selection-end-line="203" selection-end-column="27" />
           <folding>
             <element signature="n#!!doc;n#NARMGraph#0" expanded="false" />
             <marker date="1490739168862" expanded="true" signature="11441:11571" ph="..." />
+=======
+        <state relative-caret-position="84">
+          <caret line="45" column="51" lean-forward="false" selection-start-line="45" selection-start-column="51" selection-end-line="45" selection-end-column="51" />
+          <folding>
+            <element signature="n#!!doc;n#NARMGraph#0" expanded="false" />
+            <marker date="1490740993152" expanded="true" signature="11427:11557" ph="..." />
+>>>>>>> Stashed changes
           </folding>
         </state>
       </provider>
