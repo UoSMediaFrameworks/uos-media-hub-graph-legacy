@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="8d55e386-9404-4c4f-914d-072c131bde34" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/js/graphNARM.js" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/css/d3_index.css" afterPath="$PROJECT_DIR$/css/d3_index.css" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/index.html" afterPath="$PROJECT_DIR$/index.html" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/d3_indexGA.js" afterPath="$PROJECT_DIR$/js/d3_indexGA.js" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphLoader.js" afterPath="$PROJECT_DIR$/js/graphLoader.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/js/graphNARM.js" afterPath="$PROJECT_DIR$/js/graphNARM.js" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/memoir.html" afterPath="$PROJECT_DIR$/memoir.html" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/js/autocomplete.js" afterPath="$PROJECT_DIR$/js/dependecies/autocomplete.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/js/qrcode.min.js" afterPath="$PROJECT_DIR$/js/dependecies/qrcode.min.js" />
+      <change type="MOVED" beforePath="$PROJECT_DIR$/js/socket.js" afterPath="$PROJECT_DIR$/js/dependecies/socket.js" />
     </list>
     <ignored path="uos-media-hub-graph-legacy.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -68,24 +70,24 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="graphNARM.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="graphNARM.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/js/graphNARM.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2345">
-              <caret line="203" column="27" lean-forward="true" selection-start-line="203" selection-start-column="27" selection-end-line="203" selection-end-column="27" />
+            <state relative-caret-position="322">
+              <caret line="47" column="37" lean-forward="false" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="37" />
               <folding>
                 <element signature="n#!!doc;n#NARMGraph#0" expanded="false" />
-                <marker date="1490739168862" expanded="true" signature="11441:11571" ph="..." />
+                <marker date="1490740018971" expanded="true" signature="11375:11505" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.html" pinned="false" current-in-tab="false">
+      <file leaf-file-name="index.html" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/index.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="186">
-              <caret line="67" column="55" lean-forward="false" selection-start-line="67" selection-start-column="50" selection-end-line="67" selection-end-column="55" />
+            <state relative-caret-position="340">
+              <caret line="92" column="14" lean-forward="false" selection-start-line="92" selection-start-column="14" selection-end-line="92" selection-end-column="14" />
               <folding>
                 <element signature="n#style#0;n#input#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
                 <element signature="n#style#0;n#input#0;n#div#2;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
@@ -109,7 +111,7 @@
         <entry file="file://$PROJECT_DIR$/js/graphMemoir.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="187">
-              <caret line="54" column="14" lean-forward="true" selection-start-line="48" selection-start-column="10" selection-end-line="54" selection-end-column="14" />
+              <caret line="54" column="14" lean-forward="false" selection-start-line="48" selection-start-column="10" selection-end-line="54" selection-end-column="14" />
               <folding>
                 <element signature="n#!!doc;n#MemoirGraph#0" expanded="false" />
               </folding>
@@ -121,7 +123,7 @@
         <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="333">
-              <caret line="189" column="20" lean-forward="true" selection-start-line="189" selection-start-column="20" selection-end-line="189" selection-end-column="40" />
+              <caret line="189" column="20" lean-forward="false" selection-start-line="189" selection-start-column="20" selection-end-line="189" selection-end-column="40" />
               <folding />
             </state>
           </provider>
@@ -139,7 +141,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>find</find>
       <find>positionY</find>
       <find>cluster</find>
       <find>cx</find>
@@ -164,11 +165,12 @@
       <find>circles</find>
       <find>h1</find>
       <find>autowalk</find>
-      <find>transit</find>
       <find>_x</find>
       <find>tran</find>
       <find>transitionGraphElementsToOrigin</find>
       <find>text</find>
+      <find>transit</find>
+      <find>&quot;http://salfordmediafestival.co.uk/wp-content/themes/simf_modified/images/stripes.png&quot;</find>
     </findStrings>
     <replaceStrings>
       <replace>tap</replace>
@@ -196,9 +198,9 @@
         <option value="$PROJECT_DIR$/js/graphGDC-explore.js" />
         <option value="$PROJECT_DIR$/js/graphGDC.js" />
         <option value="$PROJECT_DIR$/js/graphLoader.js" />
-        <option value="$PROJECT_DIR$/index.html" />
         <option value="$PROJECT_DIR$/css/d3_index.css" />
         <option value="$PROJECT_DIR$/js/graphNARM.js" />
+        <option value="$PROJECT_DIR$/index.html" />
       </list>
     </option>
   </component>
@@ -269,6 +271,38 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
             <PATH_ELEMENT>
+              <option name="myItemId" value="js" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="dependecies" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uos-media-hub-graph-legacy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uos-media-hub-graph-legacy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="images" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uos-media-hub-graph-legacy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="uos-media-hub-graph-legacy" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
               <option name="myItemId" value="css" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
@@ -285,18 +319,19 @@
     <property name="aspect.path.notification.shown" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="js-jscs-nodeInterpreter" value="C:\Program Files\nodejs\node.exe" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/js/dependecies" />
     <property name="DefaultHtmlFileTemplate" value="HTML File" />
     <property name="nodejs_interpreter_path" value="C:/Program Files/nodejs/node" />
     <property name="js.eslint.eslintPackage" value="" />
     <property name="full.screen.before.presentation.mode" value="false" />
   </component>
   <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\Source\uos-media-hub-graph-legacy\js\dependecies" />
+      <recent name="E:\Source\uos-media-hub-graph-legacy\docs" />
+    </key>
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\Source\uos-media-hub-graph-legacy\js" />
-    </key>
-    <key name="MoveFile.RECENT_KEYS">
-      <recent name="E:\Source\uos-media-hub-graph-legacy\docs" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -802,12 +837,12 @@
       <workItem from="1488296640256" duration="2904000" />
       <workItem from="1488985057347" duration="10765000" />
       <workItem from="1490707356675" duration="218000" />
-      <workItem from="1490708067314" duration="22880000" />
+      <workItem from="1490708067314" duration="23759000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="351598000" />
+    <option name="totallyTimeSpent" value="352477000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -1195,7 +1230,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/autocomplete.js">
+    <entry file="file://$PROJECT_DIR$/js/dependecies/autocomplete.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="374">
           <caret line="24" column="18" lean-forward="false" selection-start-line="24" selection-start-column="18" selection-end-line="24" selection-end-column="18" />
@@ -1216,7 +1251,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/socket.js">
+    <entry file="file://$PROJECT_DIR$/js/dependecies/socket.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1989">
           <caret line="119" column="28" lean-forward="false" selection-start-line="119" selection-start-column="28" selection-end-line="119" selection-end-column="28" />
@@ -1305,7 +1340,7 @@
     <entry file="file://$PROJECT_DIR$/js/graphMemoir.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="187">
-          <caret line="54" column="14" lean-forward="true" selection-start-line="48" selection-start-column="10" selection-end-line="54" selection-end-column="14" />
+          <caret line="54" column="14" lean-forward="false" selection-start-line="48" selection-start-column="10" selection-end-line="54" selection-end-column="14" />
           <folding>
             <element signature="n#!!doc;n#MemoirGraph#0" expanded="false" />
           </folding>
@@ -1342,7 +1377,7 @@
     <entry file="file://$PROJECT_DIR$/js/graphLoader.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="333">
-          <caret line="189" column="20" lean-forward="true" selection-start-line="189" selection-start-column="20" selection-end-line="189" selection-end-column="40" />
+          <caret line="189" column="20" lean-forward="false" selection-start-line="189" selection-start-column="20" selection-end-line="189" selection-end-column="40" />
           <folding />
         </state>
       </provider>
@@ -1355,25 +1390,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/index.html">
+    <entry file="file://$PROJECT_DIR$/js/graphNARM.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="186">
-          <caret line="67" column="55" lean-forward="false" selection-start-line="67" selection-start-column="50" selection-end-line="67" selection-end-column="55" />
+        <state relative-caret-position="322">
+          <caret line="47" column="37" lean-forward="false" selection-start-line="47" selection-start-column="10" selection-end-line="47" selection-end-column="37" />
           <folding>
-            <element signature="n#style#0;n#input#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#input#0;n#div#2;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#!!doc;n#NARMGraph#0" expanded="false" />
+            <marker date="1490740018971" expanded="true" signature="11375:11505" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/js/graphNARM.js">
+    <entry file="file://$PROJECT_DIR$/index.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2345">
-          <caret line="203" column="27" lean-forward="true" selection-start-line="203" selection-start-column="27" selection-end-line="203" selection-end-column="27" />
+        <state relative-caret-position="340">
+          <caret line="92" column="14" lean-forward="false" selection-start-line="92" selection-start-column="14" selection-end-line="92" selection-end-column="14" />
           <folding>
-            <element signature="n#!!doc;n#NARMGraph#0" expanded="false" />
-            <marker date="1490739168862" expanded="true" signature="11441:11571" ph="..." />
+            <element signature="n#style#0;n#input#0;n#div#1;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#input#0;n#div#2;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#3;n#div#3;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
         </state>
       </provider>

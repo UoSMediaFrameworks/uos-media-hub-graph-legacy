@@ -264,7 +264,7 @@ function d3graphv2(rootData, redraw) {
             eventValue:null,
             fieldsObject:{name:d.name,type: d.type}
         });
-        console.log('long touch')
+        console.log('long touch');
         var clean_name = cleanTitle(d._id);
         var scale = 1;
         var radius = 0;
