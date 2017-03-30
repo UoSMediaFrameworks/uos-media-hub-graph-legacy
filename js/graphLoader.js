@@ -363,18 +363,18 @@ function initializeGraph(rootData, type,exploration) {
             var graphMemoir = new MemoirGraph(properties);
             graphMemoir.draw(root);
             break;
-
+        case "NARM_SCENE_GRAPH":
+            var graphNARM = new NARMGraph(properties);
+            graphNARM.draw(root);
+            break;
         case "GDC_SCENE_GRAPH":
+        default:
             if (exploration == "true") {
                 var graphGDC = new GlobalDigitalCityGraphExploration(properties);
             } else {
                 var graphGDC = new GlobalDigitalCityGraph(properties);
             }
             graphGDC.draw(root);
-            break;
-        case "NARM_SCENE_GRAPH":
-            var graphNARM = new NARMGraph(properties);
-            graphNARM.draw(root);
             break;
     }
 }

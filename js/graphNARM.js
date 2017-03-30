@@ -43,9 +43,11 @@ function NARMGraph(properties) {
 
         console.log(self.svgContainer);
 
-        d3.select("svg").style("background-image", "url(http://salfordmediafestival.co.uk/wp-content/themes/simf_modified/images/stripes.png)");
+        d3.select("svg").style("background-image", "url(https://uosassetstore.blob.core.windows.net/assetstoredev/58da9eba5be9f9e41126252c/stripes.png)");
 
         d3.select("title").text("NARM 2017 Graph");
+        d3.select("#salford-logo").style("display", "block");
+        d3.select("#narm-logo").style("display", "block");
 
         var before;
         var replaying = false;

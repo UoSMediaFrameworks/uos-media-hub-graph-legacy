@@ -73,6 +73,7 @@ input[type="file"] {
     position: fixed;
     padding-left:5vw;
     padding-bottom:5vh;
+    display:none;
 }
 #narm-logo{
     bottom: 0;
@@ -81,6 +82,7 @@ input[type="file"] {
     position: fixed;
     padding-right:5vw;
     padding-bottom:5vh;
+    display:none;
 }
 .shown-circle {
     transition: opacity 3s ease;
